@@ -15,10 +15,9 @@ trait TemplateTrait
    */
   public function render($name) {
     $this->getTemplate()->assign([
-      # Status infos
-      'history'     => History::getStatus(),
-      'app'         => $this,
-      'tableClass'  => 'table table-hover table-striped table-condensed'
+      'history'    => History::getStatus(),
+      'app'        => $this,
+      'tableClass' => 'table table-hover table-striped table-condensed'
     ]);
 
     return $this->getTemplate()->draw($name);
@@ -33,6 +32,7 @@ trait TemplateTrait
     if (!$this->template) {
       $this->template = new Tpl();
     }
+
     return $this->template;
   }
 
