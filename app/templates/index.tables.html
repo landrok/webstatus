@@ -1,0 +1,113 @@
+  <div class="col-sm-9 col-md-7 col-lg-6">
+
+    <!-- System -->
+    <h3>System</h3>
+    <table class="{$tableClass}">
+    <tbody>
+    <tr>
+      <th width="35%">OS</th>
+      <td>{$app->getOs()}</td>
+    </tr>
+    <tr>
+      <th>Kernel</th>
+      <td>{$app->getKernel()}</td>
+    </tr>
+    <tr>
+      <th>Up</th>
+      <td>{$app->getUp()}</td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$uptimeUrl}">Started at</a></th>
+      <td>{$app->getStarted()}</td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$userUrl}">Users</th>
+      <td>{$app->getUserNum()}</td>
+    </tr>
+    </table>
+
+    <!-- Usage -->
+    <h3><a href="{#BASEURL#}{$usageUrl}">Usage</a></h3>
+    <table class="{$tableClass}">
+    <tbody>
+    <tr>
+      <th width="35%">
+        <a href="{#BASEURL#}{$temperatureUrl}">
+          CPU Temperature {autoescape="off"}{$cpuTemperatureLabel}{/autoescape}
+        </a>
+      </th>
+      <td width="20%">{$app->getCpuTemperature()}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$usageUrl}">CPU Usage {autoescape="off"}{$cpuUsageLabel}{/autoescape}</a></th>
+      <td>{function="round($app->getCpuUsage())"}%</td>
+      <td>
+        {if="$cpuTrend==-1"}{include="layout.trend.down"}{/if}
+        {if="$cpuTrend==1"}{include="layout.trend.up"}{/if}
+        {if="$cpuTrend==0"}{include="layout.trend.equal"}{/if}
+      </td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$memUrl}">Memory Usage {autoescape="off"}{$memUsageLabel}{/autoescape}</a></th>
+      <td>{$app->getMemUsage()}%</td>
+      <td>
+        {if="$memTrend==-1"}{include="layout.trend.down"}{/if}
+        {if="$memTrend==1"}{include="layout.trend.up"}{/if}
+        {if="$memTrend==0"}{include="layout.trend.equal"}{/if}
+      </td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$memUrl}">Swap Usage {autoescape="off"}{$swapUsageLabel}{/autoescape}</a></th>
+      <td>{$app->getSwapUsage()}%</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$diskUrl}">Disk Usage {autoescape="off"}{$diskUsageLabel}{/autoescape}</a></th>
+      <td>{$app->getDiskUsage()}%</td>
+      <td></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <!-- Processes -->
+    <h3><a href="{#BASEURL#}{$processUrl}">Processes</a></h3>
+    {if="count($processList)"}
+    <table class="{$tableClass}"><tbody>
+    {loop="$processList"}
+    <tr><th width="{$value['width']}">{$value['pattern']} <span class="label label-{$value['label-class']} pull-right">{$value['label-text']}</span></th><td>{$value['count']}</td></tr>
+    {/loop}
+    {/if}
+    </tbody>
+    </table>
+
+    <!-- Network -->
+    <h3>Network</h3>
+    <table class="{$tableClass}">
+    <tbody>
+    <tr>
+      <th width="35%"><a href="{#BASEURL#}{$ifUrl}">Interfaces</a></th>
+      <td>{$app->getIfNum()}</td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$ifstatUrl}">In</a></th>
+      <td>{$app->getIn()}kB/s</td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$ifstatUrl}">Out</a></th>
+      <td>{$app->getOut()}kB/s</td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$socketUrl}">TCP Sockets</a></th>
+      <td>{$app->getSocketNum()}</td>
+    </tr>
+    <tr>
+      <th><a href="{#BASEURL#}{$serverUrl}">Listening Servers</a></th>
+      <td>{$app->getServerNum()}</td>
+    </tr>
+    </tbody>
+    </table>
+
+  </div>
+  
+  <div class="clearfix"></div>

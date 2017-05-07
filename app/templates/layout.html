@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{if="null!==$app->getConfig(['global', 'webapp', 'title'])"}{$app->getConfig(['global', 'webapp', 'title'])} - {/if}{#APP_NAME#}</title>
+{autoescape="off"}
+<link rel="stylesheet" href="{#BASEURL#}asset/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="{#BASEURL#}asset/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{#BASEURL#}asset/css/theme.css">
+<script src="{#BASEURL#}asset/jquery/jquery-3.2.1.min.js"></script>
+<script src="{#BASEURL#}asset/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+{if="isset($headLibraries)"}{$headLibraries}{/if}
+{/autoescape}
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{#BASEURL#}"><b class="{$app->getConfig(['global', 'webapp', 'icon-class'])}"></b> {$app->getConfig(['global', 'webapp', 'label'])}</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+{autoescape="off"}{$app->getNavbarMenus()}{/autoescape}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav><!-- /.navbar -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 hidden-xs">
+      <span class="pull-right text-muted">
+        <b class="glyphicon glyphicon-time"></b> {$app->getStatusDate()} @ {$app->getHostname()}
+      </span>
+    </div>
+{autoescape="off"}{$html}{/autoescape}
+  </div>
+</div>
+<div class="col-sm-12 visible-xs">
+  <span class="text-info">
+    <b class="glyphicon glyphicon-time"></b> {$app->getStatusDate()} @ {$app->getHostname()}
+  </span>
+</div>
+
+{include="layout.footer"}
+{include="layout.documentation.modal"}
+{if="isset($footerLibraries)"}{autoescape="off"}{$footerLibraries}{/autoescape}{/if}
+{if="!isset($norefresh)"}
+<script>
+setTimeout(
+  function() {
+    window.location.reload();
+  }, 
+  60000
+);
+</script>
+{/if}
+</body>
+</html>

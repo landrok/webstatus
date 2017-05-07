@@ -1,0 +1,10 @@
+        <li class="dropdown{$active}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {if="$icon!=''"}<b class="glyphicon glyphicon-{$icon}"></b> {/if}
+            {$label}
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+{autoescape="off"}{$subMenu}{/autoescape}
+          </ul>
+        </li>

@@ -1,0 +1,105 @@
+<!-- Modal -->
+<div class="modal fade" id="documentationModal" tabindex="-1" role="dialog" aria-labelledby="documentationModal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Web Status</h4>
+      </div>
+      <div class="modal-body">
+
+        <div>
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            <li role="presentation"><a href="#technologies" aria-controls="technologies" role="tab" data-toggle="tab">Technologies</a></li>
+            <li role="presentation"><a href="#status" aria-controls="status" role="tab" data-toggle="tab">Status</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <!-- home -->
+            <div role="tabpanel" class="tab-pane active" id="home">
+              <h4>What is Web Status?</h4>
+              <p>WebStatus is a monitoring tool especially suited for Raspbian and Debian OS.</p>
+              <h4>Documentation</h4>
+              <p>Help can be found on <a href="https://github.com/landrok/webstatus">github</a>.</p>
+              <h4>Contributing</h4>
+              <p>Anybody can contribute on <a href="https://github.com/landrok/webstatus"><span class="text-muted">Web</span><span class="text-blue">Status</span> development</a>.</p>
+              <h4>License</h4>
+              <p>WebStatus is licensed under the <a href="https://www.gnu.org/licenses/lgpl.txt">LGPL</a>.</p>
+            </div>
+
+            <!-- technologies -->
+            <div role="tabpanel" class="tab-pane" id="technologies">
+              <h4>Technologies</h4>
+
+              {loop="$app->getConfig('technologies')"}
+              <div class="media">
+                <div class="media-left media-middle">
+                  <a href="{$value['url']}">
+                    <img src="{$value['icon']}" class="media-object doc-media-image">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading">{$key}</h4>
+                  <p>{if="isset($value['desc'])"}{$value['desc']}{/if}</p>
+                  <p>{if="isset($value['url'])"}<a href="{$value['url']}">Official website</a>{/if}</p>
+                </div>
+              </div>
+              {/loop}
+            </div>
+
+            <!-- status -->
+            <div role="tabpanel" class="tab-pane" id="status">
+              <h4>Files</h4>
+              <table class="{$tableClass}">
+              <thead>
+                <tr>
+                  <th width="35%"></th>
+                  <th width="32%">Current size</th>
+                  <th>Estimated max size</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Database size</th>
+                  <td>{$app->formatFilesize($history['dbSize'])}</td>
+                  <td>{$app->formatFilesize($app->getEstimatedFilesize($history['dbSize'], $history['numItems'], $history['maxItems']))}</td>
+                </tr>
+                <tr>
+                  <th>Cache size</th>
+                  <td>{$app->formatFilesize($history['cacheSize'])}</td>
+                  <td>{$app->formatFilesize($app->getEstimatedFilesize($history['cacheSize'], $history['numItems'], $history['maxItems']))}</td>
+                </tr>
+              </tbody>
+              </table>
+              <h4>Items</h4>
+              <table class="{$tableClass}">
+              <thead>
+                <tr>
+                  <th width="35%"></th>
+                  <th width="32%">Current count</th>
+                  <th>Max count</th>
+                </tr>
+              </thead>
+              <tbody>
+              {loop="$history['items']"}
+                <tr><th width="35%">{$key}</th><td>{$value->getCount()}</td><td>{$value->getMaxItems()}</td></tr>
+              {/loop}
+              </tbody>
+              </table>
+            </div>
+
+          </div><!-- /.tab-content -->
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
