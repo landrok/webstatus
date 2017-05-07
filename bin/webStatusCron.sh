@@ -23,9 +23,9 @@ WS_PWD=$(pwd)
 # and then run the specified command on the body (the rest of the input)
 # use it in a pipeline, e.g. ps | body grep somepattern
 body() {
-	IFS= read -r header
-	printf '%s\n' "$header"
-	"$@"
+  IFS= read -r header
+  printf '%s\n' "$header"
+  "$@"
 }
 
 #*** MAIN                                                           ***#
@@ -165,10 +165,3 @@ if [ -f "$WS_PWD/app/config/global.ini.php" ]; then
   fi
   exit
 fi
-
-
-# Quit if not in installer context
-#[[ -z "${WSI_BASEDIR+x}" ]] 
-#&& {
-  # exit 0
-#}
