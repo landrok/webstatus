@@ -39,13 +39,13 @@ ________________________________________________________________________
 
 ```shell
 # Download archive
-wget https://github.com/landrok/webstatus/archive/0.2.0.tar.gz
+wget https://github.com/landrok/webstatus/archive/0.2.1.tar.gz
 
 # Unzip the archive
-tar -xf 0.2.0.tar.gz
+tar -xf 0.2.1.tar.gz
 
 # Install (Must be done with root rights)
-./webstatus-0.2.0/bin/install.sh
+./webstatus-0.2.1/bin/install.sh
 
 ```
 
