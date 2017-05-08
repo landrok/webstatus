@@ -1,7 +1,7 @@
 Web Status
 ==========
 
-It is a simple and easy to use monitoring tool. It was designed for 
+It is a simple and easy monitoring tool. It was designed for 
 Raspbian OS but is compatible with Debian too.
 
 There is nothing to configure. Just run the installer and use it!
@@ -12,14 +12,15 @@ ________________________________________________________________________
 
 ## Features
 
-- Quick summaries & monitoring about temperature, disk space, 
-  processors, memory, network and more.
+- A global summary for processor, memory, temperature, disk space, 
+  network and more
 
 - Clear status labels & trends for main metrics
 
-- 12 status views
+- Each metric is bounded to a dump of the corresponding shell command 
+  result
 
-- Live monitoring for CPU, memory and bandwith usage
+- Live monitoring for CPU, memory and network bandwith usage
 
 - Easy to custom: specify processes, specific log files
 
