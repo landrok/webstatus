@@ -6,7 +6,7 @@ Raspbian OS but is compatible with Debian too.
 
 There is nothing to configure. Just run the installer and use it!
 
-[//]: # ([Demo](http://example.com/webstatus/))
+[//]: # "[Demo](http://example.com/webstatus/)"
 
 ________________________________________________________________________
 
