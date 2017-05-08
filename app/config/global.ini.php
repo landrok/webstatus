@@ -22,7 +22,9 @@ processes.pattern="apache"
 
 ; ----------------------------------------------------------------------
 ; Logs patterns
-; Each var must have his route
+; Format: logs.pattern.{route}={logPath}
+; {route} must be defined in the routes.ini.php config file
+; After changing one of these values, execute ./bin/webStatus.cron.sh
 ; ----------------------------------------------------------------------
 logs.pattern.syslog=/var/log/syslog
 logs.pattern.messages=/var/log/messages
@@ -37,6 +39,8 @@ logs.pattern.web-error=/var/log/apache2/*error*.log
 
 ;remote.server=on
 ;remote.client=on
+;remote.url=""
+
 
 ; ----------------------------------------------------------------------
 ; Thresholds
