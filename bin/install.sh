@@ -84,6 +84,7 @@ su $WSI_USER -c "php composer.phar update"
 # Initialize data files
 echo "[INFO] Initializing data files"
 $WSI_BASEDIR/bin/webStatusCron.sh
+mkdir "$(printf "%scache" "$WSI_APPDIR")"
 chmod 777 -R "$(printf "%scache" "$WSI_APPDIR")"
 
 # Starting web service
