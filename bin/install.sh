@@ -9,10 +9,8 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
-
 #*** CONFIG                                                         ***#
 WSI_DATADIR="/dev/shm/webstatus"
-
 
 #*** GLOBALS                                                        ***#
 cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
@@ -32,6 +30,8 @@ chmod +x -R "$WSI_BINDIR"
 
 # Load helpers
 . $WSI_BASEDIR/bin/install/rulem.sh
+
+#*** MAIN                                                           ***#
 echo ""
 rulem "[\e[100m Debian/Raspbian Web Status Installer \e[0m]"
 
@@ -65,9 +65,7 @@ apt-get install $WSI_LIBRARIES -qq || {
 }
 echo "[INFO] Libraries \"$WSI_LIBRARIES\" were successfully installed"
 
-#
-# Configuration
-#
+#*** Configuration                                                  ***#
 echo ""
 echo "* Configuration"
 echo "[HELP] Press enter to keep default value or fill a custom value"
@@ -83,17 +81,10 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 su $WSI_USER -c "php composer.phar update"
 
-
-
 # Initialize data files
 echo "[INFO] Initializing data files"
 $WSI_BASEDIR/bin/webStatusCron.sh
-#echo "" > "$(printf "$WSI_DATADIR%s" "ifstat.log")"
-#chmod +r "$WSI_DATADIR"
-#chmod 777 "$(printf "$WSI_DATADIR%s" "ifstat.log")"
 chmod 777 -R "$(printf "%scache" "$WSI_APPDIR")"
-#chmod 777 -R "$WSI_WEBDIR"
-
 
 # Starting web service
 echo "[INFO] Restarting web server"
@@ -117,7 +108,7 @@ crontab < $TMP
 rm -f $TMP
 trap 0
 
-# Print HTTP message
+#*** Print success message                                          ***#
 echo ""
 rulem "[ \e[32mInstallation success\e[0m ]"
 echo ""
@@ -128,4 +119,3 @@ else
   "http://$WSI_HTTP_HOST:$WSI_HTTP_PORT/webstatus/"
 fi
 echo ""
-exit 0

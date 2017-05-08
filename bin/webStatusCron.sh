@@ -12,10 +12,11 @@ fi
 
 #*** CONFIG                                                         ***#
 WSI_DATADIR="/dev/shm/webstatus"
+# Used by remote client mode
+WS_REMOTE_SERVER_URL="http://192.168.1.1/webstatus/remote.php"
 
 #*** GLOBALS                                                        ***#
-SCRIPT=$(readlink -f "${BASH_SOURCE[0]}")
-cd `dirname "$SCRIPT"` && cd ..
+cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
 WS_PWD=$(pwd)
 
 #*** FUNCTIONS                                                      ***#
