@@ -31,13 +31,13 @@ ________________________________________________________________________
 
 ```shell
 # Download archive
-wget https://github.com/landrok/webstatus/archive/master.tar.gz
+wget https://github.com/landrok/webstatus/archive/0.2.0.tar.gz
 
 # Unzip the archive
-tar -xf master.tar.gz
+tar -xf 0.2.0.tar.gz
 
 # Install (Must be done with root rights)
-./webstatus-master/bin/install.sh
+./webstatus-0.2.0/bin/install.sh
 
 ```
 
