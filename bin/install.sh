@@ -16,9 +16,9 @@ WSI_DATADIR="/dev/shm/webstatus"
 cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
 
 WSI_BASEDIR=$(pwd)
-WSI_BINDIR="$WSI_BASEDIR/bin/"
+WSI_BINDIR="$WSI_BASEDIR/bin"
 WSI_WEBDIR="$WSI_BASEDIR/www"
-WSI_APPDIR="$WSI_BASEDIR/app/"
+WSI_APPDIR="$WSI_BASEDIR/app"
 WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad' | grep -v '127.0.0.1'\
   | cut -d: -f2 | awk '{ print $1 }' | head -1)
 WSI_DEFAULT_HTTPPORT="80"
@@ -79,13 +79,13 @@ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
-su $WSI_USER -c "php composer.phar update"
+su $WSI_USER -c "php composer.phar update --no-dev"
 
 # Initialize data files
 echo "[INFO] Initializing data files"
 $WSI_BASEDIR/bin/webStatusCron.sh
-mkdir "$(printf "%scache" "$WSI_APPDIR")"
-chmod 777 -R "$(printf "%scache" "$WSI_APPDIR")"
+[ -d "$WSI_APPDIR/cache" ] || mkdir "$WSI_APPDIR/cache"
+chmod 777 -R "$WSI_APPDIR/cache"
 
 # Starting web service
 echo "[INFO] Restarting web server"
@@ -101,9 +101,9 @@ TMP=${TMPDIR:-/tmp}/webstatus-cron.$$
 trap "rm -f $TMP; exit 1" 0 1 2 3 13 15
 crontab -l | sed '/webStatusCron.sh/d' > $TMP
 printf "# webStatusCron.sh | %s \n" "$WSI_BINDIR" >> $TMP
-printf "@reboot %swebStatusCron.sh > %s/log.log 2>&1\n" \
+printf "@reboot %s/webStatusCron.sh > %s/log.log 2>&1\n" \
   "$WSI_BINDIR" "$WSI_DATADIR" >> $TMP
-printf "*/1 * * * * %swebStatusCron.sh > %s/log.log 2>&1\n" \
+printf "*/1 * * * * %s/webStatusCron.sh > %s/log.log 2>&1\n" \
   "$WSI_BINDIR" "$WSI_DATADIR" >> $TMP
 crontab < $TMP
 rm -f $TMP
