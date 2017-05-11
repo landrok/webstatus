@@ -5,7 +5,7 @@ use Rain\Tpl;
 
 class App
 {
-  const VERSION = '0.3.0';
+  const VERSION = '0.3.1';
 
   use App\FrameworkTrait;
   use App\StatTrait;
