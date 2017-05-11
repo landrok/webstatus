@@ -7,9 +7,9 @@
 ; ----------------------------------------------------------------------
 [webapp]
 
-title=RPI Home
-label=RPI Home
-icon-class=glyphicon glyphicon-music
+title=RPi Home
+label=RPi Home
+icon-class=music
 
 
 ; ----------------------------------------------------------------------
