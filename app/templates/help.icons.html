@@ -1,0 +1,14 @@
+  <p></p>
+  <div class="alert alert-info" role="alert">
+    Below is a list of options available for configuring icons.
+  </div>
+  <table class="{$tableClass} table-bordered">
+  <tbody>
+  {loop="$icons"}
+  <tr>
+    <th width="20"><b class="glyphicon glyphicon-{$value}" style="font-size:1.8em"></b></th>
+    <td>{$value}</td>
+  </tr>
+  {/loop}
+  </tbody>
+  </table>
