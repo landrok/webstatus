@@ -84,12 +84,7 @@ ________________________________________________________________________
 
 ## Customize logs
 
-- Edit app/config/global.ini.php
-- In the [cron] section, add or change 
-  - `logs.pattern.{route}={logPath}`
-
-    _Example_: To focus on apache and mysql processes, the value should 
-    be `"apache|mysql"`
+_Coming soon_
 
 ________________________________________________________________________
 
