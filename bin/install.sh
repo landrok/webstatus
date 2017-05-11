@@ -101,11 +101,9 @@ echo "[INFO] Crontab configuration"
 TMP=${TMPDIR:-/tmp}/webstatus-cron.$$
 trap "rm -f $TMP; exit 1" 0 1 2 3 13 15
 crontab -l | sed '/webStatusCron.sh/d' > $TMP
-printf "# webStatusCron.sh | %s \n" "$WSI_BINDIR" >> $TMP
-printf "@reboot %s/webStatusCron.sh > %s/log.log 2>&1\n" \
-  "$WSI_BINDIR" "$WSI_DATADIR" >> $TMP
-printf "*/1 * * * * %s/webStatusCron.sh > %s/log.log 2>&1\n" \
-  "$WSI_BINDIR" "$WSI_DATADIR" >> $TMP
+printf "\n# webStatusCron.sh | %s \n"      "$WSI_BINDIR" >> $TMP
+printf "@reboot %s/webStatusCron.sh\n"     "$WSI_BINDIR" >> $TMP
+printf "*/1 * * * * %s/webStatusCron.sh\n" "$WSI_BINDIR" >> $TMP
 crontab < $TMP
 rm -f $TMP
 trap 0
