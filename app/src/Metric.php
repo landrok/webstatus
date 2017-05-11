@@ -7,7 +7,7 @@ class Metric
   private $name = '';
   private $max  = 10000;
 
-  public function __construct($name, $max = 10000) {
+  public function __construct($name, $max = 1440) {
     $this->name = $name;
     $this->max  = $max;
   }
