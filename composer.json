@@ -5,7 +5,7 @@
     "description": "A PHP library for monitoring Raspbian or Debian",
     "keywords": ["monitoring", "raspberry", "raspbian"],
     "homepage": "https://github.com/landrok/webstatus",
-    "license": "MIT",
+    "license": "GPL",
     "require": {
         "php": ">=5.4.0 || ^7.0",
         "rain/raintpl": ">=3.0.0"
