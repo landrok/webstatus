@@ -1,7 +1,7 @@
 {
     "name": "landrok/webstatus",
     "type": "library",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "A PHP library for monitoring Raspbian or Debian",
     "keywords": ["monitoring", "raspberry", "raspbian"],
     "homepage": "https://github.com/landrok/webstatus",
