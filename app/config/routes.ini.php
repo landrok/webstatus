@@ -3,8 +3,7 @@
 ?>
 
 ; ----------------------------------------------------------------------
-; Default menu
-; No submenu
+; Home menu [Default]
 ; ----------------------------------------------------------------------
 
 [index]
@@ -52,11 +51,8 @@ label=Logs
 sub-header-1=System
 sub-syslog=Syslog
 sub-messages=Messages
-;sub-fr24feed=Flight radar feed
-;sub-vrsw-mlat=VRS MLAT
 sub-web-access=Apache access
 sub-web-error=Apache error
-;sub-lftw01=LFTW01
 
 ; ----------------------------------------------------------------------
 ; Monitor menu
