@@ -13,7 +13,7 @@ fi
 #*** CONFIG                                                         ***#
 WSI_DATADIR="/dev/shm/webstatus"
 # Used by remote client mode
-WS_REMOTE_SERVER_URL="http://192.168.1.1/webstatus/remote.php"
+WS_REMOTE_SERVER_URL=""
 
 #*** GLOBALS                                                        ***#
 cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
@@ -143,7 +143,7 @@ awk -F "=" '/^logs.pattern.*/ {                                        \
       gsub(/logs.pattern./, "", $1);                               
       print $1 "|" $2                                                  \
     }'                                                                 \
-    "$WS_PWD/app/config/global.ini.php"                                   \
+    "$WS_PWD/app/config/global.ini.php"                                \
   | while IFS= read -r line; do
   WS_LOG_FILE=$(  echo "$line" | awk -F "|" '{print $1}')
   WS_LOG_SOURCE=$(echo "$line" | awk -F "|" '{print $2}')
