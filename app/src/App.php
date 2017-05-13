@@ -5,8 +5,6 @@ use Rain\Tpl;
 
 class App
 {
-  const VERSION = '0.3.1';
-
   use App\FrameworkTrait;
   use App\StatTrait;
   use App\TemplateTrait;
@@ -15,7 +13,6 @@ class App
   protected $template;
   protected $context;
   protected $request;
-  protected $routes = [];
 
   public function __construct() {
     Tpl::configure([
@@ -38,43 +35,7 @@ class App
         $this->getRoute($this->context)[$_REQUEST['id']]
       )
       ? $_REQUEST['id'] 
-      : $this->getDefaultRoute($this->context);
-  }
-
-  /**
-   * Get Web Status version
-   * 
-   * @return string
-   */
-  public function getVersion() {
-    return static::VERSION;
-  }
-
-  public function getRoute($name) {
-    if (isset($this->routes[$name])) {
-      return $this->routes[$name];
-    }
-  }
-
-  public function getRequest() {
-    return $this->request;
-  }
-
-  public function getBaseUrl() {
-    $baseUrl = isset($_SERVER['SCRIPT_NAME']) 
-           ? dirname($_SERVER['SCRIPT_NAME']) : '';
-
-    if (substr($baseUrl, strlen($baseUrl) - 1) != '/') {
-      $baseUrl .= '/';
-    }
-    
-    return $baseUrl;
-  }
-
-  public function getDefaultRoute($name) {
-    if (isset($this->routes[$name][0])) {
-      return array_keys($this->routes[$name])[0];
-    }
+      : $this->getRouteKey($this->context);
   }
 
   /**
