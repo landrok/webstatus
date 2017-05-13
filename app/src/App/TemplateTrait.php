@@ -56,15 +56,14 @@ trait TemplateTrait
    * Get a status label
    * 
    * @param float|int $value
-   * @param float|int $mid
-   * @param float|int $high
+   * @param string $def
    * 
    * @return string
    */
-  public function getStatusLabel($value, $mid, $high) {
-    if ($value < $mid) {
+  public function getStatusLabel($value, $def) {
+    if ($value < $this->getConfig(['global', 'thresholds', "$def.mid"])) {
       return $this->bsLabel('success pull-right', 'OK');
-    } elseif ($value < $high) {
+    } elseif ($value < $this->getConfig(['global', 'thresholds', "$def.high"])) {
       return $this->bsLabel('warning pull-right', 'MID');
     }
 

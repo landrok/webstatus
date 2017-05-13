@@ -17,30 +17,36 @@
       <td>{$app->getUp()}</td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$uptimeUrl}">Started at</a></th>
+      <th><a href="{$app->getRouteUrl('status', 'uptime')}">Started at</a></th>
       <td>{$app->getStarted()}</td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$userUrl}">Users</th>
+      <th><a href="{$app->getRouteUrl('status', 'users')}">Users</th>
       <td>{$app->getUserNum()}</td>
     </tr>
     </table>
 
     <!-- Usage -->
-    <h3><a href="{#BASEURL#}{$usageUrl}">Usage</a></h3>
+    <h3><a href="{$app->getRouteUrl('status', 'top')}">Usage</a></h3>
     <table class="{$tableClass}">
     <tbody>
     <tr>
       <th width="35%">
-        <a href="{#BASEURL#}{$temperatureUrl}">
-          CPU Temperature {autoescape="off"}{$cpuTemperatureLabel}{/autoescape}
+        <a href="{$app->getRouteUrl('status', 'temperature')}">
+          CPU Temperature 
+          {autoescape="off"}{$app->getStatusLabel($app->getCpuTemperature(), 'temp')}{/autoescape}
         </a>
       </th>
       <td width="20%">{$app->getCpuTemperature()}</td>
       <td></td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$usageUrl}">CPU Usage {autoescape="off"}{$cpuUsageLabel}{/autoescape}</a></th>
+      <th>
+        <a href="{$app->getRouteUrl('status', 'top')}">
+          CPU Usage
+          {autoescape="off"}{$app->getStatusLabel($app->getCpuUsage(), 'cpu')}{/autoescape}
+        </a>
+      </th>
       <td>{function="round($app->getCpuUsage())"}%</td>
       <td>
         {if="$cpuTrend==-1"}{include="layout.trend.down"}{/if}
@@ -49,7 +55,12 @@
       </td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$memUrl}">Memory Usage {autoescape="off"}{$memUsageLabel}{/autoescape}</a></th>
+      <th>
+        <a href="{$app->getRouteUrl('status', 'memory')}">
+          Memory Usage
+          {autoescape="off"}{$app->getStatusLabel($app->getMemUsage(), 'mem')}{/autoescape}
+        </a>
+      </th>
       <td>{$app->getMemUsage()}%</td>
       <td>
         {if="$memTrend==-1"}{include="layout.trend.down"}{/if}
@@ -58,12 +69,22 @@
       </td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$memUrl}">Swap Usage {autoescape="off"}{$swapUsageLabel}{/autoescape}</a></th>
+      <th>
+        <a href="{$app->getRouteUrl('status', 'memory')}">
+          Swap Usage 
+          {autoescape="off"}{$app->getStatusLabel($app->getSwapUsage(), 'swap')}{/autoescape}
+        </a>
+      </th>
       <td>{$app->getSwapUsage()}%</td>
       <td></td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$diskUrl}">Disk Usage {autoescape="off"}{$diskUsageLabel}{/autoescape}</a></th>
+      <th>
+        <a href="{$app->getRouteUrl('status', 'hdd')}">
+          Disk Usage
+          {autoescape="off"}{$app->getStatusLabel($app->getDiskUsage(), 'disk')}{/autoescape}
+        </a>
+      </th>
       <td>{$app->getDiskUsage()}%</td>
       <td></td>
     </tr>
@@ -71,11 +92,11 @@
     </table>
 
     <!-- Processes -->
-    <h3><a href="{#BASEURL#}{$processUrl}">Processes</a></h3>
-    {if="count($processList)"}
+    <h3><a href="{$app->getRouteUrl('status', 'processes')}">Processes</a></h3>
+    {if="count($patterns)"}
     <table class="{$tableClass}"><tbody>
-    {loop="$processList"}
-    <tr><th width="{$value['width']}">{$value['pattern']} <span class="label label-{$value['label-class']} pull-right">{$value['label-text']}</span></th><td>{$value['count']}</td></tr>
+    {loop="$patterns"}
+    <tr><th width="35%">{$value} <span class="label label-{$app->getProcessNum($value) ? 'success' : 'danger'} pull-right">{$value}</span></th><td>{$app->getProcessNum($value)}</td></tr>
     {/loop}
     {/if}
     </tbody>
@@ -86,23 +107,23 @@
     <table class="{$tableClass}">
     <tbody>
     <tr>
-      <th width="35%"><a href="{#BASEURL#}{$ifUrl}">Interfaces</a></th>
+      <th width="35%"><a href="{$app->getRouteUrl('status', 'interfaces')}">Interfaces</a></th>
       <td>{$app->getIfNum()}</td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$ifstatUrl}">In</a></th>
+      <th><a href="{$app->getRouteUrl('status', 'ifstat')}">In</a></th>
       <td>{$app->getIn()}kB/s</td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$ifstatUrl}">Out</a></th>
+      <th><a href="{$app->getRouteUrl('status', 'ifstat')}">Out</a></th>
       <td>{$app->getOut()}kB/s</td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$socketUrl}">TCP Sockets</a></th>
+      <th><a href="{$app->getRouteUrl('status', 'tcp-sockets')}">TCP Sockets</a></th>
       <td>{$app->getSocketNum()}</td>
     </tr>
     <tr>
-      <th><a href="{#BASEURL#}{$serverUrl}">Listening Servers</a></th>
+      <th><a href="{$app->getRouteUrl('status', 'servers')}">Listening Servers</a></th>
       <td>{$app->getServerNum()}</td>
     </tr>
     </tbody>

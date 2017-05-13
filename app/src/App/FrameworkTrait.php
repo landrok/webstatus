@@ -111,6 +111,34 @@ trait FrameworkTrait
   }
 
   /**
+   * Build a route URL
+   *
+   * @param string $context
+   * @param string $request
+   *
+   * @return string
+   *
+   * @api
+   */
+  public function getRouteUrl($context, $request = null)
+  {
+    if (null === $request) {
+      return sprintf(
+        '%s%s.php',
+        $this->getBaseUrl(),
+        $context
+      );
+    }
+
+    return sprintf(
+      '%s%s.php?id=%s',
+      $this->getBaseUrl(),
+      $context,
+      $request
+    );
+  }
+
+  /**
    * Get application version from a composer definition
    * 
    * @return string
