@@ -18,7 +18,7 @@ WS_REMOTE_SERVER_URL=""
 #*** GLOBALS                                                        ***#
 cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
 WS_PWD=$(pwd)
-WS_CONFIGDIR="$WS_CONFIGDIR"
+WS_CONFIGDIR="$WS_PWD/app/config"
 
 #*** FUNCTIONS                                                      ***#
 # print the header (the first line of input)
