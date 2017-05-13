@@ -73,7 +73,7 @@ uname -r >> "$WSI_DATADIR/os.log"
 echo "$CPU_TEMPERATURE" >> "$WSI_DATADIR/os.log"
 
 # uptime
-echo "$(echo "Started at"; uptime -s; uptime -p)"                         \
+echo "$(echo "Started at"; uptime -s; uptime -p)" | xargs              \
   > "$WSI_DATADIR/uptime.log"
 
 # processes
@@ -83,7 +83,7 @@ if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
       print $2
     }'                                                                 \
     "$WS_CONFIGDIR/global.ini.php" | head -1) 
-  if test -z "$PROCESSES_CFG+x"; then
+  if test -z "$PROCESSES_CFG"; then
     PROCESSES_PATTERN=""
   else
     PROCESSES_PATTERN=$(printf "MEM COMMAND|%s" "$PROCESSES_CFG")
@@ -92,9 +92,9 @@ else
   PROCESSES_PATTERN=""
 fi
 
-pgrep "$PROCESSES_PATTERN"                                       \
-  | grep -v 'grep'                                                  \
-  | xargs ps -A f -o pid,time,pcpu,pmem,command                     \
+WS_PROCESSES=$(ps -A f -o pid,time,pcpu,pmem,command)
+echo "$WS_PROCESSES"                                                   \
+  | grep -E "$PROCESSES_PATTERN"                                       \
   > "$WSI_DATADIR/processes.log"
 
 # top 15 processes ordered by CPU usage
