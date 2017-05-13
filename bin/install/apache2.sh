@@ -13,9 +13,9 @@ set -o nounset
 #
 
 # Is Apache already configured?
-if [ "$(ls $WSI_APACHEDIR/sites-available/ | grep 'webstatus.conf')" = "webstatus.conf" ]; then
+if [ "$(find "$WSI_APACHEDIR/sites-available" -type f -name 'webstatus.conf')" = "webstatus.conf" ]; then
   echo -n "[PARA] There is already a VHOST configuration file for WebStatus, overwrite? [N/y] "
-  read WSI_APACHEOVERRIDE
+  read -r WSI_APACHEOVERRIDE
   if [ "$WSI_APACHEOVERRIDE" != "y" ]; then
     # @todo Have to grep PORT and HOST in the configuration file
     # instead of setting with default values
@@ -28,7 +28,7 @@ fi
 
 # Hostname
 echo -n "[PARA] Enter web hostname[$WSI_HTTP_DEFAULT_HOST]: "
-read WSI_CUSTOMHOST
+read -r WSI_CUSTOMHOST
 if [ "$WSI_CUSTOMHOST" = "" ]; then
   WSI_HTTP_HOST="$WSI_HTTP_DEFAULT_HOST"
 else
@@ -37,7 +37,7 @@ fi
 
 # Port
 echo -n "[PARA] Enter web port[$WSI_DEFAULT_HTTPPORT]: "
-read WSI_CUSTOMPORT
+read -r WSI_CUSTOMPORT
 if [ "$WSI_CUSTOMPORT" = "" ]; then
   WSI_HTTP_PORT="$WSI_DEFAULT_HTTPPORT"
 else

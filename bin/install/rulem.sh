@@ -17,5 +17,5 @@ rulem ()  {
 		return 1
 	fi
 	# Fill line with ruler character ($2, default "-"), reset cursor, move 2 cols right, print message
-	printf -v _hr "%*s" $(tput cols) && echo -en ${_hr// /${2--}} && echo -e "\r\033[2C$1"
+	printf -v _hr "%*s" "$(tput cols)" && echo -en "${_hr// /${2--}}" && echo -e "\r\033[2C$1"
 }

@@ -13,24 +13,25 @@ fi
 WSI_DATADIR="/dev/shm/webstatus"
 
 #*** GLOBALS                                                        ***#
-cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
+cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && cd ..
 
 WSI_BASEDIR=$(pwd)
 WSI_BINDIR="$WSI_BASEDIR/bin"
 WSI_WEBDIR="$WSI_BASEDIR/www"
 WSI_APPDIR="$WSI_BASEDIR/app"
-WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad' | grep -v '127.0.0.1'\
+WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad'               \
+  | grep -v '127.0.0.1'                                                \
   | cut -d: -f2 | awk '{ print $1 }' | head -1)
-WSI_DEFAULT_HTTPPORT="80"
-WSI_HTTP_MSG="Application is running at: %s"
-WSI_APACHEDIR="/etc/apache2"
+export WSI_HTTP_DEFAULT_HOST
+export WSI_DEFAULT_HTTPPORT="80"
+export WSI_APACHEDIR="/etc/apache2"
 WSI_USER=$(who am i | awk '{print $1}')
 
 chmod +x -R "$WSI_BINDIR"
 chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
 
 #*** FUNCTIONS                                                      ***#
-. $WSI_BASEDIR/bin/install/rulem.sh
+"$WSI_BASEDIR/bin/install/rulem.sh"
 
 #*** MAIN                                                           ***#
 echo ""
@@ -60,11 +61,11 @@ printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n" \
 # Install libraries
 echo ""
 echo "* Libraries"
-apt-get install $WSI_LIBRARIES -qq || {
+apt-get install "$WSI_LIBRARIES" -qq || {
   echo "[ERROR] Installation failed, exiting."
   exit 1
 }
-echo "[INFO] Libraries \"$WSI_LIBRARIES\" were successfully installed"
+echo "[INFO] $WSI_OS Libraries \"$WSI_LIBRARIES\" were successfully installed"
 
 #*** Configuration                                                  ***#
 echo ""
@@ -73,18 +74,18 @@ echo "[HELP] Press enter to keep default value or fill a custom value"
 echo ""
 
 # Webserver configuration
-. $WSI_BASEDIR/bin/install/apache2.sh
+"$WSI_BASEDIR/bin/install/apache2.sh"
 
 # Install composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
-su $WSI_USER -c "php composer.phar update --no-dev -o"
+su "$WSI_USER" -c "php composer.phar update --no-dev -o"
 
 # Initialize data files
 echo "[INFO] Initializing data files"
-$WSI_BASEDIR/bin/webStatusCron.sh
+"$WSI_BASEDIR/bin/webStatusCron.sh"
 [ -d "$WSI_APPDIR/cache" ] || mkdir "$WSI_APPDIR/cache"
 chmod 777 -R "$WSI_APPDIR/cache"
 
@@ -99,13 +100,15 @@ fi
 # Add to crontab
 echo "[INFO] Crontab configuration"
 TMP=${TMPDIR:-/tmp}/webstatus-cron.$$
-trap "rm -f $TMP; exit 1" 0 1 2 3 13 15
-crontab -l | sed '/webStatusCron.sh/d' > $TMP
-printf "\n# webStatusCron.sh | %s \n"      "$WSI_BINDIR" >> $TMP
-printf "@reboot %s/webStatusCron.sh\n"     "$WSI_BINDIR" >> $TMP
-printf "*/1 * * * * %s/webStatusCron.sh\n" "$WSI_BINDIR" >> $TMP
-crontab < $TMP
-rm -f $TMP
+trap 'rm -f "$TMP"; exit 1' 0 SIGHUP SIGINT SIGQUIT SIGPIPE SIGTERM
+crontab -l | sed '/webStatusCron.sh/d' > "$TMP"
+{
+  printf "\n# webStatusCron.sh | %s \n"      "$WSI_BINDIR";
+  printf "@reboot %s/webStatusCron.sh\n"     "$WSI_BINDIR";
+  printf "*/1 * * * * %s/webStatusCron.sh\n" "$WSI_BINDIR";
+} >> "$TMP"
+crontab < "$TMP"
+rm -f "$TMP"
 trap 0
 
 #*** Print success message                                          ***#
@@ -113,9 +116,10 @@ echo ""
 rulem "[ \e[32mInstallation success\e[0m ]"
 echo ""
 if [ "$WSI_HTTP_PORT" = "80" ]; then
-  printf "[INFO] $WSI_HTTP_MSG \n" "http://$WSI_HTTP_HOST/webstatus/"
+  printf "[INFO] Application is running at: %s \n"                     \
+  "http://$WSI_HTTP_HOST/webstatus/"
 else
-  printf "[INFO] $WSI_HTTP_MSG \n" \
+  printf "[INFO] Application is running at: %s \n"                     \
   "http://$WSI_HTTP_HOST:$WSI_HTTP_PORT/webstatus/"
 fi
 echo ""

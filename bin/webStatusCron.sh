@@ -13,10 +13,10 @@ fi
 #*** CONFIG                                                         ***#
 WSI_DATADIR="/dev/shm/webstatus"
 # Used by remote client mode
-WS_REMOTE_SERVER_URL=""
+export WS_REMOTE_SERVER_URL=""
 
 #*** GLOBALS                                                        ***#
-cd $(dirname "$(readlink -f "${BASH_SOURCE[0]}")") && cd ..
+cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && cd ..
 WS_PWD=$(pwd)
 WS_CONFIGDIR="$WS_PWD/app/config"
 
@@ -36,13 +36,13 @@ body() {
 
 # Remote server mode
 if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  REMOTESRV_CFG=$(awk -F "=" '/^remote.server/ {                       \
-      gsub(/"/, "", $2);                                               \
-      print $2                                                         \
+  REMOTESRV_CFG=$(awk -F "=" '/^remote.server/ {
+      gsub(/"/, "", $2);
+      print $2
     }'                                                                 \
     "$WS_CONFIGDIR/global.ini.php" | head -1) 
   if [ ! -z "$REMOTESRV_CFG" ]; then
-    . bin/cron/remoteServer.sh
+    "bin/cron/remoteServer.sh"
     exit
   fi
 fi
@@ -73,17 +73,17 @@ uname -r >> "$WSI_DATADIR/os.log"
 echo "$CPU_TEMPERATURE" >> "$WSI_DATADIR/os.log"
 
 # uptime
-echo `echo "Started at"; uptime -s; uptime -p`                         \
+echo "$(echo "Started at"; uptime -s; uptime -p)"                         \
   > "$WSI_DATADIR/uptime.log"
 
 # processes
 if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  PROCESSES_CFG=$(awk -F "=" '/^processes.pattern/ {                   \
-      gsub(/"/, "", $2);                                               \
-      print $2                                                         \
+  PROCESSES_CFG=$(awk -F "=" '/^processes.pattern/ {
+      gsub(/"/, "", $2);
+      print $2
     }'                                                                 \
     "$WS_CONFIGDIR/global.ini.php" | head -1) 
-  if [ -z "$PROCESSES_CFG+x" ]; then
+  if test -z "$PROCESSES_CFG+x"; then
     PROCESSES_PATTERN=""
   else
     PROCESSES_PATTERN=$(printf "MEM COMMAND|%s" "$PROCESSES_CFG")
@@ -92,9 +92,9 @@ else
   PROCESSES_PATTERN=""
 fi
 
-ps -A f -o pid,time,pcpu,pmem,command                                  \
-  | grep -E "$PROCESSES_PATTERN"                                       \
-  | grep -v 'grep'                                                     \
+pgrep "$PROCESSES_PATTERN"                                       \
+  | grep -v 'grep'                                                  \
+  | xargs ps -A f -o pid,time,pcpu,pmem,command                     \
   > "$WSI_DATADIR/processes.log"
 
 # top 15 processes ordered by CPU usage
@@ -139,17 +139,25 @@ ss -t > "$WSI_DATADIR/tcp-sockets.log"
 ifstat -a -T 2 1 > "$WSI_DATADIR/ifstat.log"
 
 # Dump some logs
-awk -F "=" '/^logs.pattern.*/ {                                        \
-      gsub(/"/, "", $2); 
-      gsub(/logs.pattern./, "", $1);                               
-      print $1 "|" $2                                                  \
+awk -F "=" '/^logs.pattern.*/ {
+      gsub(/"/, "", $2);
+      gsub(/logs.pattern./, "", $1);
+      print $1 "|" $2;
     }'                                                                 \
-    "$WS_CONFIGDIR/global.ini.php"                                \
+    "$WS_CONFIGDIR/global.ini.php"                                     \
   | while IFS= read -r line; do
   WS_LOG_FILE=$(  echo "$line" | awk -F "|" '{print $1}')
   WS_LOG_SOURCE=$(echo "$line" | awk -F "|" '{print $2}')
   
-  tail -n 15 $WS_LOG_SOURCE > "$WSI_DATADIR/$WS_LOG_FILE.log"
+  echo "" > "$WSI_DATADIR/$WS_LOG_FILE.log"
+  for file in ${WS_LOG_SOURCE}
+  do
+    {
+      echo ">>> ${file} <<<";
+      tail -n 15 "${file}";
+      echo "";
+    } >> "$WSI_DATADIR/$WS_LOG_FILE.log"
+  done
 done 
 
 # Update history
@@ -157,13 +165,13 @@ php "$WS_PWD/app/controllers/history.php"
 
 # Remote client mode
 if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  REMOTECLI_CFG=$(awk -F "=" '/^remote.client/ {                       \
-      gsub(/"/, "", $2);                                               \
-      print $2                                                         \
+  REMOTECLI_CFG=$(awk -F "=" '/^remote.client/ {
+      gsub(/"/, "", $2);
+      print $2
     }'                                                                 \
     "$WS_CONFIGDIR/global.ini.php" | head -1) 
   if [ ! -z "$REMOTECLI_CFG" ]; then
-    . bin/cron/remoteClient.sh
+    "bin/cron/remoteClient.sh"
   fi
   exit
 fi

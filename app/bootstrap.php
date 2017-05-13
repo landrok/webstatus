@@ -17,7 +17,7 @@ if (!is_readable(dirname(APP_DIR) . "/vendor/autoload.php")) {
   die('Run ./bin/install.sh');
 }
 
-require dirname(APP_DIR) . "/vendor/autoload.php";
+require_once dirname(APP_DIR) . "/vendor/autoload.php";
 
 $app = new App();
 $template = $app->getTemplate();
