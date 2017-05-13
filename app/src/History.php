@@ -55,7 +55,7 @@ class History
      */
     if (is_writable(CACHE_DIR)) {
       file_put_contents(
-        CACHE_DIR . "/history.php",
+        CACHE_DIR . '/history.php',
         "<?php\nreturn " . var_export(self::getData(), true) . ";"
       );
     }
@@ -65,7 +65,7 @@ class History
      */
     if (is_writable(DATA_DIR)) {
       file_put_contents(
-        DATA_DIR . "history.json",
+        DATA_DIR . '/history.json',
         json_encode(self::getData())
       );
     }
