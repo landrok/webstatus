@@ -14,7 +14,8 @@ class App
   protected $context;
   protected $request;
 
-  public function __construct() {
+  public function __construct()
+  {
     Tpl::configure([
       "tpl_dir"    => APP_DIR . "/templates/",
       "cache_dir"  => CACHE_DIR . "/templates/"
@@ -43,7 +44,8 @@ class App
    *
    * @return int
    */
-  function getFormattedMicrotime() {
+  function getFormattedMicrotime()
+  {
     $time = number_format(round(microtime(true), 3), 3, '.', '');
     return 1 * str_replace('.', '', $time);
   }
@@ -57,7 +59,8 @@ class App
    * 
    * @return int
    */
-  function getEstimatedFilesize($size, $num, $max) {
+  function getEstimatedFilesize($size, $num, $max)
+  {
     if ($num <= 0) {
       return 0;
     }
@@ -70,7 +73,8 @@ class App
    * 
    * @return string
    */
-  public function read($filename) {
+  public function read($filename)
+  {
     if (is_readable($filename)) {
       return file_get_contents($filename);
     }
@@ -87,14 +91,15 @@ class App
    * 
    * @return int|float
    */
-  private function transformValue($string) {
+  private function transformValue($string)
+  {
     switch (substr($string, strlen($string) - 1)) {
       case 'K':
-        return 1000 * str_replace('K', '', $string);
+        return 1024 * str_replace('K', '', $string);
       case 'M':
-        return 1000000 * str_replace('M', '', $string);
+        return 1024 * 1024 * str_replace('M', '', $string);
       case 'G':
-        return 1000000000 * str_replace('G', '', $string);
+        return 1024 * 1024 * 1024 * str_replace('G', '', $string);
       default:
         return 1 * $string;
     }
