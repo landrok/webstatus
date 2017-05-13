@@ -29,7 +29,7 @@ WSI_USER=$(who am i | awk '{print $1}')
 chmod +x -R "$WSI_BINDIR"
 chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
 
-# Load helpers
+#*** FUNCTIONS                                                      ***#
 . $WSI_BASEDIR/bin/install/rulem.sh
 
 #*** MAIN                                                           ***#
