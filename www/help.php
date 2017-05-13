@@ -14,7 +14,7 @@ $tpl->assign(
   'icons', 
   explode(
     "\n",
-    $app->read(CFG_DIR . 'icon-values.php')
+    $app->read(CFG_DIR . '/icon-values.php')
   )
 );
 

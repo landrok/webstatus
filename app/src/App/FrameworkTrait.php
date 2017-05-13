@@ -183,32 +183,32 @@ trait FrameworkTrait
    */
   protected function loadIniFile($filename)
   {
-    if (!is_readable(CFG_DIR . "$filename.ini.php")) {
+    if (!is_readable(CFG_DIR . "/$filename.ini.php")) {
       die(
         sprintf(
-          '[ERROR] %s%s.ini.php is not readable.', 
+          '[ERROR] %s/%s.ini.php is not readable.', 
           CFG_DIR ,
           $filename
         )
       );
     }
 
-    $mTimeCache = is_readable(CACHE_DIR . "$filename.php")
-      ? filemtime(CACHE_DIR . "$filename.php") : 0;
-    $mTimeIni = filemtime(CFG_DIR . "$filename.ini.php");
-    $mTimeCustomIni = is_readable(CFG_DIR . "$filename-custom.ini.php")
-      ? filemtime(CFG_DIR . "$filename-custom.ini.php") : 0;
+    $mTimeCache = is_readable(CACHE_DIR . "/$filename.php")
+      ? filemtime(CACHE_DIR . "/$filename.php") : 0;
+    $mTimeIni = filemtime(CFG_DIR . "/$filename.ini.php");
+    $mTimeCustomIni = is_readable(CFG_DIR . "/$filename-custom.ini.php")
+      ? filemtime(CFG_DIR . "/$filename-custom.ini.php") : 0;
 
     # Load from cache
     if ($mTimeCache > max($mTimeIni, $mTimeCustomIni)) {
-      return include (CACHE_DIR . "$filename.php");
+      return include (CACHE_DIR . "/$filename.php");
     }
 
     # New configs must be loaded
-    $config = parse_ini_file(CFG_DIR . "$filename.ini.php", true);
+    $config = parse_ini_file(CFG_DIR . "/$filename.ini.php", true);
 
-    if (is_readable(CFG_DIR . "$filename-custom.ini.php")) {
-      $config += parse_ini_file(CFG_DIR . "$filename-custom.ini.php", true);
+    if (is_readable(CFG_DIR . "/$filename-custom.ini.php")) {
+      $config += parse_ini_file(CFG_DIR . "/$filename-custom.ini.php", true);
     }
 
     return $this->writeCache($filename, $config);
@@ -226,7 +226,7 @@ trait FrameworkTrait
   {
     if (is_writable(CACHE_DIR)) {
       file_put_contents(
-        CACHE_DIR . "$key.php",
+        CACHE_DIR . "/$key.php",
         "<?php\nreturn " . var_export($data, true) . ";"
       );
     }

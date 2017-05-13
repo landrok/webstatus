@@ -10,9 +10,9 @@ class History
    * Load all history
    */
   private static function loadHistory() {    
-    if (is_readable(DATA_DIR . 'history.json')) {
+    if (is_readable(DATA_DIR . '/history.json')) {
       $history = json_decode(
-        file_get_contents(DATA_DIR . 'history.json'),
+        file_get_contents(DATA_DIR . '/history.json'),
         true
       );
     }
@@ -55,7 +55,7 @@ class History
      */
     if (is_writable(CACHE_DIR)) {
       file_put_contents(
-        CACHE_DIR . "history.php",
+        CACHE_DIR . "/history.php",
         "<?php\nreturn " . var_export(self::getData(), true) . ";"
       );
     }
@@ -118,10 +118,10 @@ class History
       self::loadHistory();
     }
 
-    $dbSize = is_readable(DATA_DIR . 'history.json')
-            ? filesize(DATA_DIR . 'history.json') : 0;
-    $cacheSize = is_readable(CACHE_DIR . 'history.php')
-            ? filesize(CACHE_DIR . 'history.php') : 0;
+    $dbSize = is_readable(DATA_DIR . '/history.json')
+            ? filesize(DATA_DIR . '/history.json') : 0;
+    $cacheSize = is_readable(CACHE_DIR . '/history.php')
+            ? filesize(CACHE_DIR . '/history.php') : 0;
 
     $items = [];
     $max = 0;

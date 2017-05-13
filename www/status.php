@@ -8,7 +8,7 @@ $tpl = new Tpl();
 # request
 $request = $app->getRequest();
 
-$tmp = $app->read(DATA_DIR . "$request.log");
+$tmp = $app->read(DATA_DIR . "/$request.log");
 $tpl->assign('title', $app->getRoute('status')[$request]);
 $tpl->assign('content', $app->ipToLocation($tmp));
 

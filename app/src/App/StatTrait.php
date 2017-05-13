@@ -14,7 +14,7 @@ trait StatTrait
     if (!isset($this->logs['os'])) {
       $this->logs['os'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'os.log')
+        $this->read(DATA_DIR . '/os.log')
       );
     }
 
@@ -30,7 +30,7 @@ trait StatTrait
     if (!isset($this->logs['os'])) {
       $this->logs['os'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'os.log')
+        $this->read(DATA_DIR . '/os.log')
       );
     }
 
@@ -47,7 +47,7 @@ trait StatTrait
     if (!isset($this->logs['os'])) {
       $this->logs['os'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'os.log')
+        $this->read(DATA_DIR . '/os.log')
       );
     }
 
@@ -64,7 +64,7 @@ trait StatTrait
     if (!isset($this->logs['uptime'])) {
       $this->logs['uptime'] = explode(
         "up",
-        $this->read(DATA_DIR . 'uptime.log')
+        $this->read(DATA_DIR . '/uptime.log')
       );
     }
 
@@ -81,7 +81,7 @@ trait StatTrait
     if (!isset($this->logs['uptime'])) {
       $this->logs['uptime'] = explode(
         "up",
-        $this->read(DATA_DIR . 'uptime.log')
+        $this->read(DATA_DIR . '/uptime.log')
       );
     }
 
@@ -103,7 +103,7 @@ trait StatTrait
     if (!isset($this->logs['memory'])) {
       $this->logs['memory'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'memory.log')
+        $this->read(DATA_DIR . '/memory.log')
       );
     }
 
@@ -127,7 +127,7 @@ trait StatTrait
     if (!isset($this->logs['memory'])) {
       $this->logs['memory'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'memory.log')
+        $this->read(DATA_DIR . '/memory.log')
       );
     }
 
@@ -160,7 +160,7 @@ trait StatTrait
     if (!isset($this->logs['hdd'])) {
       $this->logs['hdd'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'hdd.log')
+        $this->read(DATA_DIR . '/hdd.log')
       );
     }
 
@@ -182,7 +182,7 @@ trait StatTrait
     if (!isset($this->logs['tcp-sockets'])) {
       $this->logs['tcp-sockets'] = explode(
         "\n",
-        $this->read(DATA_DIR . 'tcp-sockets.log')
+        $this->read(DATA_DIR . '/tcp-sockets.log')
       );
     }
 
@@ -197,7 +197,7 @@ trait StatTrait
    */
   public function getServerNum() {
     if (!isset($this->logs['servers'])) {
-      $this->logs['servers'] = $this->read(DATA_DIR . 'servers.log');
+      $this->logs['servers'] = $this->read(DATA_DIR . '/servers.log');
     }
 
     return substr_count($this->logs['servers'], 'LISTEN');
@@ -212,7 +212,7 @@ trait StatTrait
     if (!isset($this->logs['ifstat'])) {
       $this->logs['ifstat'] = preg_split(
         '/\s+/', 
-        $this->read(DATA_DIR . 'ifstat.log')
+        $this->read(DATA_DIR . '/ifstat.log')
       );
     }
     
@@ -240,7 +240,7 @@ trait StatTrait
     if (!isset($this->logs['ifstat'])) {
       $this->logs['ifstat'] = preg_split(
         '/\s+/', 
-        $this->read(DATA_DIR . 'ifstat.log')
+        $this->read(DATA_DIR . '/ifstat.log')
       );
     }
     
@@ -267,7 +267,7 @@ trait StatTrait
     if (!isset($this->logs['processes'])) {
       $this->logs['processes'] = explode(
         "\n", 
-        $this->read(DATA_DIR . 'processes.log')
+        $this->read(DATA_DIR . '/processes.log')
       );
     }
 
@@ -291,7 +291,7 @@ trait StatTrait
     if (!isset($this->logs['users'])) {
       $this->logs['users'] = explode(
         "\n", 
-        $this->read(DATA_DIR . 'users.log')
+        $this->read(DATA_DIR . '/users.log')
       );
     }
 
@@ -307,7 +307,7 @@ trait StatTrait
   public function getIfNum() {
     if (!isset($this->logs['interfaces'])) {
       $this->logs['interfaces'] = $this->read(
-        DATA_DIR . 'interfaces.log'
+        DATA_DIR . '/interfaces.log'
       );
     }
 
@@ -323,11 +323,11 @@ trait StatTrait
    * @return string
    */
   public function getStatusDate() {
-    if (!is_readable(DATA_DIR . 'status.log')) {
+    if (!is_readable(DATA_DIR . '/status.log')) {
       return date("D M d H:i:s T Y", time());
     }
 
-    return date("D M d H:i:s T Y", filemtime(DATA_DIR . 'status.log'));
+    return date("D M d H:i:s T Y", filemtime(DATA_DIR . '/status.log'));
   }
 
   /**
@@ -338,7 +338,7 @@ trait StatTrait
   public function getHostname() {
     if (!isset($this->logs['status'])) {
       $this->logs['status'] = $this->read(
-        DATA_DIR . 'status.log'
+        DATA_DIR . '/status.log'
       );
     }
 

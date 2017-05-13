@@ -17,7 +17,7 @@ class App
   public function __construct() {
     Tpl::configure([
       "tpl_dir"    => APP_DIR . "/templates/",
-      "cache_dir"  => CACHE_DIR . "templates/"
+      "cache_dir"  => CACHE_DIR . "/templates/"
     ]);
 
     $this->loadConfig();
