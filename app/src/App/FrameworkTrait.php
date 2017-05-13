@@ -47,17 +47,13 @@ trait FrameworkTrait
       $this->config[$filename] = $this->loadIniFile($filename);
     }
 
-    /**
-     * Build routes
-     */
-    $routes = [];
     #1st level
-    array_walk($this->config['routes'], function($value, $key) use (& $routes) {
+    array_walk($this->config['routes'], function($value, $key) {
       if (preg_match('/^(?!icon|label|header|sub-)([a-z0-9\-\_]*)$/i', $key, $matches)) {
         #2nd level
         array_walk(
           $value, 
-          function($value, $index) use (& $routes, $key) {
+          function($value, $index) use ($key) {
             if (preg_match('/^(?!sub-header-|sub-icon-)sub-([a-z0-9\-\_]*)$/i', $index, $matches)) {
               $this->routes[$key][$matches[1]] = $this->config['routes'][$key]["sub-{$matches[1]}"];
             }
