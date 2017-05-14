@@ -44,7 +44,7 @@ if [ -z ${WSI_AUTOINSTALL+x} ]; then
 fi
 
 #*** FUNCTIONS                                                      ***#
-# shellcheck source=bin/install/rulem.sh
+# shellcheck source=bin/install/rulem.sh disable=1091
 source "$WSI_BASEDIR/bin/install/rulem.sh"
 
 #*** MAIN                                                           ***#
@@ -56,15 +56,15 @@ echo ""
 echo "* System check"
 if [ "$(lsb_release -s -d | grep Raspbian)" != "" ]; then
   echo "[$(lsb_release -s -d)]"
-  WSI_LIBRARIES="php5 apache2 sysstat ifstat"
+  WSI_LIBRARIES="apache2 sysstat ifstat"
   WSI_OS="Raspbian"
 elif [ "$(lsb_release -s -d | grep Debian)" != "" ]; then
   echo "[$(lsb_release -s -d)]"
-  WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors curl"
+  WSI_LIBRARIES="apache2 sysstat ifstat lm-sensors curl"
   WSI_OS="Debian"
 elif [ "$(lsb_release -s -d | grep Ubuntu)" != "" ]; then
   echo "[$(lsb_release -s -d)]"
-  WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors curl"
+  WSI_LIBRARIES="apache2 sysstat ifstat lm-sensors curl"
   WSI_OS="Ubuntu"
 else
   lsb_release -a 1>&2
@@ -79,9 +79,19 @@ printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n"              \
 # Install libraries
 echo ""
 echo "* Libraries"
+
+if [ "$(dpkg -l | grep php)" = "" ] && [ "$(which php)" = "" ]; then
+  apt-get install php5 -qq || {
+    echo "[ERROR] Installation failed, exiting.";
+    exit 1;
+  }
+else
+  echo "[INFO] php5 already installed"
+fi
+
 IFS=' ' read -ra PACKETS <<< "$WSI_LIBRARIES"
 for p in "${PACKETS[@]}"; do
-  if [ "$(dpkg -l | grep "$p")" == "" ]; then
+  if [ "$(dpkg -l | grep "$p")" = "" ]; then
     apt-get install "$p" -qq || {
       echo "[ERROR] Installation failed, exiting.";
       exit 1;
@@ -104,7 +114,7 @@ fi
 echo ""
 
 # Webserver configuration
-# shellcheck source=bin/install/apache2.sh
+# shellcheck source=bin/install/apache2.sh disable=1091
 source "$WSI_BASEDIR/bin/install/apache2.sh"
 
 # Install composer
