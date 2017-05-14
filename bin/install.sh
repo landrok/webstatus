@@ -80,16 +80,14 @@ printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n"              \
 echo ""
 echo "* Libraries"
 
-if [[ "$(dpkg -l | grep php)" = "" && "$(which php)" = "" ]]; then
+if [[ -z "${TRAVIS_PHP_VERSION+x}" && "$(dpkg -l | grep php)" = "" && "$(which php)" = "" ]]; then
   echo "[INFO] Installing php"
-  dpkg -l | grep php
-  which php
   apt-get install php5 -qq || {
     echo "[ERROR] Installation failed, exiting.";
     exit 1;
   }
 else
-  echo "[INFO] php5 already installed"
+  printf "[INFO] %s already installed" "$(php --version)"
 fi
 
 IFS=' ' read -ra PACKETS <<< "$WSI_LIBRARIES"
