@@ -6,7 +6,6 @@ require dirname(__DIR__) . '/app/bootstrap.php';
  * Monitor
  */
 use Rain\Tpl;
-use WebStatus\History;
 
 // Get some data to update chart
 if (isset($_REQUEST['data'])) {
@@ -22,7 +21,7 @@ $template->assign('footerLibraries', sprintf(
   '<script>var appHistory = %s;</script>
 <script src="%s/asset/highcharts/highcharts.js"></script>
 <script src="%s/asset/app/monitor.js"></script>',
-  json_encode(History::getData()),
+  json_encode($app->getHistory()->getData()),
   BASEURL,
   BASEURL
 ));

@@ -7,7 +7,6 @@ require dirname(__DIR__) . '/app/bootstrap.php';
  * Global status summary
  */
 use Rain\Tpl;
-use WebStatus\History;
 
 $tpl = new Tpl();
 
@@ -15,10 +14,10 @@ $tpl->assign('tableClass', 'table table-hover table-striped table-condensed');
 $tpl->assign('app', $app);
 
 # Memory
-$tpl->assign('memTrend', History::get('mem')->getTrend($app->getMemUsage()));
+$tpl->assign('memTrend', $app->getHistory('mem')->getTrend($app->getMemUsage()));
 
 # CPU
-$tpl->assign('cpuTrend', History::get('cpu')->getTrend(
+$tpl->assign('cpuTrend', $app->getHistory('cpu')->getTrend(
   $app->getCpuUsage()
 ));
 

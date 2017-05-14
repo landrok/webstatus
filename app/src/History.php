@@ -4,12 +4,13 @@ namespace WebStatus;
 
 class History
 {
-  private static $status = [];
+  private $status = [];
 
   /**
    * Load all history
    */
-  private static function loadHistory() {    
+  private function loadHistory()
+  {    
     if (is_readable(DATA_DIR . '/history.json')) {
       $history = json_decode(
         file_get_contents(DATA_DIR . '/history.json'),
@@ -22,9 +23,8 @@ class History
     }
 
     array_walk($history, function ($values, $name) {
-      self::add($values, $name);
+      $this->add($values, $name);
     });
-    
   }
 
   /**
@@ -34,29 +34,33 @@ class History
    * 
    * @return \WebStatus\Metric
    */
-  public static function get($name) {
-    if (!count(self::$status)) {
-      self::loadHistory();
+  public function get($name)
+  {
+    if (!count($this->status)) {
+      $this->loadHistory();
     }
 
-    if (!isset(self::$status[$name])) {
-      self::$status[$name] = new Metric($name);
+    if (!isset($this->status[$name])) {
+      $this->status[$name] = new Metric($name);
     }
     
-    return self::$status[$name];
+    return $this->status[$name];
   }
 
   /**
    * Save data into data and cache dirs
+   * 
+   * @api
    */
-  public static function save() {
+  public function save()
+  {
     /**
      * Write into the cache
      */
     if (is_writable(CACHE_DIR)) {
       file_put_contents(
         CACHE_DIR . '/history.php',
-        "<?php\nreturn " . var_export(self::getData(), true) . ";"
+        "<?php\nreturn " . var_export($this->getData(), true) . ";"
       );
     }
 
@@ -66,7 +70,7 @@ class History
     if (is_writable(DATA_DIR)) {
       file_put_contents(
         DATA_DIR . '/history.json',
-        json_encode(self::getData())
+        json_encode($this->getData())
       );
     }
   }
@@ -75,14 +79,18 @@ class History
    * Add a new value for each metric
    * 
    * @param array $values
+   * @param string $name
+   * 
+   * @api
    */
-  public static function add(array $values, $name) {
-    if (!isset(self::$status[$name])) {
-      self::$status[$name] = new Metric($name);
+  public function add(array $values, $name)
+  {
+    if (!isset($this->status[$name])) {
+      $this->status[$name] = new Metric($name);
     }
 
     array_walk($values, function ($items) use ($name) {
-      self::$status[$name]->addValue($items);
+      $this->status[$name]->addValue($items);
     });
   }
 
@@ -91,15 +99,18 @@ class History
    * [name][index], lightest mode
    * 
    * @return array
+   * 
+   * @api
    */
-  public static function getData() {
-    if (!count(self::$status)) {
-      self::loadHistory();
+  public function getData()
+  {
+    if (!count($this->status)) {
+      $this->loadHistory();
     }
 
     $data = [];
 
-    array_walk(self::$status,
+    array_walk($this->status,
       function ($metric, $index) use (& $data) {
           $data[$index] = $metric->getData();
       }
@@ -112,10 +123,13 @@ class History
    * Get history status
    * 
    * @return array
+   * 
+   * @api
    */
-  public static function getStatus() {
-    if (!count(self::$status)) {
-      self::loadHistory();
+  public function getStatus()
+  {
+    if (!count($this->status)) {
+      $this->loadHistory();
     }
 
     $dbSize = is_readable(DATA_DIR . '/history.json')
@@ -126,7 +140,7 @@ class History
     $items = [];
     $max = 0;
     $num = 0;
-    array_walk(self::$status,
+    array_walk($this->status,
       function ($metric, $index) use (& $items, & $max, & $num) {
           $items[$index] = $metric->getCount();
           if (!$max) {
@@ -141,7 +155,7 @@ class History
       'cacheSize' => $cacheSize,
       'maxItems'  => $max,
       'numItems'  => $num,
-      'items'     => self::$status
+      'items'     => $this->status
     ];
   }
 }

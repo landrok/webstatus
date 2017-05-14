@@ -15,7 +15,7 @@ trait TemplateTrait
    */
   public function render($name) {
     $this->getTemplate()->assign([
-      'history'    => History::getStatus(),
+      'history'    => $this->getHistory()->getStatus(),
       'app'        => $this,
       'tableClass' => 'table table-hover table-striped table-condensed'
     ]);

@@ -7,14 +7,13 @@ include dirname(__DIR__) . '/bootstrap.php';
 
 use WebStatus\History;
 
-History::get('in')->addValue(round($app->getIn(), 2));
-History::get('out')->addValue(round($app->getOut(), 2));
-History::get('cpu')->addValue(round($app->getLocalCpuUsage(), 2));
-History::get('mem')->addValue(round($app->getMemUsage(), 2));
-History::get('swap')->addValue(round($app->getSwapUsage(), 2));
-History::get('temp')->addValue((int)$app->getCpuTemperature());
-History::get('sock')->addValue((int)$app->getSocketNum());
+$app->getHistory('in')->addValue(round($app->getIn(), 2));
+$app->getHistory('out')->addValue(round($app->getOut(), 2));
+$app->getHistory('cpu')->addValue(round($app->getLocalCpuUsage(), 2));
+$app->getHistory('mem')->addValue(round($app->getMemUsage(), 2));
+$app->getHistory('swap')->addValue(round($app->getSwapUsage(), 2));
+$app->getHistory('temp')->addValue((int)$app->getCpuTemperature());
+$app->getHistory('sock')->addValue((int)$app->getSocketNum());
+$app->getHistory('time')->addValue($app->getFormattedMicrotime());
 
-History::get('time')->addValue($app->getFormattedMicrotime());
-
-History::save();
+$app->getHistory()->save();

@@ -148,7 +148,7 @@ trait StatTrait
    * @return string
    */
   public function getCpuUsage() {
-    return History::get('cpu')->getLast();
+    return $this->getHistory('cpu')->getLast();
   }
 
   /**

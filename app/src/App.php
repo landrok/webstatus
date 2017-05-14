@@ -13,6 +13,7 @@ class App
   protected $template;
   protected $context;
   protected $request;
+  protected $history;
 
   public function __construct()
   {
@@ -37,6 +38,23 @@ class App
       )
       ? $_REQUEST['id'] 
       : $this->getRouteKey($this->context);
+    $this->history = new History();
+  }
+
+  /**
+   * Get history instance
+   * 
+   * @param string $name
+   * 
+   * @return \WebStatus\History|\WebStatus\Metric
+   */
+  public function getHistory($name = null)
+  {
+    if (null === $name) {
+      return $this->history;
+    }
+    
+    return $this->history->get($name);
   }
 
   /**
