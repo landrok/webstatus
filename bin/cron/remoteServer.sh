@@ -1,4 +1,6 @@
-#!/bin/bash -e -o nounset
+#!/bin/bash -e
+
+set -o nounset
 
 [[ -z "${WSI_DATADIR+x}" ]] && {
   echo "[ERROR] \"bin/cron/remoteServer.sh\" should not be called directly"
@@ -7,12 +9,11 @@
 }
 
 WC_ZIPNAME="$WS_PWD/app/cache/webstatus.tar.gz"
-WC_STATUSNAME="$WSI_DATADIR/status.log"
 
 echo "Server remote mode"
 
 # ZIP exists
-if [ ! -f $WC_ZIPNAME ]; then
+if [ ! -f "$WC_ZIPNAME" ]; then
   echo "$WC_ZIPNAME does not exists"
   exit
 fi
