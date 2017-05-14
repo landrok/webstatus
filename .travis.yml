@@ -1,7 +1,10 @@
 language: php
 
 install:
+  # Install shellcheck
   - sudo ./test/build/install.sh
+  # Install webstatus
+  - sudo ./bin/install.sh -y
 
 script:
   - ./test/build/build.sh
