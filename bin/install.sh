@@ -46,7 +46,7 @@ if [ "$(lsb_release -s -d | grep Raspbian)" != "" ]; then
   WSI_OS="Raspbian"
 elif [ "$(lsb_release -s -d | grep Debian)" != "" ]; then
   echo "[$(lsb_release -s -d)]"
-  WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors"
+  WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors curl"
   WSI_OS="Debian"
 else
   lsb_release -a 1>&2
