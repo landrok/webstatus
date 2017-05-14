@@ -44,6 +44,7 @@ if [ -z ${WSI_AUTOINSTALL+x} ]; then
 fi
 
 #*** FUNCTIONS                                                      ***#
+# shellcheck source=bin/install/rulem.sh
 source "$WSI_BASEDIR/bin/install/rulem.sh"
 
 #*** MAIN                                                           ***#
@@ -63,7 +64,7 @@ elif [ "$(lsb_release -s -d | grep Debian)" != "" ]; then
   WSI_OS="Debian"
 elif [ "$(lsb_release -s -d | grep Ubuntu)" != "" ]; then
   echo "[$(lsb_release -s -d)]"
-  WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors curl"
+  WSI_LIBRARIES="php apache2 sysstat ifstat lm-sensors curl"
   WSI_OS="Ubuntu"
 else
   lsb_release -a 1>&2
@@ -80,7 +81,7 @@ echo ""
 echo "* Libraries"
 IFS=' ' read -ra PACKETS <<< "$WSI_LIBRARIES"
 for p in "${PACKETS[@]}"; do
-  if [ "$(dpkg -s "$p" | grep installed)" == "" ]; then
+  if [ "$(dpkg -l | grep "$p")" == "" ]; then
     apt-get install "$p" -qq || {
       echo "[ERROR] Installation failed, exiting.";
       exit 1;
@@ -103,6 +104,7 @@ fi
 echo ""
 
 # Webserver configuration
+# shellcheck source=bin/install/apache2.sh
 source "$WSI_BASEDIR/bin/install/apache2.sh"
 
 # Install composer
