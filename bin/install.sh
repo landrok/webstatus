@@ -87,7 +87,7 @@ if [[ -z "${TRAVIS_PHP_VERSION+x}" && "$(dpkg -l | grep php)" = "" && "$(which p
     exit 1;
   }
 else
-  printf "[INFO] %s already installed" "$(php --version)"
+  echo "[INFO] php already installed"
 fi
 
 IFS=' ' read -ra PACKETS <<< "$WSI_LIBRARIES"
