@@ -61,6 +61,10 @@ elif [ "$(lsb_release -s -d | grep Debian)" != "" ]; then
   echo "[$(lsb_release -s -d)]"
   WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors curl"
   WSI_OS="Debian"
+elif [ "$(lsb_release -s -d | grep Ubuntu)" != "" ]; then
+  echo "[$(lsb_release -s -d)]"
+  WSI_LIBRARIES="php5 apache2 sysstat ifstat lm-sensors curl"
+  WSI_OS="Ubuntu"
 else
   lsb_release -a 1>&2
   echo "[ERROR] This does not seem to be Raspbian or Debian OS"
