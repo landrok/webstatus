@@ -80,7 +80,8 @@ printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n"              \
 echo ""
 echo "* Libraries"
 
-if [[ ( "$(dpkg -l | grep php)" = "" && "$(which php)" = "" ) ]]; then
+if [[ "$(dpkg -l | grep php)" = "" && "$(which php)" = "" ]]; then
+  echo "[INFO] Installing php"
   dpkg -l | grep php
   which php
   apt-get install php5 -qq || {
@@ -94,6 +95,7 @@ fi
 IFS=' ' read -ra PACKETS <<< "$WSI_LIBRARIES"
 for p in "${PACKETS[@]}"; do
   if [ "$(dpkg -l | grep "$p")" = "" ]; then
+    echo "[INFO] Installing $p"
     apt-get install "$p" -qq || {
       echo "[ERROR] Installation failed, exiting.";
       exit 1;
