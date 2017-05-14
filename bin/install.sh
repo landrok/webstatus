@@ -78,10 +78,17 @@ printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n"              \
 # Install libraries
 echo ""
 echo "* Libraries"
-echo "$WSI_LIBRARIES" | xargs -n 1 apt-get install "$1" -qq || {
-  echo "[ERROR] Installation failed, exiting."
-  exit 1
-}
+IFS=' ' read -ra PACKETS <<< "$WSI_LIBRARIES"
+for p in "${PACKETS[@]}"; do
+  if [ "$(dpkg -s "$p" | grep installed)" == "" ]; then
+    apt-get install "$p" -qq || {
+      echo "[ERROR] Installation failed, exiting.";
+      exit 1;
+    }
+  else
+    echo "[INFO] $p already installed"
+  fi
+done
 
 echo "[INFO] $WSI_OS Libraries \"$WSI_LIBRARIES\" were successfully installed"
 
