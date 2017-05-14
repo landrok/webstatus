@@ -4,7 +4,7 @@ Web Status
 [![Build Status](https://travis-ci.org/landrok/webstatus.png)](https://travis-ci.org/landrok/webstatus)
 
 It is a simple and easy monitoring tool. It was designed for 
-Raspbian OS but is compatible with Debian too.
+Raspbian OS but is compatible with Debian and Ubuntu.
 
 There is nothing to configure. Just run the installer and use it!
 
@@ -34,6 +34,7 @@ ________________________________________________________________________
 
 * Debian
 * Raspbian
+* Ubuntu
 
 ________________________________________________________________________
 
