@@ -1,7 +1,7 @@
 language: bash
 
 install:
-  - ./test/build/install.sh
+  - sudo ./test/build/install.sh
 
 script:
   - ./test/build/build.sh
