@@ -13,9 +13,14 @@ set -o nounset
 #
 
 # Is Apache already configured?
-if [ "$(find "$WSI_APACHEDIR/sites-available" -type f -name 'webstatus.conf')" = "webstatus.conf" ]; then
-  echo -n "[PARA] There is already a VHOST configuration file for WebStatus, overwrite? [N/y] "
-  read -r WSI_APACHEOVERRIDE
+if [ "$(find "$WSI_APACHEDIR/sites-available" -type f -name 'webstatus.conf')" != "" ]; then
+  if [ "$WSI_AUTOINSTALL" = "1" ]; then
+    WSI_APACHEOVERRIDE="n"
+  else
+    echo -n "[PARA] There is already a VHOST configuration file for WebStatus, overwrite? [N/y] "
+    read -r WSI_APACHEOVERRIDE
+  fi
+
   if [ "$WSI_APACHEOVERRIDE" != "y" ]; then
     # @todo Have to grep PORT and HOST in the configuration file
     # instead of setting with default values
@@ -27,8 +32,13 @@ if [ "$(find "$WSI_APACHEDIR/sites-available" -type f -name 'webstatus.conf')" =
 fi
 
 # Hostname
-echo -n "[PARA] Enter web hostname[$WSI_HTTP_DEFAULT_HOST]: "
-read -r WSI_CUSTOMHOST
+if [ "$WSI_AUTOINSTALL" = "1" ]; then
+  WSI_CUSTOMHOST="$WSI_HTTP_DEFAULT_HOST"
+else
+  echo -n "[PARA] Enter web hostname[$WSI_HTTP_DEFAULT_HOST]: "
+  read -r WSI_CUSTOMHOST
+fi
+
 if [ "$WSI_CUSTOMHOST" = "" ]; then
   WSI_HTTP_HOST="$WSI_HTTP_DEFAULT_HOST"
 else
@@ -36,8 +46,13 @@ else
 fi
 
 # Port
-echo -n "[PARA] Enter web port[$WSI_DEFAULT_HTTPPORT]: "
-read -r WSI_CUSTOMPORT
+if [ "$WSI_AUTOINSTALL" = "1" ]; then
+  WSI_CUSTOMPORT="$WSI_DEFAULT_HTTPPORT"
+else
+  echo -n "[PARA] Enter web port[$WSI_DEFAULT_HTTPPORT]: "
+  read -r WSI_CUSTOMPORT
+fi
+
 if [ "$WSI_CUSTOMPORT" = "" ]; then
   WSI_HTTP_PORT="$WSI_DEFAULT_HTTPPORT"
 else

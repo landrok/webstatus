@@ -19,7 +19,7 @@ WSI_BASEDIR=$(pwd)
 WSI_BINDIR="$WSI_BASEDIR/bin"
 WSI_WEBDIR="$WSI_BASEDIR/www"
 WSI_APPDIR="$WSI_BASEDIR/app"
-WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad'               \
+WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad'                      \
   | grep -v '127.0.0.1'                                                \
   | cut -d: -f2 | awk '{ print $1 }' | head -1)
 export WSI_HTTP_DEFAULT_HOST
@@ -30,8 +30,21 @@ WSI_USER=$(who am i | awk '{print $1}')
 chmod +x -R "$WSI_BINDIR"
 chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
 
+#*** ARGS                                                           ***#
+while getopts y option
+do
+  case "${option}"
+  in
+  y) WSI_AUTOINSTALL="1";;
+  esac
+done
+
+if [ -z ${WSI_AUTOINSTALL+x} ]; then
+  WSI_AUTOINSTALL="0"
+fi
+
 #*** FUNCTIONS                                                      ***#
-"$WSI_BASEDIR/bin/install/rulem.sh"
+source "$WSI_BASEDIR/bin/install/rulem.sh"
 
 #*** MAIN                                                           ***#
 echo ""
@@ -55,26 +68,31 @@ else
 fi
 
 # Locations
-printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n" \
+printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n"              \
   "$WSI_DATADIR" "$WSI_WEBDIR" "$WSI_APPDIR"
 
 # Install libraries
 echo ""
 echo "* Libraries"
-apt-get install "$WSI_LIBRARIES" -qq || {
+echo "$WSI_LIBRARIES" | xargs -n 1 apt-get install "$1" -qq || {
   echo "[ERROR] Installation failed, exiting."
   exit 1
 }
+
 echo "[INFO] $WSI_OS Libraries \"$WSI_LIBRARIES\" were successfully installed"
 
 #*** Configuration                                                  ***#
 echo ""
 echo "* Configuration"
-echo "[HELP] Press enter to keep default value or fill a custom value"
+if [ "$WSI_AUTOINSTALL" = "1" ]; then
+  echo "[HELP] Autoinstall will keep default values"
+else
+  echo "[HELP] Press enter to keep default value or fill a custom value"
+fi
 echo ""
 
 # Webserver configuration
-"$WSI_BASEDIR/bin/install/apache2.sh"
+source "$WSI_BASEDIR/bin/install/apache2.sh"
 
 # Install composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

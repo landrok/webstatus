@@ -54,6 +54,12 @@ If the installation failed:
 - Check that your system is up to date
 - Create an issue and Copy/Paste installation logs
 
+You have a fully automated mode with -y argument:
+
+```shell
+# Available since release 0.4
+./webstatus-0.3.1/bin/install.sh -y
+```
 ________________________________________________________________________
 
 ## Customize title
