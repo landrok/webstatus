@@ -138,9 +138,7 @@ if [[ -z "${TRAVIS_PHP_VERSION+x}" ]]; then
   su "$WSI_USER" -c "php composer.phar update --no-dev -o"
 else
   # Travis CI
-  su "$WSI_USER" -c "/home/travis/.phpenv/bin/php -r \"$WSI_COMPOSER_INSTALL\""
-  su "$WSI_USER" -c "rm composer-setup.php"
-  su "$WSI_USER" -c "/home/travis/.phpenv/bin/php composer.phar update --no-dev -o"
+  echo "[INFO] Skipping..."
 fi
 
 # Initialize data files
