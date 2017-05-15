@@ -8,6 +8,11 @@ php:
   - 7.1
   - hhvm
 
+before_install:
+  - sudo apt-get update -qq
+  # Install latest uptime
+  - sudo apt-get install procps
+
 install:
   # Install shellcheck
   - sudo ./test/build/install.sh
