@@ -24,7 +24,6 @@ class App
 
     $this->loadConfig();
 
-    // Context  
     $this->context = !preg_match(
         '@.*/(.*)\.php@i',
         $_SERVER['SCRIPT_NAME'],
@@ -38,6 +37,7 @@ class App
       )
       ? $_REQUEST['id'] 
       : $this->getRouteKey($this->context);
+
     $this->history = new History();
   }
 
@@ -53,7 +53,7 @@ class App
     if (null === $name) {
       return $this->history;
     }
-    
+
     return $this->history->get($name);
   }
 
@@ -62,7 +62,7 @@ class App
    *
    * @return int
    */
-  function getFormattedMicrotime()
+  public function getFormattedMicrotime()
   {
     $time = number_format(round(microtime(true), 3), 3, '.', '');
     return 1 * str_replace('.', '', $time);
@@ -77,7 +77,7 @@ class App
    * 
    * @return int
    */
-  function getEstimatedFilesize($size, $num, $max)
+  public function getEstimatedFilesize($size, $num, $max)
   {
     if ($num <= 0) {
       return 0;
@@ -89,15 +89,17 @@ class App
   /**
    * Read a data file
    * 
+   * @param string $path
+   * 
    * @return string
    */
-  public function read($filename)
+  public function read($path)
   {
-    if (is_readable($filename)) {
-      return file_get_contents($filename);
+    if (is_readable($path)) {
+      return file_get_contents($path);
     }
 
-    die(sprintf('File %s is not readable.', $filename));
+    die(sprintf('File "%s" is not readable.', $path));
   }
 
   /**

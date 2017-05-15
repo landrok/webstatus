@@ -2,7 +2,7 @@
 
 #*** build.sh                                                       ***#
 # 
-# This script will lint all .sh files of the git repository
+# This script lints all .sh files of the git repository
 #
 
 set -eo pipefail

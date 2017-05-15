@@ -5,8 +5,6 @@
  */
 include dirname(__DIR__) . '/bootstrap.php';
 
-use WebStatus\History;
-
 $app->getHistory('in')->addValue(round($app->getIn(), 2));
 $app->getHistory('out')->addValue(round($app->getOut(), 2));
 $app->getHistory('cpu')->addValue(round($app->getLocalCpuUsage(), 2));
