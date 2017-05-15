@@ -182,9 +182,24 @@ trait FrameworkTrait
    */
   protected function loadConfig()
   {
+    $max = 0;
+    foreach ($this->configFiles as $filename) {
+      $max = max(
+        $max,
+        $this->getFilemtime(CFG_DIR . "/$filename.ini.php"),
+        $this->getFilemtime(CFG_DIR . "/$filename.ini.php")
+      );
+    }
+
+    if ($this->getFilemtime(CACHE_DIR . "/config.php") > $max) {
+      $this->config = include CACHE_DIR . "/config.php";
+    }
+
     foreach ($this->configFiles as $filename) {
       $this->config[$filename] = $this->loadIniFile($filename);
     }
+
+    $this->writeCache('config', $this->config);
 
     #1st level
     array_walk($this->config['routes'], function($value, $key) {
@@ -200,6 +215,18 @@ trait FrameworkTrait
         );
       }
     });
+  }
+
+  /**
+   * Get last modified time
+   * 
+   * @param string $path
+   * 
+   * @return int;
+   */
+  public function getFilemtime($path)
+  {
+    return is_readable($path) ? filemtime($path) : 0;
   }
 
   /**
@@ -221,16 +248,9 @@ trait FrameworkTrait
       );
     }
 
-    $mTimeCache = is_readable(CACHE_DIR . "/$filename.php")
-      ? filemtime(CACHE_DIR . "/$filename.php") : 0;
     $mTimeIni = filemtime(CFG_DIR . "/$filename.ini.php");
     $mTimeCustomIni = is_readable(CFG_DIR . "/$filename-custom.ini.php")
       ? filemtime(CFG_DIR . "/$filename-custom.ini.php") : 0;
-
-    # Load from cache
-    if ($mTimeCache > max($mTimeIni, $mTimeCustomIni)) {
-      return include (CACHE_DIR . "/$filename.php");
-    }
 
     # New configs must be loaded
     $config = parse_ini_file(CFG_DIR . "/$filename.ini.php", true);
@@ -239,7 +259,7 @@ trait FrameworkTrait
       $config += parse_ini_file(CFG_DIR . "/$filename-custom.ini.php", true);
     }
 
-    return $this->writeCache($filename, $config);
+    return $config;
   }
 
   /**
