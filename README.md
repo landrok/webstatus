@@ -1,4 +1,4 @@
-# Web Status [![Build Status](https://travis-ci.org/landrok/webstatus.png)](https://travis-ci.org/landrok/webstatus)
+# WebStatus [![Build Status](https://travis-ci.org/landrok/webstatus.png)](https://travis-ci.org/landrok/webstatus)
 
 It is a simple and easy monitoring tool. It was designed for 
 Raspbian OS but is compatible with Debian and Ubuntu.
@@ -21,17 +21,17 @@ ________________________________________________________________________
 
 - Live monitoring for CPU, memory and network bandwith usage
 
-- Easy to custom: specify processes, specific log files
+- Easy to customize: specific processes, log files
 
-- Easy to extend
+- Easy to install
 
 ________________________________________________________________________
 
 ## Supported OS
 
-* Debian
-* Raspbian
-* Ubuntu
+* Raspbian  >=8
+* Debian    >=8
+* Ubuntu    >=14.04
 
 ________________________________________________________________________
 
