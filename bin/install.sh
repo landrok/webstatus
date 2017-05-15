@@ -34,6 +34,8 @@ chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
 [[ -z "${TRAVIS_PHP_VERSION+x}" ]] || {
   export PATH=$PATH:/home/travis/.phpenv/bin
   eval "$(phpenv init -)"
+  su "$WSI_USER" -c "export PATH=$PATH:/home/travis/.phpenv/bin"
+  su "$WSI_USER" -c "eval \"$(phpenv init -)\""
 }
 
 #*** ARGS                                                           ***#
