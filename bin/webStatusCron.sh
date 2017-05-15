@@ -154,7 +154,11 @@ awk -F "=" '/^logs.pattern.*/ {
   do
     {
       echo ">>> ${file} <<<";
-      tail -n 15 "${file}";
+      if [ -f "${file}" ]; then
+        tail -n 15 "${file}";
+      else
+        echo "File not found";
+      fi
       echo "";
     } >> "$WSI_DATADIR/$WS_LOG_FILE.log"
   done
