@@ -15,12 +15,13 @@ php:
 install:
   # Install shellcheck
   - sudo ./test/build/install.sh
-  # Install webstatus
-  - sudo ./bin/install.sh -y
 
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
 
 script:
+  # Lint shell
   - ./test/build/build.sh
+  # Install webstatus
+  - sudo ./bin/install.sh -y
