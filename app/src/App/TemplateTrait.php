@@ -13,7 +13,8 @@ trait TemplateTrait
    * 
    * @return string
    */
-  public function render($name) {
+  public function render($name)
+  {
     $this->getTemplate()->assign([
       'history'    => $this->getHistory()->getStatus(),
       'app'        => $this,
@@ -28,7 +29,8 @@ trait TemplateTrait
    * 
    * @return \Rain\Tpl
    */
-  public function getTemplate() {
+  public function getTemplate()
+  {
     if (!$this->template) {
       $this->template = new Tpl();
     }
@@ -44,7 +46,8 @@ trait TemplateTrait
    * 
    * @return string
    */
-  public function bsLabel($class, $content) {
+  public function bsLabel($class, $content)
+  {
     return sprintf(
       '<span class="label label-%s">%s</span>',
       $class,
@@ -60,7 +63,8 @@ trait TemplateTrait
    * 
    * @return string
    */
-  public function getStatusLabel($value, $def) {
+  public function getStatusLabel($value, $def)
+  {
     if ($value < $this->getConfig(['global', 'thresholds', "$def.mid"])) {
       return $this->bsLabel('success pull-right', 'OK');
     } elseif ($value < $this->getConfig(['global', 'thresholds', "$def.high"])) {
@@ -75,7 +79,8 @@ trait TemplateTrait
    * 
    * @return string
    */
-  public function getNavbarMenus() {
+  public function getNavbarMenus()
+  {
     return implode('',
       array_map(
         function ($def, $route) { 
@@ -96,7 +101,8 @@ trait TemplateTrait
    * 
    * @return string
    */ 
-  function menuTemplater($def, $route) {
+  function menuTemplater($def, $route)
+  {
     $tpl = new Tpl();
 
     # 1st level
@@ -167,7 +173,8 @@ trait TemplateTrait
    * 
    * @return string
    */ 
-  protected function subMenuTemplater($def, $route, $subRoute, $subLabel) {
+  protected function subMenuTemplater($def, $route, $subRoute, $subLabel)
+  {
     $tpl = new Tpl();
 
     $icon = isset($def["sub-icon-$subRoute"])
@@ -192,10 +199,11 @@ trait TemplateTrait
    * 
    * @return string
    */
-  public function ipToLocation($content) {
+  public function ipToLocation($content)
+  {
     $ipPattern		= '/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/';
     $ipReplacement	= '<a href="http://ipv4.landrok.com/address/\1">\1</a>';
-    
+
     return preg_replace($ipPattern, $ipReplacement, $content);
   }
 
@@ -206,7 +214,8 @@ trait TemplateTrait
    * 
    * @return string
    */
-  public function formatFilesize($size) {
+  public function formatFilesize($size)
+  {
     $conf = [
       'P' => 4,
       'G' => 3,
@@ -216,10 +225,10 @@ trait TemplateTrait
 
     foreach ($conf as $letter => $exp) {
       if ($size > pow(1024, $exp)) {
-        return round($size / pow(1024, $exp), 2) . "{$letter}b";
+        return round($size / pow(1024, $exp), 2) . "{$letter}B";
       }
     }
 
-    return "{$size}b";
+    return "{$size}B";
   }
 }
