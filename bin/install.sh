@@ -138,7 +138,7 @@ if [[ -z "${TRAVIS_PHP_VERSION+x}" ]]; then
   su "$WSI_USER" -c "php composer.phar update --no-dev -o"
 else
   # Travis CI
-  su "$WSI_USER" -c "/home/travis/.phpenv/bin/php composer.phar update --no-dev -o"
+  php composer.phar update --no-dev -o
 fi
 
 
