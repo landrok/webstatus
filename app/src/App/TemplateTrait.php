@@ -201,7 +201,7 @@ trait TemplateTrait
    */
   public function ipToLocation($content)
   {
-    $ipPattern		= '/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/';
+    $ipPattern = '/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/';
     $ipReplacement	= '<a href="http://ipv4.landrok.com/address/\1">\1</a>';
 
     return preg_replace($ipPattern, $ipReplacement, $content);
