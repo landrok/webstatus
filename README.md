@@ -11,6 +11,8 @@ ________________________________________________________________________
 
 ## Features
 
+- Easy to install
+
 - A global summary for processor, memory, temperature, disk space, 
   network and more
 
@@ -22,8 +24,6 @@ ________________________________________________________________________
 - Live monitoring for CPU, memory and network bandwith usage
 
 - Easy to customize: specific processes, log files
-
-- Easy to install
 
 ________________________________________________________________________
 
