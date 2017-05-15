@@ -34,7 +34,6 @@ chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
 [[ -z "${TRAVIS_PHP_VERSION+x}" ]] || {
   export PATH=$PATH:/home/travis/.phpenv/bin
   eval "$(phpenv init -)"
-  su "$WSI_USER" -c "export PATH=$PATH:/home/travis/.phpenv/bin"
 }
 
 #*** ARGS                                                           ***#
@@ -133,7 +132,14 @@ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
-su "$WSI_USER" -c "php composer.phar update --no-dev -o"
+
+if [[ -z "${TRAVIS_PHP_VERSION+x}" ]]; then
+  # Classic install
+  su "$WSI_USER" -c "php composer.phar update --no-dev -o"
+else
+  # Travis CI
+  su "$WSI_USER" -c "/home/travis/.phpenv/bin/php composer.phar update --no-dev -o"
+fi
 
 
 # Initialize data files
