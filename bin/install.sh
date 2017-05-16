@@ -19,6 +19,7 @@ WSI_BASEDIR=$(pwd)
 WSI_BINDIR="$WSI_BASEDIR/bin"
 WSI_WEBDIR="$WSI_BASEDIR/www"
 WSI_APPDIR="$WSI_BASEDIR/app"
+WSI_CONFIG_GLOBAL_CUSFILE="global-custom.ini.php"
 WSI_USER=$(who am i | awk '{print $1}')
 WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad'                      \
   | grep -v '127.0.0.1'                                                \
@@ -27,6 +28,18 @@ WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad'                      \
 export WSI_HTTP_DEFAULT_HOST
 export WSI_DEFAULT_HTTPPORT="80"
 export WSI_APACHEDIR="/etc/apache2"
+
+# Config file must exist
+[ -f "$WSI_APPDIR/config/global.ini.php" ] || {
+  printf '"%s" must exists.' "$WSI_APPDIR/config/global.ini.php"
+  exit 1
+}
+
+# Create a custom file if not existing
+[ -f "$WSI_APPDIR/config/$WSI_CONFIG_GLOBAL_CUSFILE" ] || {
+  cp "$WSI_APPDIR/config/global.ini.php"                               \
+  "$WSI_APPDIR/config/$WSI_CONFIG_GLOBAL_CUSFILE"
+}
 
 chmod +x -R "$WSI_BINDIR"
 chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
@@ -87,7 +100,7 @@ printf "\n* Locations\n[DATA] %s\n[WEB ] %s\n[APP ] %s\n"              \
 echo ""
 echo "* Libraries"
 
-if [[ -z "${TRAVIS_PHP_VERSION+x}" && "$(dpkg -l | grep php)" = "" && "$(which php)" = "" ]]; then
+if [[ -z "${TRAVIS_PHP_VERSION+x}" && "$(dpkg -l | grep php)" = "" ]]; then
   echo "[INFO] Installing php"
   apt-get install php5 -qq || {
     echo "[ERROR] Installation failed, exiting.";

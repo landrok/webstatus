@@ -18,7 +18,8 @@ export WS_REMOTE_SERVER_URL=""
 #*** GLOBALS                                                        ***#
 cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && cd ..
 WS_PWD=$(pwd)
-WS_CONFIGDIR="$WS_PWD/app/config"
+export WS_CONFIGDIR="$WS_PWD/app/config"
+WS_BINDIR="$WS_PWD/bin"
 
 #*** FUNCTIONS                                                      ***#
 # print the header (the first line of input)
@@ -30,21 +31,24 @@ body() {
   "$@"
 }
 
+#*** CONFIG                                                         ***#
+# shellcheck source=bin/cron/loadConfig.sh disable=1091
+source "$WS_BINDIR/cron/loadConfig.sh"
+
 #*** MAIN                                                           ***#
 # Create DATA dir
 [ -d "$WSI_DATADIR" ] || mkdir -p "$WSI_DATADIR"
 
 # Remote server mode
-if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  REMOTESRV_CFG=$(awk -F "=" '/^remote.server/ {
-      gsub(/"/, "", $2);
-      print $2
-    }'                                                                 \
-    "$WS_CONFIGDIR/global.ini.php" | head -1) 
-  if [ ! -z "$REMOTESRV_CFG" ]; then
-    "bin/cron/remoteServer.sh"
-    exit
-  fi
+REMOTESRV_CFG=$(awk -F "=" '/^remote.server/ {
+    gsub(/"/, "", $2);
+    print $2
+  }'                                                                 \
+  <<< "$WS_GLOBAL_CONFIG" | head -1) 
+if [ ! -z "$REMOTESRV_CFG" ]; then
+  # shellcheck source=bin/cron/remoteServer.sh disable=1091
+  source "$WS_BINDIR/cron/remoteServer.sh"
+  exit
 fi
 
 # Create a local history file
@@ -77,7 +81,7 @@ echo "$(echo "Started at"; uptime -s; uptime -p)" | xargs              \
   > "$WSI_DATADIR/uptime.log"
 
 # processes
-# shellcheck source=bin/install/rulem.sh disable=1091
+# shellcheck source=bin/command/processes.sh disable=1091
 source "bin/command/processes.sh"
 
 # top 15 processes ordered by CPU usage
@@ -126,8 +130,7 @@ awk -F "=" '/^logs.pattern.*/ {
       gsub(/"/, "", $2);
       gsub(/logs.pattern./, "", $1);
       print $1 "|" $2;
-    }'                                                                 \
-    "$WS_CONFIGDIR/global.ini.php"                                     \
+    }' <<< "$WS_GLOBAL_CONFIG"                                         \
   | while IFS= read -r line; do
   WS_LOG_FILE=$(  echo "$line" | awk -F "|" '{print $1}')
   WS_LOG_SOURCE=$(echo "$line" | awk -F "|" '{print $2}')
@@ -151,14 +154,12 @@ done
 php "$WS_PWD/app/controllers/history.php"
 
 # Remote client mode
-if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  REMOTECLI_CFG=$(awk -F "=" '/^remote.client/ {
-      gsub(/"/, "", $2);
-      print $2
-    }'                                                                 \
-    "$WS_CONFIGDIR/global.ini.php" | head -1) 
-  if [ ! -z "$REMOTECLI_CFG" ]; then
-    "bin/cron/remoteClient.sh"
-  fi
-  exit
+REMOTECLI_CFG=$(awk -F "=" '/^remote.client/ {
+    gsub(/"/, "", $2);
+    print $2
+  }'                                                                 \
+  <<< "$WS_GLOBAL_CONFIG" | head -1) 
+if [ ! -z "$REMOTECLI_CFG" ]; then
+  # shellcheck source=bin/cron/remoteClient.sh disable=1091
+  source "bin/cron/remoteClient.sh"
 fi

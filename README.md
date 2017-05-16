@@ -64,7 +64,7 @@ ________________________________________________________________________
 
 ## Customize title
 
-- Edit app/config/global.ini.php
+- Edit app/config/global-custom.ini.php
 - In the [webapp] section, change 
   - `title` value, for web browser status bar title
   - `label` value, for the HTML navbar title
@@ -79,7 +79,7 @@ ________________________________________________________________________
 
 ## Customize processes
 
-- Edit app/config/global.ini.php
+- Edit app/config/global-custom.ini.php
 - In the [cron] section, change 
   - `processes.pattern` value
   
