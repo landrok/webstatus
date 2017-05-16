@@ -19,13 +19,14 @@ WSI_BASEDIR=$(pwd)
 WSI_BINDIR="$WSI_BASEDIR/bin"
 WSI_WEBDIR="$WSI_BASEDIR/www"
 WSI_APPDIR="$WSI_BASEDIR/app"
+WSI_USER=$(who am i | awk '{print $1}')
 WSI_HTTP_DEFAULT_HOST=$(ifconfig | grep 'inet ad'                      \
   | grep -v '127.0.0.1'                                                \
   | cut -d: -f2 | awk '{ print $1 }' | head -1)
+
 export WSI_HTTP_DEFAULT_HOST
 export WSI_DEFAULT_HTTPPORT="80"
 export WSI_APACHEDIR="/etc/apache2"
-WSI_USER=$(who am i | awk '{print $1}')
 
 chmod +x -R "$WSI_BINDIR"
 chown -R "$WSI_USER:www-data" "$WSI_BASEDIR"
@@ -55,9 +56,9 @@ source "$WSI_BASEDIR/bin/install/rulem.sh"
 
 #*** MAIN                                                           ***#
 echo ""
-rulem "[\e[100m Debian/Raspbian Web Status Installer \e[0m]"
+rulem "[\e[100m Debian, Raspbian & Ubuntu WebStatus Installer \e[0m]"
 
-# Checks that we are on a Raspbian or Debian OS
+# Check that we are on a Raspbian, Ubuntu or Debian OS
 echo ""
 echo "* System check"
 if [ "$(lsb_release -s -d | grep Raspbian)" != "" ]; then
@@ -74,7 +75,7 @@ elif [ "$(lsb_release -s -d | grep Ubuntu)" != "" ]; then
   WSI_OS="Ubuntu"
 else
   lsb_release -a 1>&2
-  echo "[ERROR] This does not seem to be Raspbian or Debian OS"
+  echo "[ERROR] This does not seem to be Raspbian, Ubuntu or Debian OS"
   exit 1
 fi
 
