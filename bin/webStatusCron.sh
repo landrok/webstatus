@@ -77,25 +77,8 @@ echo "$(echo "Started at"; uptime -s; uptime -p)" | xargs              \
   > "$WSI_DATADIR/uptime.log"
 
 # processes
-if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  PROCESSES_CFG=$(awk -F "=" '/^processes.pattern/ {
-      gsub(/"/, "", $2);
-      print $2
-    }'                                                                 \
-    "$WS_CONFIGDIR/global.ini.php" | head -1) 
-  if test -z "$PROCESSES_CFG"; then
-    PROCESSES_PATTERN=""
-  else
-    PROCESSES_PATTERN=$(printf "MEM COMMAND|%s" "$PROCESSES_CFG")
-  fi
-else
-  PROCESSES_PATTERN=""
-fi
-
-WS_PROCESSES=$(ps -A f -o pid,time,pcpu,pmem,command)
-echo "$WS_PROCESSES"                                                   \
-  | grep -E "$PROCESSES_PATTERN"                                       \
-  > "$WSI_DATADIR/processes.log"
+# shellcheck source=bin/install/rulem.sh disable=1091
+source "bin/command/processes.sh"
 
 # top 15 processes ordered by CPU usage
 top -b -n 1 -o +%CPU                                                   \
