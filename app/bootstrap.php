@@ -3,11 +3,11 @@ ini_set('display_errors', '1');
 
 use WebStatus\App;
 
-if (!is_readable(dirname(APP_DIR) . "/vendor/autoload.php")) {
+if (!is_readable(dirname(__DIR__) . "/vendor/autoload.php")) {
   die('Run ./bin/install.sh');
 }
 
-require_once dirname(APP_DIR) . "/vendor/autoload.php";
+require_once dirname(__DIR__) . "/vendor/autoload.php";
 
 # Global constants
 defined('APP_STARTIME') || define('APP_STARTIME', microtime(true));
