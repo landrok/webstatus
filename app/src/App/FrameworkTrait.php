@@ -187,19 +187,19 @@ trait FrameworkTrait
       $max = max(
         $max,
         $this->getFilemtime(CFG_DIR . "/$filename.ini.php"),
-        $this->getFilemtime(CFG_DIR . "/$filename.ini.php")
+        $this->getFilemtime(CFG_DIR . "/$filename-custom.ini.php")
       );
     }
 
     if ($this->getFilemtime(CACHE_DIR . "/config.php") > $max) {
       $this->config = include CACHE_DIR . "/config.php";
-    }
+    } else {
+      foreach ($this->configFiles as $filename) {
+        $this->config[$filename] = $this->loadIniFile($filename);
+      }
 
-    foreach ($this->configFiles as $filename) {
-      $this->config[$filename] = $this->loadIniFile($filename);
+      $this->writeCache('config', $this->config);
     }
-
-    $this->writeCache('config', $this->config);
 
     #1st level
     array_walk($this->config['routes'], function($value, $key) {
