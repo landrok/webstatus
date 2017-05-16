@@ -6,8 +6,8 @@ trait FrameworkTrait
   private $configFiles = ['routes', 'global', 'technologies'];
   private $composer;
   private $version;
-
   private $routes = [];
+  private $okStates = ['yes', 'ok', 'on', '1', 1, 'true'];
 
   /**
    * Traverse a config file and return a subset
@@ -175,6 +175,20 @@ trait FrameworkTrait
     if (isset($this->composer[$key])) {
       return $this->composer[$key];
     }
+  }
+
+  /**
+   * Validate an option value
+   * 
+   * @param string|int|float $value
+   * 
+   * @return bool
+   * 
+   * @api
+   */
+  public function validateState($value)
+  {
+    return in_array($value, $this->okStates);
   }
 
   /**

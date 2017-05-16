@@ -202,7 +202,12 @@ trait TemplateTrait
   public function ipToLocation($content)
   {
     $ipPattern = '/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/';
-    $ipReplacement	= '<a href="http://ipv4.landrok.com/address/\1">\1</a>';
+
+    if (!$this->validateState($this->getConfig(['global', 'webapp', 'ip-hide']))) {
+      $ipReplacement	= '<a href="http://ipv4.landrok.com/address/\1">\1</a>';
+    } else {
+      $ipReplacement	= 'ww.xx.yy.zz';
+    }
 
     return preg_replace($ipPattern, $ipReplacement, $content);
   }
