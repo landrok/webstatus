@@ -270,7 +270,10 @@ trait FrameworkTrait
     $config = parse_ini_file(CFG_DIR . "/$filename.ini.php", true);
 
     if (is_readable(CFG_DIR . "/$filename-custom.ini.php")) {
-      $config += parse_ini_file(CFG_DIR . "/$filename-custom.ini.php", true);
+      $config = array_merge(
+        $config,
+        parse_ini_file(CFG_DIR . "/$filename-custom.ini.php", true)
+      );
     }
 
     return $config;
