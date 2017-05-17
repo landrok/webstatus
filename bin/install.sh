@@ -64,8 +64,8 @@ if [ -z ${WSI_AUTOINSTALL+x} ]; then
 fi
 
 #*** FUNCTIONS                                                      ***#
-# shellcheck source=bin/install/rulem.sh disable=1091
-source "$WSI_BASEDIR/bin/install/rulem.sh"
+# shellcheck source=bin/lib/bash-utils.sh disable=1091
+source "bin/lib/bash-utils.sh"
 
 #*** MAIN                                                           ***#
 echo ""

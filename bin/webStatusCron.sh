@@ -22,14 +22,8 @@ export WS_CONFIGDIR="$WS_PWD/app/config"
 WS_BINDIR="$WS_PWD/bin"
 
 #*** FUNCTIONS                                                      ***#
-# print the header (the first line of input)
-# and then run the specified command on the body (the rest of the input)
-# use it in a pipeline, e.g. ps | body grep somepattern
-body() {
-  IFS= read -r header
-  printf '%s\n' "$header"
-  "$@"
-}
+# shellcheck source=bin/lib/bash-utils.sh disable=1091
+source "bin/lib/bash-utils.sh"
 
 #*** CONFIG                                                         ***#
 # shellcheck source=bin/cron/loadConfig.sh disable=1091

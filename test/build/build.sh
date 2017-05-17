@@ -8,18 +8,8 @@
 set -eo pipefail
 test -n "${DEBUG:-}" && set -x
 
-success() {
-  printf "\r  [ \033[00;32mOK\033[0m ] Linting %s...\n" "$1"
-}
-
-fail() {
-  printf "\r  [\033[0;31mFAIL\033[0m] Linting %s...\n" "$1"
-  exit 1
-}
-
-info() {
-  printf "\r  [ \033[00;34m??\033[0m ] %s\n" "$1"
-}
+# shellcheck source=bin/lib/bash-utils.sh disable=1091
+source "bin/lib/bash-utils.sh"
 
 check() {
   local script="$1"

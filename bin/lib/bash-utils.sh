@@ -1,4 +1,25 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+#*** build.sh                                                       ***#
+# 
+# This script lints all .sh files of the git repository
+#
+
+set -eo pipefail
+test -n "${DEBUG:-}" && set -x
+
+success() {
+  printf "\r  [ \033[00;32mOK\033[0m ] Linting %s...\n" "$1"
+}
+
+fail() {
+  printf "\r  [\033[0;31mFAIL\033[0m] Linting %s...\n" "$1"
+  exit 1
+}
+
+info() {
+  printf "\r  [ \033[00;34m??\033[0m ] %s\n" "$1"
+}
 
 #|------------------------------------------------------------------------------
 #|	Print a ruler in terminal window with message
@@ -18,4 +39,13 @@ rulem ()  {
 	fi
 	# Fill line with ruler character ($2, default "-"), reset cursor, move 2 cols right, print message
 	printf -v _hr "%*s" "$(tput cols)" && echo -en "${_hr// /${2--}}" && echo -e "\r\033[2C$1"
+}
+
+# print the header (the first line of input)
+# and then run the specified command on the body (the rest of the input)
+# use it in a pipeline, e.g. ps | body grep somepattern
+body() {
+  IFS= read -r header
+  printf '%s\n' "$header"
+  "$@"
 }

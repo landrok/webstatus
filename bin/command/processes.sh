@@ -8,19 +8,15 @@ set -o nounset
   exit 1
 }
 
-if [ -f "$WS_CONFIGDIR/global.ini.php" ]; then
-  PROCESSES_CFG=$(awk -F "=" '/^processes.pattern/ {
-      gsub(/"/, "", $2);
-      print $2
-    }'                                                                 \
-    "$WS_CONFIGDIR/global.ini.php" | head -1) 
-  if test -z "$PROCESSES_CFG"; then
-    PROCESSES_PATTERN=""
-  else
-    PROCESSES_PATTERN=$(printf "MEM COMMAND|%s" "$PROCESSES_CFG")
-  fi
-else
+PROCESSES_CFG=$(awk -F "=" '/^processes.pattern/ {
+    gsub(/"/, "", $2);
+    print $2
+  }' <<< "$WS_GLOBAL_CONFIG" | head -1) 
+
+if test -z "$PROCESSES_CFG"; then
   PROCESSES_PATTERN=""
+else
+  PROCESSES_PATTERN=$(printf "MEM COMMAND|%s" "$PROCESSES_CFG")
 fi
 
 WS_PROCESSES=$(ps -A f -o pid,time,pcpu,pmem,command)
