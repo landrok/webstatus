@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-#*** build.sh                                                       ***#
+#*** bash-utils.sh                                                  ***#
 # 
-# This script lints all .sh files of the git repository
+# This script is a collection of shell/bash functions
 #
 
 set -eo pipefail

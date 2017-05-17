@@ -173,7 +173,10 @@ fi
 echo "[INFO] Crontab configuration"
 TMP=${TMPDIR:-/tmp}/webstatus-cron.$$
 trap 'rm -f "$TMP"; exit 1' 0 SIGHUP SIGINT SIGQUIT SIGPIPE SIGTERM
-crontab -l | sed '/webStatusCron.sh/d' > "$TMP"
+set +e
+crontab -l                                                             \
+  | sed '/no crontab for root/d'                                       \
+  | sed '/webStatusCron.sh/d' > "$TMP"
 {
   printf "\n# webStatusCron.sh | %s \n"      "$WSI_BINDIR";
   printf "@reboot %s/webStatusCron.sh\n"     "$WSI_BINDIR";
@@ -181,6 +184,7 @@ crontab -l | sed '/webStatusCron.sh/d' > "$TMP"
 } >> "$TMP"
 crontab < "$TMP"
 rm -f "$TMP"
+set -e
 trap 0
 
 #*** Print success message                                          ***#
