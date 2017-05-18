@@ -42,10 +42,10 @@ fi
 echo "Archiving $WSI_DATADIR"
 cd "$WSI_DATADIR"
 rm "$WC_ZIPNAME"
-tar -zcf "$WC_ZIPNAME" ./*glob*
+tar -zcf "$WC_ZIPNAME" .
 chmod 777 "$WC_ZIPNAME" 
 cd "$WS_PWD"
 
 # Sending to server
 curl -iv -X POST -H "Content-Type: multipart/form-data" -F \
- "data=@${WS_PWD}/app/cache/webstatus.tar.gz" "$WS_REMOTE_SERVER_URL"
+ "data=@${WC_ZIPNAME}" "$WS_REMOTE_SERVER_URL"

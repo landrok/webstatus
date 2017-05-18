@@ -12,8 +12,6 @@ fi
 
 #*** CONFIG                                                         ***#
 WSI_DATADIR="/dev/shm/webstatus"
-# Used by remote client mode
-export WS_REMOTE_SERVER_URL=""
 
 #*** GLOBALS                                                        ***#
 cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && cd ..
@@ -28,6 +26,13 @@ source "bin/lib/bash-utils.sh"
 #*** CONFIG                                                         ***#
 # shellcheck source=bin/cron/loadConfig.sh disable=1091
 source "$WS_BINDIR/cron/loadConfig.sh"
+
+# Used by remote client mode
+export WS_REMOTE_SERVER_URL=$(awk -F "=" '/^remote.url/ {
+    gsub(/"/, "", $2);
+    print $2
+  }'                                                                 \
+  <<< "$WS_GLOBAL_CONFIG" | head -1) 
 
 #*** MAIN                                                           ***#
 # Create DATA dir
