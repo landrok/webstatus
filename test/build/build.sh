@@ -13,12 +13,12 @@ source "bin/lib/bash-utils.sh"
 
 check() {
   local script="$1"
-  shellcheck "$script" || fail "$script"
-  success "$script"
+  shellcheck "$script" || fail "Linting $script ..."
+  success "Linting $script ..."
 }
 
 find_scripts() {
-  git ls-tree -r HEAD | grep -E '^1007|.*\..*sh$' | awk '{print $4}'
+  git ls-tree -r HEAD | grep -E '^1007.*\.sh$' | awk '{print $4}'
 }
 
 is_compatible() {

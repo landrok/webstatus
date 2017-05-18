@@ -4,34 +4,47 @@
 # 
 # This script is a collection of shell/bash functions
 #
-
+# FUNCTION  : USAGE
+#
+# success() : success "My message"
+# fail()    : fail "My message"
+# info()    : info "My message"
+# rulem()   : rulem "My message"
+# rulem()   : rulem "My message" "*"
+# body()    : ps | body grep somepattern
+#
+#***                                                                ***#
 set -eo pipefail
 test -n "${DEBUG:-}" && set -x
 
+## print a success message | status=OK, color=green
+#
+# @param string $1
 success() {
-  printf "\r  [ \033[00;32mOK\033[0m ] Linting %s...\n" "$1"
+  printf "\r  [ \033[00;32mOK\033[0m ] %s\n" "$1"
 }
 
+## print a failure message | status=FAIL, color=red
+#
+# @param string $1
+# @throws an exit status code 1
+#
 fail() {
-  printf "\r  [\033[0;31mFAIL\033[0m] Linting %s...\n" "$1"
+  printf "\r  [\033[0;31mFAIL\033[0m] %s\n" "$1"
   exit 1
 }
 
+## print an info message | status=!!, color=blue
+#
+# @param string $1
 info() {
-  printf "\r  [ \033[00;34m??\033[0m ] %s\n" "$1"
+  printf "\r  [ \033[00;34m!!\033[0m ] %s\n" "$1"
 }
 
-#|------------------------------------------------------------------------------
-#|	Print a ruler in terminal window with message
-#|
-#|		set -l _hr..printf assigns the result of the string interpolation to the local variable “_hr”
-#|		%*s waits for numeric input to define the width of the string, which in this case will be output #|			as that number of spaces
-#|		(tput cols) is replaced with the number of columns in the current terminal as reported by tput
-#|			(passed to the %*s)
-#|		The variable is then output with sed substitution to	replace the spaces with a - (default) or the #|			desired character
-#|    https://gist.github.com/ttscoff/4fef9fb5a945f5748c84
-#|------------------------------------------------------------------------------
-## Print horizontal ruler with message
+## print horizontal ruler with message
+#
+# @param string $1 A message
+# @param string $2 optional ruler sign
 rulem ()  {
 	if [ $# -eq 0 ]; then
 		echo "Usage: rulem MESSAGE [RULE_CHARACTER]"
@@ -41,7 +54,7 @@ rulem ()  {
 	printf -v _hr "%*s" "$(tput cols)" && echo -en "${_hr// /${2--}}" && echo -e "\r\033[2C$1"
 }
 
-# print the header (the first line of input)
+## print the header (the first line of input)
 # and then run the specified command on the body (the rest of the input)
 # use it in a pipeline, e.g. ps | body grep somepattern
 body() {
