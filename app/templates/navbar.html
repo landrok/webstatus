@@ -16,7 +16,6 @@
       <ul class="nav navbar-nav">
 {autoescape="off"}{$app->getNavbarMenus()}{/autoescape}
       </ul>
-      {
       <ul class="nav navbar-nav navbar-right">
         {if="$app->getConfig(['global', 'remote', 'remote.server'])"}
         <li>
