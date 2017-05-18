@@ -44,14 +44,15 @@ info() {
 ## print horizontal ruler with message
 #
 # @param string $1 A message
-# @param string $2 optional ruler sign
+# @param string $2 An optional ruler sign
 rulem ()  {
-	if [ $# -eq 0 ]; then
-		echo "Usage: rulem MESSAGE [RULE_CHARACTER]"
-		return 1
-	fi
-	# Fill line with ruler character ($2, default "-"), reset cursor, move 2 cols right, print message
-	printf -v _hr "%*s" "$(tput cols)" && echo -en "${_hr// /${2--}}" && echo -e "\r\033[2C$1"
+  if [ $# -eq 0 ]; then
+    echo "Usage: rulem MESSAGE [RULE_CHARACTER]"
+    return 1
+  fi
+
+  # Fill line with ruler character ($2, default "-"), reset cursor, move 2 cols right, print message
+  printf -v _hr "%*s" "$(tput cols)" && echo -en "${_hr// /${2--}}" && echo -e "\r\033[2C$1"
 }
 
 ## print the header (the first line of input)
