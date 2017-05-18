@@ -18,7 +18,7 @@ check() {
 }
 
 find_scripts() {
-  git ls-tree -r HEAD | grep -E '^1007.*\.sh$' | awk '{print $4}'
+  git ls-tree -r HEAD | grep -E '^1007.*\.sh|bash|ksh$' | awk '{print $4}'
 }
 
 is_compatible() {
@@ -26,7 +26,7 @@ is_compatible() {
 }
 
 check_all_executables() {
-  echo "Linting all executables and .*sh files..."
+  echo "Linting all *.sh|bash|ksh files..."
   find_scripts | while read -r script; do
     if is_compatible "$script"; then
       check "$script"
