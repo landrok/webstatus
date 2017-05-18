@@ -28,11 +28,12 @@ source "bin/lib/bash-utils.sh"
 source "$WS_BINDIR/cron/loadConfig.sh"
 
 # Used by remote client mode
-export WS_REMOTE_SERVER_URL=$(awk -F "=" '/^remote.url/ {
+WS_REMOTE_SERVER_URL=$(awk -F "=" '/^remote.url/ {
     gsub(/"/, "", $2);
     print $2
   }'                                                                 \
   <<< "$WS_GLOBAL_CONFIG" | head -1) 
+export WS_REMOTE_SERVER_URL
 
 #*** MAIN                                                           ***#
 # Create DATA dir
