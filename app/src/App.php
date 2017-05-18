@@ -121,7 +121,7 @@ class App
       case 'G':
         return 1024 * 1024 * 1024 * str_replace('G', '', $string);
       default:
-        return 1 * $string;
+        return 1 * (float)$string;
     }
   }
 }
