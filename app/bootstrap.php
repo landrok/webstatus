@@ -17,7 +17,13 @@ defined('DATA_DIR')     || define('DATA_DIR', '/dev/shm/webstatus');
 defined('CFG_DIR')      || define('CFG_DIR', APP_DIR . '/config');
 defined('CACHE_DIR')    || define('CACHE_DIR', APP_DIR . '/cache');
 
-$app = new App();
+$app = new App(
+  $_SERVER['SCRIPT_NAME'],
+  isset($_REQUEST['id']) 
+    ? $_REQUEST['id'] 
+    : null
+);
+
 $template = $app->getTemplate();
 
 defined('BASEURL')     || define('BASEURL', $app->getBaseUrl());

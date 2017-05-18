@@ -15,7 +15,11 @@ class App
   protected $request;
   protected $history;
 
-  public function __construct()
+  /**
+   * @param string $script
+   * @param string $id
+   */
+  public function __construct($script, $id = null)
   {
     Tpl::configure([
       "tpl_dir"    => APP_DIR . "/templates/",
@@ -26,16 +30,14 @@ class App
 
     $this->context = !preg_match(
         '@.*/(.*)\.php@i',
-        $_SERVER['SCRIPT_NAME'],
+        $script,
         $matches
       )
       ? 'index' : $matches[1];
 
-    $this->request = isset(
-        $_REQUEST['id'], 
-        $this->getRoute($this->context)[$_REQUEST['id']]
-      )
-      ? $_REQUEST['id'] 
+    $this->request = null !== $id
+        && isset($this->getRoute($this->context)[$id])
+      ? $id
       : $this->getRouteKey($this->context);
 
     $this->history = new History();
