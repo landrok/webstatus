@@ -137,16 +137,14 @@ class History
     $cacheSize = is_readable(CACHE_DIR . '/history.php')
             ? filesize(CACHE_DIR . '/history.php') : 0;
 
-    $items = [];
     $max = 0;
     $num = 0;
     array_walk($this->status,
-      function ($metric, $index) use (& $items, & $max, & $num) {
-          $items[$index] = $metric->getCount();
-          if (!$max) {
-            $max = $metric->getMaxItems();
-            $num = $metric->getCount();
-          }
+      function ($metric, $index) use (& $max, & $num) {
+        if (!$max) {
+          $max = $metric->getMaxItems();
+          $num = $metric->getCount();
+        }
       }
     );
 
