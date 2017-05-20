@@ -1,4 +1,4 @@
-# WebStatus [![Build Status](https://travis-ci.org/landrok/webstatus.png)](https://travis-ci.org/landrok/webstatus)
+# WebStatus [![Build Status](https://travis-ci.org/landrok/webstatus.png)](https://travis-ci.org/landrok/webstatus) [![Code Climate](https://codeclimate.com/github/landrok/webstatus/badges/gpa.svg)](https://codeclimate.com/github/landrok/webstatus) [![Test Coverage](https://codeclimate.com/github/landrok/webstatus/badges/coverage.svg)](https://codeclimate.com/github/landrok/webstatus/coverage)
 
 It is a simple and easy monitoring tool. It was designed for 
 Raspbian OS but is compatible with Debian and Ubuntu.
