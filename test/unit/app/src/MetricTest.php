@@ -11,7 +11,7 @@ class MetricTest extends TestCase
   {
     // scenario / expected / method / param1 / param2 / param3
     return [
-      ['assertEquals', 180, 'getMaxItems'                               ],
+      ['assertEquals', 200, 'getMaxItems'                               ],
       ['assertEquals', 'cpu', 'getName'                                 ],
       ['assertInternalType', 'array', 'getData'                         ],
       ['assertInternalType', 'float', 'getAvg'                          ],
