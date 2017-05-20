@@ -38,7 +38,7 @@ trait FrameworkTrait
           ? $this->getConfig($vector, $data[$key])
           : $data[$key];
       }
-      
+
       return;
     }
 
@@ -77,7 +77,7 @@ trait FrameworkTrait
    */
   public function getRouteKey($name)
   {
-    if (isset($this->routes[$name][0])) {
+    if (isset($this->routes[$name]) && count($this->routes[$name])) {
       return array_keys($this->routes[$name])[0];
     }
   }
