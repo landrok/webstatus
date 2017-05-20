@@ -3,7 +3,6 @@
 namespace WebStatusTest;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
 use WebStatus\App as App;
 
 class MetricTest extends TestCase
@@ -14,12 +13,12 @@ class MetricTest extends TestCase
     return [
       ['assertEquals', 180, 'getMaxItems'                               ],
       ['assertEquals', 'cpu', 'getName'                                 ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_ARRAY, 'getData'      ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_FLOAT, 'getAvg'       ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_NUMERIC, 'getLast'    ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_NUMERIC, 'getMax'     ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_NUMERIC, 'getMin'     ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_INT, 'getTrend'       ],
+      ['assertInternalType', 'array', 'getData'                         ],
+      ['assertInternalType', 'float', 'getAvg'                          ],
+      ['assertInternalType', 'numeric', 'getLast'                       ],
+      ['assertInternalType', 'numeric', 'getMax'                        ],
+      ['assertInternalType', 'numeric', 'getMin'                        ],
+      ['assertInternalType', 'int', 'getTrend'                          ],
     ];
   }
 

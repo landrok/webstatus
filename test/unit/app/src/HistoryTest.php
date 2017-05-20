@@ -3,7 +3,6 @@
 namespace WebStatusTest;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
 use WebStatus\App as App;
 
 class HistoryTest extends TestCase
@@ -12,8 +11,8 @@ class HistoryTest extends TestCase
   {
     // scenario / expected / method / param1 / param2 / param3
     return [
-      ['assertInternalType', PHPUnit_IsType::TYPE_ARRAY, 'getData'      ],
-      ['assertInternalType', PHPUnit_IsType::TYPE_ARRAY, 'getStatus'    ],
+      ['assertInternalType', 'array', 'getData'      ],
+      ['assertInternalType', 'array', 'getStatus'    ],
       ['assertEquals', null, 'save'                                     ],
       ['assertInstanceOf', 'WebStatus\Metric', 'get', 'new-metric'      ],
     ];
