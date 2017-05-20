@@ -99,8 +99,8 @@ class App
    * 
    * @return string
    * 
-   * @todo throws Exception instead of dying
-   * 
+   * @throws \Exception
+   *
    * @api
    */
   public function read($path)
@@ -109,7 +109,9 @@ class App
       return file_get_contents($path);
     }
 
-    die(sprintf('File "%s" is not readable.', $path));
+    throw new Exception(
+      sprintf('File "%s" is not readable.', $path)
+    );
   }
 
   /**
@@ -121,7 +123,7 @@ class App
    * 
    * @return int|float
    */
-  private function transformValue($string)
+  protected function transformValue($string)
   {
     switch (substr($string, strlen($string) - 1)) {
       case 'K':

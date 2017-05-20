@@ -1,6 +1,8 @@
 <?php
 namespace WebStatus\App;
 
+use Exception;
+
 trait FrameworkTrait
 {
   private $configFiles = ['routes', 'global', 'technologies'];
@@ -249,11 +251,13 @@ trait FrameworkTrait
    * @param string $filename
    * 
    * @return array
+   * 
+   * @throws \Exception
    */
   protected function loadIniFile($filename)
   {
     if (!is_readable(CFG_DIR . "/$filename.ini.php")) {
-      die(
+      throw new Exception (
         sprintf(
           '[ERROR] %s/%s.ini.php is not readable.', 
           CFG_DIR ,
