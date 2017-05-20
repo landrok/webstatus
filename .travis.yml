@@ -29,3 +29,10 @@ script:
   - ./test/build/build.sh
   # Install webstatus
   - sudo ./bin/install.sh -y
+  # Run PHP unit tests
+  - phpunit -c test/unit/phpunit.xml.dist
+  
+
+after_script:
+  ## Code climate
+  - ./vendor/bin/test-reporter

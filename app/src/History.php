@@ -112,7 +112,7 @@ class History
 
     array_walk($this->status,
       function ($metric, $index) use (& $data) {
-          $data[$index] = $metric->getData();
+        $data[$index] = $metric->getData();
       }
     );
 

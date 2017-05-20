@@ -239,7 +239,7 @@ trait TemplateTrait
       'P' => 4,
       'G' => 3,
       'M' => 2,
-      'k' => 1
+      'K' => 1
     ];
 
     foreach ($conf as $letter => $exp) {

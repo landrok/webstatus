@@ -67,7 +67,7 @@ trait FrameworkTrait
   }
 
   /**
-   * Get route key
+   * Get first route key
    * 
    * @param string $name
    * 
@@ -236,7 +236,7 @@ trait FrameworkTrait
    * 
    * @param string $path
    * 
-   * @return int;
+   * @return int
    */
   public function getFilemtime($path)
   {

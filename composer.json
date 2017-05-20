@@ -10,9 +10,13 @@
         "php": ">=5.4.0 || ^7.0",
         "rain/raintpl": ">=3.0.0"
     },
+    "require-dev": {
+        "codeclimate/php-test-reporter": "dev-master"
+    },
     "autoload": {
         "psr-4": {
-            "WebStatus\\": "app/src/"
+            "WebStatus\\": "app/src/",
+            "WebStatusTest\\": "test/unit/"
         }
     }
 }

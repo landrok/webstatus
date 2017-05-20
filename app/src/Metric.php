@@ -5,14 +5,22 @@ class Metric
 {
   private $data = [];
   private $name = '';
-  private $max  = 10000;
+  private $max  = 180;
 
-  public function __construct($name, $max = 1440) {
+  public function __construct($name, $max = 180)
+  {
     $this->name = $name;
     $this->max  = $max;
   }
 
-  public function addValue($value) {
+  /**
+   * Add a value in the stack
+   *
+   * @param int|float $value
+   * @api
+   */
+  public function addValue($value)
+  {
     while ($this->getCount() >= $this->max) {
       array_shift($this->data);
     }
@@ -20,23 +28,51 @@ class Metric
     $this->data[] = $value;
   }
 
-  public function getData() {
+  /**
+   * Get all data stack
+   *
+   * @return array
+   * @api
+   */
+  public function getData()
+  {
     return $this->data;
   }
 
-  public function getName() {
+  /**
+   * Get metric name
+   *
+   * @return string
+   * @api
+   */
+  public function getName()
+  {
     return $this->name;
   }
 
-  public function getAvg() {
+  /**
+   * Get average value
+   *
+   * @return float
+   * @api
+   */
+  public function getAvg()
+  {
     if (!$this->getCount()) {
-      return 0;
+      return (float)0;
     }
 
-    return array_sum($this->data) / $this->getCount();
+    return (float)array_sum($this->data) / $this->getCount();
   }
 
-  public function getLast() {
+  /**
+   * Get last value
+   *
+   * @return int|float
+   * @api
+   */
+  public function getLast()
+  {
     if (!$this->getCount()) {
       return 0;
     }
@@ -44,27 +80,56 @@ class Metric
     return $this->data[$this->getCount() - 1];
   }
 
-  public function getMax() {
+  /**
+   * Get maximum value
+   *
+   * @return int|float
+   * @api
+   */
+  public function getMax()
+  {
     if (!$this->getCount()) {
       return 0;
     }
 
-    return array_reduce($this->data, function ($carry, $item) {
-      return max($carry, $item);
-    }, 0);
+    return array_reduce(
+      $this->data,
+      function ($carry, $item) {
+        return max($carry, $item);
+      }, 
+      0
+    );
   }
 
-  public function getMin() {
+  /**
+   * Get minimum value
+   *
+   * @return int|float
+   * @api
+   */
+  public function getMin()
+  {
     if (!$this->getCount()) {
       return 0;
     }
 
-    return array_reduce($this->data, function ($carry, $item) {
-      return min($carry, $item);
-    }, 0);
+    return array_reduce(
+      $this->data,
+      function ($carry, $item) {
+        return min($carry, $item);
+      },
+      0
+    );
   }
 
-  public function getTrend($value, $prct_err = 0.1) {
+  /**
+   * Get trends flag
+   *
+   * @return int
+   * @api
+   */
+  public function getTrend($value, $prct_err = 0.1)
+  {
     if ($this->getCount() < 10) {
       return 0;
     }
@@ -81,11 +146,25 @@ class Metric
     return 1;
   }
 
-  public function getCount() {
+  /**
+   * Get number of values
+   *
+   * @return int
+   * @api
+   */
+  public function getCount()
+  {
     return count($this->data);
   }
 
-  public function getMaxItems() {
+  /**
+   * Get maximum number of values
+   *
+   * @return int
+   * @api
+   */
+  public function getMaxItems()
+  {
     return $this->max;
   }
 }

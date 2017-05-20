@@ -9,6 +9,11 @@ if (!is_readable(dirname(__DIR__) . "/vendor/autoload.php")) {
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
+if (!isset($context, $id)) {
+  $context = $_SERVER['SCRIPT_NAME'];
+  $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
+}
+
 # Global constants
 defined('APP_STARTIME') || define('APP_STARTIME', microtime(true));
 defined('APP_DIR')      || define('APP_DIR', __DIR__);
@@ -17,12 +22,7 @@ defined('DATA_DIR')     || define('DATA_DIR', '/dev/shm/webstatus');
 defined('CFG_DIR')      || define('CFG_DIR', APP_DIR . '/config');
 defined('CACHE_DIR')    || define('CACHE_DIR', APP_DIR . '/cache');
 
-$app = new App(
-  $_SERVER['SCRIPT_NAME'],
-  isset($_REQUEST['id']) 
-    ? $_REQUEST['id'] 
-    : null
-);
+$app = new App($context, $id);
 
 $template = $app->getTemplate();
 

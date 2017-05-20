@@ -63,6 +63,8 @@ class App
    * Get JS-formatted microtime
    *
    * @return int
+   * 
+   * @api
    */
   public function getFormattedMicrotime()
   {
@@ -78,6 +80,8 @@ class App
    * @param int $max Maximum number of elements
    * 
    * @return int
+   * 
+   * @api
    */
   public function getEstimatedFilesize($size, $num, $max)
   {
@@ -94,6 +98,10 @@ class App
    * @param string $path
    * 
    * @return string
+   * 
+   * @todo throws Exception instead of dying
+   * 
+   * @api
    */
   public function read($path)
   {
