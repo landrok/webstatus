@@ -77,6 +77,15 @@ ________________________________________________________________________
 
 ________________________________________________________________________
 
+## Hide IP addresses
+
+_This feature is only working for IPv4 addresses_
+
+- Edit app/config/global-custom.ini.php
+- In the [webapp] section, set `hide-ip` value to `on` or `1`
+
+________________________________________________________________________
+
 ## Customize thresholds
 
 - Edit app/config/global-custom.ini.php
