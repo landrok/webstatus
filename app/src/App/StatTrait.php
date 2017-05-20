@@ -9,8 +9,11 @@ trait StatTrait
    * Get OS description
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getOs() {
+  public function getOs()
+  {
     if (!isset($this->logs['os'])) {
       $this->logs['os'] = explode(
         "\n",
@@ -25,8 +28,11 @@ trait StatTrait
    * Get kernel version
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getKernel() {
+  public function getKernel()
+  {
     if (!isset($this->logs['os'])) {
       $this->logs['os'] = explode(
         "\n",
@@ -42,8 +48,11 @@ trait StatTrait
    * Get CPU temperature
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getCpuTemperature() {
+  public function getCpuTemperature()
+  {
     if (!isset($this->logs['os'])) {
       $this->logs['os'] = explode(
         "\n",
@@ -59,8 +68,11 @@ trait StatTrait
    * Get uptime
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getUp() {
+  public function getUp()
+  {
     if (!isset($this->logs['uptime'])) {
       $this->logs['uptime'] = explode(
         "up",
@@ -76,8 +88,11 @@ trait StatTrait
    * Get started at
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getStarted() {
+  public function getStarted()
+  {
     if (!isset($this->logs['uptime'])) {
       $this->logs['uptime'] = explode(
         "up",
@@ -97,9 +112,12 @@ trait StatTrait
   /**
    * Get memory usage
    * 
-   * @return string
+   * @return float
+   * 
+   * @api
    */
-  public function getMemUsage() {
+  public function getMemUsage()
+  {
     if (!isset($this->logs['memory'])) {
       $this->logs['memory'] = explode(
         "\n",
@@ -121,9 +139,12 @@ trait StatTrait
   /**
    * Get swap usage
    * 
-   * @return string
+   * @return float
+   * 
+   * @api
    */
-  public function getSwapUsage() {
+  public function getSwapUsage()
+  {
     if (!isset($this->logs['memory'])) {
       $this->logs['memory'] = explode(
         "\n",
@@ -145,18 +166,24 @@ trait StatTrait
   /**
    * Get CPU usage
    * 
-   * @return string
+   * @return float
+   * 
+   * @api
    */
-  public function getCpuUsage() {
-    return $this->getHistory('cpu')->getLast();
+  public function getCpuUsage()
+  {
+    return (float)$this->getHistory('cpu')->getLast();
   }
 
   /**
    * Get disk space usage
    * 
    * @return float
+   * 
+   * @api
    */
-  public function getDiskUsage() {
+  public function getDiskUsage() 
+  {
     if (!isset($this->logs['hdd'])) {
       $this->logs['hdd'] = explode(
         "\n",
@@ -177,8 +204,11 @@ trait StatTrait
    * Get number of open sockets
    * 
    * @return int
+   * 
+   * @api
    */
-  public function getSocketNum() {
+  public function getSocketNum() 
+  {
     if (!isset($this->logs['tcp-sockets'])) {
       $this->logs['tcp-sockets'] = explode(
         "\n",
@@ -194,8 +224,11 @@ trait StatTrait
    * Get number of listening servers
    * 
    * @return int
+   * 
+   * @api
    */
-  public function getServerNum() {
+  public function getServerNum()
+  {
     if (!isset($this->logs['servers'])) {
       $this->logs['servers'] = $this->read(DATA_DIR . '/servers.log');
     }
@@ -207,8 +240,11 @@ trait StatTrait
    * Get input traffic
    * 
    * @return float
+   * 
+   * @api
    */
-  public function getIn() {
+  public function getIn()
+  {
     if (!isset($this->logs['ifstat'])) {
       $this->logs['ifstat'] = preg_split(
         '/\s+/', 
@@ -225,18 +261,19 @@ trait StatTrait
     }
 
     $count = count($this->logs['ifstat']);
-    return isset($this->logs['ifstat'][$count - 2]) 
-           ? 1 * $this->logs['ifstat'][$count - 2] : 0;
-
-    return $in * 1;
+    return (float)(isset($this->logs['ifstat'][$count - 2]) 
+           ? 1 * $this->logs['ifstat'][$count - 2] : 0);
   }
 
   /**
    * Get output traffic
    * 
    * @return float
+   * 
+   * @api
    */
-  public function getOut() {
+  public function getOut()
+  {
     if (!isset($this->logs['ifstat'])) {
       $this->logs['ifstat'] = preg_split(
         '/\s+/', 
@@ -253,17 +290,21 @@ trait StatTrait
     }
 
     $count = count($this->logs['ifstat']);
-    return isset($this->logs['ifstat'][$count - 1]) 
-           ? 1 * $this->logs['ifstat'][$count - 1] : 0;
+    return (float)(isset($this->logs['ifstat'][$count - 1]) 
+           ? 1 * $this->logs['ifstat'][$count - 1] : 0);
   }
 
   /**
    * Get number of processes that matches name
    * 
    * @param string $name
+   * 
    * @return int
+   * 
+   * @api
    */
-  public function getProcessNum($name) {
+  public function getProcessNum($name)
+  {
     if (!isset($this->logs['processes'])) {
       $this->logs['processes'] = explode(
         "\n", 
@@ -286,8 +327,11 @@ trait StatTrait
    * Get number of connected users
    * 
    * @return int
+   * 
+   * @api
    */
-  public function getUserNum() {
+  public function getUserNum()
+  {
     if (!isset($this->logs['users'])) {
       $this->logs['users'] = explode(
         "\n", 
@@ -303,8 +347,11 @@ trait StatTrait
    * Get number of interfaces
    * 
    * @return int
+   * 
+   * @api
    */
-  public function getIfNum() {
+  public function getIfNum()
+  {
     if (!isset($this->logs['interfaces'])) {
       $this->logs['interfaces'] = $this->read(
         DATA_DIR . '/interfaces.log'
@@ -321,8 +368,11 @@ trait StatTrait
    * Get last datetime for status
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getStatusDate() {
+  public function getStatusDate()
+  {
     if (!is_readable(DATA_DIR . '/status.log')) {
       return date("D M d H:i:s T Y", time());
     }
@@ -334,8 +384,11 @@ trait StatTrait
    * Get hostname
    * 
    * @return string
+   * 
+   * @api
    */
-  public function getHostname() {
+  public function getHostname()
+  {
     if (!isset($this->logs['status'])) {
       $this->logs['status'] = $this->read(
         DATA_DIR . '/status.log'
@@ -352,8 +405,11 @@ trait StatTrait
    * CPU Usage, not based on logged file
    * 
    * @return float
+   * 
+   * @api
    */
-  function getLocalCpuUsage() {
+  function getLocalCpuUsage()
+  {
     $load = sys_getloadavg();
     $cpu = substr_count(
       shell_exec('cat /proc/cpuinfo'),
