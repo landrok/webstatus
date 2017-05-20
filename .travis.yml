@@ -22,10 +22,10 @@ install:
 
 before_script:
   - composer self-update
-  # PHPUnit
-  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" ]]; then composer require --no-update phpunit/phpunit 5.7.19; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:1} !== "5" ]]; then composer require --no-update phpunit/phpunit 6.1.3; fi
   - composer install --prefer-source --no-interaction
+  # PHPUnit
+  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" ]]; then composer require phpunit/phpunit 5.7.19; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:1} != "5" ]]; then composer require phpunit/phpunit 6.1.3; fi
   - ls vendor/bin/
   - chmod +x vendor/bin/phpunit
   - sudo mv vendor/bin/phpunit /usr/local/bin/phpunit
