@@ -19,7 +19,7 @@ class App
    * @param string $script
    * @param string $id
    */
-  public function __construct($script, $id = null)
+  public function __construct($script, $request = null)
   {
     Tpl::configure([
       "tpl_dir"    => APP_DIR . "/templates/",
@@ -35,9 +35,9 @@ class App
       )
       ? 'index' : $matches[1];
 
-    $this->request = null !== $id
-        && isset($this->getRoute($this->context)[$id])
-      ? $id
+    $this->request = null !== $request
+        && isset($this->getRoute($this->context)[$request])
+      ? $request
       : $this->getRouteKey($this->context);
 
     $this->history = new History();

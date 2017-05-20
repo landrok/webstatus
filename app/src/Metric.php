@@ -125,18 +125,22 @@ class Metric
   /**
    * Get trends flag
    *
+   * @param int|float $value
+   * @param float $prctErr
+   * 
    * @return int
+   * 
    * @api
    */
-  public function getTrend($value, $prct_err = 0.1)
+  public function getTrend($value, $prctErr = 0.1)
   {
     if ($this->getCount() < 10) {
       return 0;
     }
 
     $avg = $this->getAvg();
-    $mid = $avg * (1 - $prct_err);
-    $high= $avg * (1 + $prct_err);
+    $mid = $avg * (1 - $prctErr);
+    $high= $avg * (1 + $prctErr);
     if ($value <= $mid) {
       return -1;
     } elseif ($value <= $high) {
