@@ -77,6 +77,18 @@ ________________________________________________________________________
 
 ________________________________________________________________________
 
+## Customize thresholds
+
+- Edit app/config/global-custom.ini.php
+- In the [thresholds] section, change 
+  - `*.mid` or `*.high` values for each metric
+  
+    _Example_: To have a green flag below 50% CPU usage, an orange flag
+    for CPU usage between 50 and 70%, and a red flag when CPU usage is 
+    over 70%, the values should be `cpu.mid=50` and `cpu.high=70`
+
+________________________________________________________________________
+
 ## Customize processes
 
 - Edit app/config/global-custom.ini.php
