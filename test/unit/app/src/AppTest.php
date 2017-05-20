@@ -3,7 +3,11 @@
 namespace WebStatusTest;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
+use (version_compare(PHP_VERSION, '7.1.0') >= 0) ?
+   PHPUnit\Framework\Constraint\IsType as PHPUnit_IsType
+  : PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType);
+
+
 use WebStatus\App as App;
 
 class AppTest extends TestCase
