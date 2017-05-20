@@ -5,9 +5,9 @@ class Metric
 {
   private $data = [];
   private $name = '';
-  private $max  = 180;
+  private $max  = 200;
 
-  public function __construct($name, $max = 180)
+  public function __construct($name, $max = 200)
   {
     $this->name = $name;
     $this->max  = $max;

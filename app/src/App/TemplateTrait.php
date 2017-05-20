@@ -216,12 +216,14 @@ trait TemplateTrait
     $ipPattern = '/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/';
 
     if (!$this->validateState($this->getConfig(['global', 'webapp', 'ip-hide']))) {
-      $ipReplacement	= '<a href="http://ipv4.landrok.com/address/\1">\1</a>';
-    } else {
-      $ipReplacement	= 'ww.xx.yy.zz';
+      return preg_replace(
+        $ipPattern,
+        '<a href="http://ipv4.landrok.com/address/\1">\1</a>',
+        $content
+      );
     }
 
-    return preg_replace($ipPattern, $ipReplacement, $content);
+    return preg_replace($ipPattern, 'ww.xx.yy.zz', $content);
   }
 
   /**

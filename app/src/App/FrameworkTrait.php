@@ -207,14 +207,10 @@ trait FrameworkTrait
       );
     }
 
-    if ($this->getFilemtime(CACHE_DIR . "/config.php") > $max) {
-      $this->config = include CACHE_DIR . "/config.php";
+    if ($this->getFilemtime(CACHE_DIR . "/config.php") < $max) {
+      $this->loadConfigFiles();
     } else {
-      foreach ($this->configFiles as $filename) {
-        $this->config[$filename] = $this->loadIniFile($filename);
-      }
-
-      $this->writeCache('config', $this->config);
+      $this->config = include CACHE_DIR . "/config.php";
     }
 
     #1st level
@@ -231,6 +227,21 @@ trait FrameworkTrait
         );
       }
     });
+  }
+
+  /**
+   * Load all defined config files
+   */
+  protected function loadConfigFiles()
+  {
+    array_walk(
+      $this->configFiles,
+      function ($filename) {
+        $this->config[$filename] = $this->loadIniFile($filename);
+      }
+    );
+
+    $this->writeCache('config', $this->config);
   }
 
   /**
