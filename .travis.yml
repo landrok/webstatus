@@ -23,6 +23,11 @@ install:
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction
+  # PHPUnit
+  - wget https://phar.phpunit.de/phpunit.phar
+  - chmod +x phpunit.phar
+  - sudo mv phpunit.phar /usr/local/bin/phpunit
+  - phpunit --version
 
 script:
   # Lint shell
@@ -31,7 +36,6 @@ script:
   - sudo ./bin/install.sh -y
   # Run PHP unit tests
   - phpunit -c test/unit/phpunit.xml.dist
-  
 
 after_script:
   ## Code climate
