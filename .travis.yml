@@ -25,8 +25,8 @@ before_script:
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then composer require phpunit/phpunit 5.7.19; fi
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then composer require phpunit/phpunit 5.7.19; fi
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.1" ]]; then composer require phpunit/phpunit 6.1.3; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:4} == "hhvm" ]]; then composer require phpunit/phpunit 6.1.3; fi
   - ls vendor/bin/
-  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" ]] || [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then chmod +x vendor/bin/phpunit; sudo mv vendor/bin/phpunit /usr/local/bin/phpunit; fi
   - phpunit --version
 
 script:
@@ -35,9 +35,9 @@ script:
   # Install webstatus
   - sudo ./bin/install.sh -y
   # Run PHP unit tests
-  - phpunit -c test/unit/phpunit.xml.dist
-  
+  - if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then phpunit; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpunit -c test/unit/phpunit.xml.dist; fi
 
 after_script:
   ## Code climate
-  - ./vendor/bin/test-reporter
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then ./vendor/bin/test-reporter; fi
