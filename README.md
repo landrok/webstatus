@@ -64,8 +64,8 @@ ________________________________________________________________________
 
 ## Customize title
 
-- Edit app/config/global-custom.ini.php
-- In the [webapp] section, change 
+- Edit _app/config/global-custom.ini.php_
+- In the `[webapp]` section, change 
   - `title` value, for web browser status bar title
   - `label` value, for the HTML navbar title
   - `icon` value, must be selected among 
@@ -81,15 +81,15 @@ ________________________________________________________________________
 
 _This feature is only working for IPv4 addresses_
 
-- Edit app/config/global-custom.ini.php
-- In the [webapp] section, set `hide-ip` value to `on` or `1`
+- Edit _app/config/global-custom.ini.php_
+- In the `[webapp]` section, set `hide-ip` value to `on` or `1`
 
 ________________________________________________________________________
 
 ## Customize thresholds
 
-- Edit app/config/global-custom.ini.php
-- In the [thresholds] section, change 
+- Edit _app/config/global-custom.ini.php_
+- In the `[thresholds]` section, change 
   - `*.mid` or `*.high` values for each metric
   
     _Example_: To have a green flag below 50% CPU usage, an orange flag
@@ -100,8 +100,8 @@ ________________________________________________________________________
 
 ## Customize processes
 
-- Edit app/config/global-custom.ini.php
-- In the [cron] section, change 
+- Edit _app/config/global-custom.ini.php_
+- In the `[cron]` section, change 
   - `processes.pattern` value
   
     _Example_: To focus on apache and mysql processes, the value should 

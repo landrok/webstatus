@@ -14,12 +14,7 @@ trait StatTrait
    */
   public function getOs()
   {
-    if (!isset($this->logs['os'])) {
-      $this->logs['os'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/os.log')
-      );
-    }
+    $this->readSplit('os');
 
     return $this->logs['os'][0];
   }
@@ -33,12 +28,7 @@ trait StatTrait
    */
   public function getKernel()
   {
-    if (!isset($this->logs['os'])) {
-      $this->logs['os'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/os.log')
-      );
-    }
+    $this->readSplit('os');
 
     return isset($this->logs['os'][1]) 
                ? $this->logs['os'][1] : '-';
@@ -53,12 +43,7 @@ trait StatTrait
    */
   public function getCpuTemperature()
   {
-    if (!isset($this->logs['os'])) {
-      $this->logs['os'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/os.log')
-      );
-    }
+    $this->readSplit('os');
 
     return isset($this->logs['os'][2]) 
                ? $this->logs['os'][2] : '-';
@@ -73,12 +58,7 @@ trait StatTrait
    */
   public function getUp()
   {
-    if (!isset($this->logs['uptime'])) {
-      $this->logs['uptime'] = explode(
-        "up",
-        $this->read(DATA_DIR . '/uptime.log')
-      );
-    }
+    $this->readSplit('uptime', 'up');
 
     return isset($this->logs['uptime'][1]) 
                ? $this->logs['uptime'][1] : '-';
@@ -93,12 +73,7 @@ trait StatTrait
    */
   public function getStarted()
   {
-    if (!isset($this->logs['uptime'])) {
-      $this->logs['uptime'] = explode(
-        "up",
-        $this->read(DATA_DIR . '/uptime.log')
-      );
-    }
+    $this->readSplit('uptime', 'up');
 
     $started = preg_replace(
       '/Started at\s+/', 
@@ -118,12 +93,7 @@ trait StatTrait
    */
   public function getMemUsage()
   {
-    if (!isset($this->logs['memory'])) {
-      $this->logs['memory'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/memory.log')
-      );
-    }
+    $this->readSplit('memory');
 
     $totalMem   = 0;
     $usedMem    = 0;
@@ -145,12 +115,7 @@ trait StatTrait
    */
   public function getSwapUsage()
   {
-    if (!isset($this->logs['memory'])) {
-      $this->logs['memory'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/memory.log')
-      );
-    }
+    $this->readSplit('memory');
 
     $totalSwap   = 0;
     $usedSwap    = 0;
@@ -184,12 +149,7 @@ trait StatTrait
    */
   public function getDiskUsage() 
   {
-    if (!isset($this->logs['hdd'])) {
-      $this->logs['hdd'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/hdd.log')
-      );
-    }
+    $this->readSplit('hdd');
 
     if (!isset($this->logs['hdd'][1])) {
       return 0;
@@ -209,12 +169,7 @@ trait StatTrait
    */
   public function getSocketNum() 
   {
-    if (!isset($this->logs['tcp-sockets'])) {
-      $this->logs['tcp-sockets'] = explode(
-        "\n",
-        $this->read(DATA_DIR . '/tcp-sockets.log')
-      );
-    }
+    $this->readSplit('tcp-sockets');
 
     return count($this->logs['tcp-sockets']) > 2 
         ? (count($this->logs['tcp-sockets']) - 2 ) : 0;
@@ -245,12 +200,7 @@ trait StatTrait
    */
   public function getIn()
   {
-    if (!isset($this->logs['ifstat'])) {
-      $this->logs['ifstat'] = preg_split(
-        '/\s+/', 
-        $this->read(DATA_DIR . '/ifstat.log')
-      );
-    }
+    $this->readSplit('ifstat', '\s+');
 
     while (isset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]) 
       && $this->logs['ifstat'][count($this->logs['ifstat']) - 1] == ''
@@ -272,12 +222,7 @@ trait StatTrait
    */
   public function getOut()
   {
-    if (!isset($this->logs['ifstat'])) {
-      $this->logs['ifstat'] = preg_split(
-        '/\s+/', 
-        $this->read(DATA_DIR . '/ifstat.log')
-      );
-    }
+    $this->readSplit('ifstat', '\s+');
 
     while (isset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]) 
       && $this->logs['ifstat'][count($this->logs['ifstat']) - 1] == ''
@@ -301,12 +246,7 @@ trait StatTrait
    */
   public function getProcessNum($name)
   {
-    if (!isset($this->logs['processes'])) {
-      $this->logs['processes'] = explode(
-        "\n", 
-        $this->read(DATA_DIR . '/processes.log')
-      );
-    }
+    $this->readSplit('processes');
 
     return array_reduce(
       $this->logs['processes'], 
@@ -328,12 +268,7 @@ trait StatTrait
    */
   public function getUserNum()
   {
-    if (!isset($this->logs['users'])) {
-      $this->logs['users'] = explode(
-        "\n", 
-        $this->read(DATA_DIR . '/users.log')
-      );
-    }
+    $this->readSplit('users');
 
     return count($this->logs['users']) > 2 
          ? count($this->logs['users']) - 2 : 0;
@@ -404,7 +339,7 @@ trait StatTrait
    * 
    * @api
    */
-  function getLocalCpuUsage()
+  public function getLocalCpuUsage()
   {
     $load = sys_getloadavg();
     $cpu = substr_count(
@@ -413,5 +348,15 @@ trait StatTrait
     );
     $cpu = $cpu > 0 ? $cpu : 1;
     return 100 * (float)$load[0] / $cpu;
+  }
+
+  protected function readSplit($item, $pattern = "\n")
+  {
+    if (!isset($this->logs[$item])) {
+      $this->logs[$item] = preg_split(
+        "/$pattern/", 
+        $this->read(DATA_DIR . "/$item.log")
+      );
+    }
   }
 }
