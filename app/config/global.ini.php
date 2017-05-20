@@ -19,7 +19,7 @@
 title=RPi Home
 label=RPi Home
 icon-class=music
-ip-hide=on
+ip-hide=1
 
 
 ; ----------------------------------------------------------------------

@@ -14,7 +14,7 @@ class AppTest extends TestCase
       'title'         => 'RPi Home', 
       'label'         => 'RPi Home',
       'icon-class'    => 'music',
-      'ip-hide'       => null
+      'ip-hide'       => 1
     ];
 
     // Just a local helper, won't be used for scenarios
@@ -39,8 +39,8 @@ class AppTest extends TestCase
       ['assertEquals', null, 'getRequest'                                        ],
       ['assertInternalType', PHPUnit_IsType::TYPE_ARRAY, 'getRoute', 'status'    ],
       ['assertEquals', null, 'getRoute'                                          ],
-      ['assertEquals', '/usr/local/bin/index.php', 'getRouteUrl', 'index'        ],
-      ['assertEquals', '/usr/local/bin/status.php?id=temperature', 'getRouteUrl', 'status', 'temperature'],
+      ['assertRegExp', '/^[a-zA-Z0-9_\/]+index.php$/', 'getRouteUrl', 'index'        ],
+      ['assertRegExp', '/^[a-zA-Z0-9_\/]+status.php\?id=temperature$/', 'getRouteUrl', 'status', 'temperature'],
       ['assertEquals', '0.4.0-dev', 'getVersion'                                 ],
       ['assertEquals', true, 'validateState', 1                                  ],
       ['assertEquals', false, 'validateState', 'anothervalue'                    ],
@@ -75,7 +75,7 @@ class AppTest extends TestCase
       ['assertInternalType', PHPUnit_IsType::TYPE_STRING, 'getStatusLabel', 70, 'cpu'],
       ['assertInternalType', PHPUnit_IsType::TYPE_STRING, 'getStatusLabel', 100, 'cpu'],
       ['assertInternalType', PHPUnit_IsType::TYPE_STRING, 'getNavbarMenus'       ],
-      ['assertEquals', 'Here is an IP: <a href="http://ipv4.landrok.com/address/192.168.0.10">192.168.0.10</a>.', 'ipToLocation', 'Here is an IP: 192.168.0.10.'],
+      ['assertEquals', 'Here is an IP: ww.xx.yy.zz.', 'ipToLocation', 'Here is an IP: 192.168.0.10.'],
       ['assertEquals', '42B', 'formatFilesize', 42                               ],
       ['assertEquals', '1MB', 'formatFilesize', 1024 * 1024                      ],
     ];
