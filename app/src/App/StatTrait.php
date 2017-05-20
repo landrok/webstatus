@@ -159,8 +159,8 @@ trait StatTrait
       $totalSwap = isset($swapTemp[1]) ? $this->transformValue($swapTemp[1]) : 0;
       $usedSwap  = isset($swapTemp[2]) ? $this->transformValue($swapTemp[2]) : 0;
     }
-    return $totalSwap > 0
-         ? round(100 * $usedSwap / $totalSwap, 2) : 0;
+    return (float)($totalSwap > 0
+         ? round(100 * $usedSwap / $totalSwap, 2) : 0);
   }
 
   /**
