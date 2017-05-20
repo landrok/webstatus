@@ -28,6 +28,8 @@ trait TemplateTrait
    * Get main template instance
    * 
    * @return \Rain\Tpl
+   * 
+   * @api
    */
   public function getTemplate()
   {
@@ -45,6 +47,8 @@ trait TemplateTrait
    * @param string $content
    * 
    * @return string
+   * 
+   * @api
    */
   public function bsLabel($class, $content)
   {
@@ -62,6 +66,8 @@ trait TemplateTrait
    * @param string $def
    * 
    * @return string
+   * 
+   * @api
    */
   public function getStatusLabel($value, $def)
   {
@@ -78,6 +84,8 @@ trait TemplateTrait
    * Get navbar menus
    * 
    * @return string
+   * 
+   * @api
    */
   public function getNavbarMenus()
   {
@@ -100,8 +108,10 @@ trait TemplateTrait
    * @param string $route
    * 
    * @return string
+   * 
+   * @api
    */ 
-  function menuTemplater($def, $route)
+  public function menuTemplater($def, $route)
   {
     $tpl = new Tpl();
 
@@ -198,6 +208,8 @@ trait TemplateTrait
    * @param string $content
    * 
    * @return string
+   * 
+   * @api
    */
   public function ipToLocation($content)
   {
@@ -218,6 +230,8 @@ trait TemplateTrait
    * @param int $size
    * 
    * @return string
+   * 
+   * @api
    */
   public function formatFilesize($size)
   {
@@ -229,7 +243,7 @@ trait TemplateTrait
     ];
 
     foreach ($conf as $letter => $exp) {
-      if ($size > pow(1024, $exp)) {
+      if ($size >= pow(1024, $exp)) {
         return round($size / pow(1024, $exp), 2) . "{$letter}B";
       }
     }
