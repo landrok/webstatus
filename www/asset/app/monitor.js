@@ -34,8 +34,9 @@ $(document).ready(function () {
   Highcharts.setOptions({
     global: {
       useUTC: false
-    },    tooltip: {
-      shared: true,
+    },
+    tooltip: {
+      shared: true
     },
     legend: {
       enabled: true
@@ -45,7 +46,7 @@ $(document).ready(function () {
     },
     credits: {
       enabled: false
-    },
+    }
   });
 
   Highcharts.chart('cpu_mem_container', {

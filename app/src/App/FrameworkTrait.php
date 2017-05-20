@@ -262,11 +262,6 @@ trait FrameworkTrait
       );
     }
 
-    $mTimeIni = filemtime(CFG_DIR . "/$filename.ini.php");
-    $mTimeCustomIni = is_readable(CFG_DIR . "/$filename-custom.ini.php")
-      ? filemtime(CFG_DIR . "/$filename-custom.ini.php") : 0;
-
-    # New configs must be loaded
     $config = parse_ini_file(CFG_DIR . "/$filename.ini.php", true);
 
     if (is_readable(CFG_DIR . "/$filename-custom.ini.php")) {

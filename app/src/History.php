@@ -140,7 +140,7 @@ class History
     $max = 0;
     $num = 0;
     array_walk($this->status,
-      function ($metric, $index) use (& $max, & $num) {
+      function ($metric) use (& $max, & $num) {
         if (!$max) {
           $max = $metric->getMaxItems();
           $num = $metric->getCount();

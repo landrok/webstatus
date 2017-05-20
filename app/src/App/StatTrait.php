@@ -251,8 +251,6 @@ trait StatTrait
         $this->read(DATA_DIR . '/ifstat.log')
       );
     }
-    
-    $in = 0;
 
     while (isset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]) 
       && $this->logs['ifstat'][count($this->logs['ifstat']) - 1] == ''
@@ -280,8 +278,6 @@ trait StatTrait
         $this->read(DATA_DIR . '/ifstat.log')
       );
     }
-    
-    $out= 0;
 
     while (isset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]) 
       && $this->logs['ifstat'][count($this->logs['ifstat']) - 1] == ''
