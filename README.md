@@ -123,4 +123,17 @@ ________________________________________________________________________
 
 ## Activate remote feature
 
-_Coming soon_
+Remote feature has 2 parts: a client and a server
+
+- Install webstatus on the 2 machines
+- On the **client machine**, edit _app/config/global-custom.ini.php_
+  
+  - In the `[remote]` section, change
+    - `remote.client` value to `on`
+    - `remote.url` value to `http://your-server-url/webstatus/remote.php`
+
+- On the **server machine**, edit _app/config/global-custom.ini.php_
+  - In the `[remote]` section, change 
+    - `remote.server` value to `on`
+
+That's all. Now you can follow the client status on the server.
