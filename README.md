@@ -3,9 +3,9 @@
 It is a simple and easy monitoring tool. It was designed for 
 Raspbian OS but is compatible with Debian and Ubuntu.
 
-There is nothing to configure. Just run the installer and use it!
+There is nothing to configure. Just run the installer and use it.
 
-[//]: # "[Demo](http://example.com/webstatus/)"
+Want to have a look ? See [Live Demo](http://91.121.71.25/webstatus/)
 
 ________________________________________________________________________
 
