@@ -38,10 +38,10 @@ ________________________________________________________________________
 ## Install
 
 ```shell
-# Download archive
+# Download the latest version
 wget https://github.com/landrok/webstatus/archive/0.3.1.tar.gz
 
-# Unzip the archive
+# Unzip
 tar -xf 0.3.1.tar.gz
 
 # Install (Must be done with root rights)
@@ -54,7 +54,9 @@ If the installation failed:
 - Check that your system is up to date
 - Create an issue and Copy/Paste installation logs
 
-You have a fully automated mode with -y argument:
+### Easy install
+
+You have a full-automated mode with -y argument:
 
 ```shell
 # Available since release 0.4
