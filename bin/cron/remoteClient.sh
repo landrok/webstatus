@@ -38,13 +38,14 @@ cd "$WSI_DATADIR"
 
 # An Archive exists
 if [ -f "$WC_ZIPNAME" ]; then
-  echo "$WC_ZIPNAME does not exists"
+  echo "$WC_ZIPNAME exists"
   rm "$WC_ZIPNAME"
 fi
-tar -zcf "$WC_ZIPNAME" .
+tar zcf "$WC_ZIPNAME" .
 chmod 777 "$WC_ZIPNAME" 
 cd "$WS_PWD"
 
 # Sending to server
-curl -iv -X POST -H "Content-Type: multipart/form-data" -F \
+echo "Sending $WC_ZIPNAME"
+curl -i -X POST -H "Content-Type: multipart/form-data" -F \
  "data=@${WC_ZIPNAME}" "$WS_REMOTE_SERVER_URL"
