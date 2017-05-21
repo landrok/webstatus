@@ -40,7 +40,7 @@ class AppTest extends TestCase
       ['assertEquals', null, 'getRoute'                                          ],
       ['assertRegExp', '/^[a-zA-Z0-9_\/\.]+index.php$/', 'getRouteUrl', 'index'  ],
       ['assertRegExp', '/^[a-zA-Z0-9_\/\.]+status.php\?id=temperature$/', 'getRouteUrl', 'status', 'temperature'],
-      ['assertEquals', '0.4.0-dev', 'getVersion'                                 ],
+      ['assertEquals', '0.4.0', 'getVersion'                                     ],
       ['assertEquals', true, 'validateState', 1                                  ],
       ['assertEquals', false, 'validateState', 'anothervalue'                    ],
       ['assertEquals', 0, 'getFilemtime', '/no-file-here'                        ],

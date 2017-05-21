@@ -39,13 +39,13 @@ ________________________________________________________________________
 
 ```shell
 # Download the latest version
-wget https://github.com/landrok/webstatus/archive/0.3.1.tar.gz
+wget https://github.com/landrok/webstatus/archive/0.4.0.tar.gz
 
 # Unzip
-tar -xf 0.3.1.tar.gz
+tar -xf 0.4.0.tar.gz
 
 # Install (Must be done with root rights)
-./webstatus-0.3.1/bin/install.sh
+./webstatus-0.4.0/bin/install.sh
 
 ```
 
@@ -59,8 +59,7 @@ If the installation failed:
 You have a full-automated mode with -y argument:
 
 ```shell
-# Available since release 0.4
-./webstatus-0.3.1/bin/install.sh -y
+./webstatus-0.4.0/bin/install.sh -y
 ```
 ________________________________________________________________________
 
