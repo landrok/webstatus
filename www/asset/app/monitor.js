@@ -51,6 +51,28 @@ function initDataSeries(name)
   return data;
 }
 
+function initChart(serie1Name, serie2Name)
+{
+  return {
+    animation: Highcharts.svg, // don't animate in old IE
+    zoomType: 'x',
+    events: {
+      load: function () {
+
+        // set up the updating of the chart each second
+        var series = this.series;
+
+        setInterval(function () {
+            var x = polledData.time,
+                y = polledData[serie1Name],
+                z = polledData[serie2Name];
+            updateSeries(series, x, y, z);
+        }, refreshTime);
+      }
+    }
+  };
+}
+
 $(document).ready(function () {
   refreshTime = $('select[name=refreshTime]').val() * 1000;
   $('select[name=refreshTime]').change(function() {
@@ -72,35 +94,18 @@ $(document).ready(function () {
     },
     credits: {
       enabled: false
+    },
+    xAxis: {
+      type: 'datetime',
+      tickPixelInterval: 150
     }
   });
 
   Highcharts.chart('cpu_mem_container', {
     
-    chart: {
-      animation: Highcharts.svg, // don't animate in old IE
-      zoomType: 'x',
-      events: {
-        load: function () {
-
-          // set up the updating of the chart each second
-          var series = this.series;
-
-          setInterval(function () {
-              var x = polledData.time,
-                  y = polledData.cpu,
-                  z = polledData.mem;
-              updateSeries(series, x, y, z);
-          }, refreshTime);
-        }
-      }
-    },
+    chart: initChart('cpu', 'mem'),
     title: {
       text: 'CPU & Memory'
-    },
-    xAxis: {
-      type: 'datetime',
-      tickPixelInterval: 150
     },
     yAxis: [{ // Primary yAxis
       labels: {
@@ -152,30 +157,11 @@ $(document).ready(function () {
   /**
    * Network
    */
-
   Highcharts.chart('network_container', {
     
-    chart: {
-      animation: Highcharts.svg, // don't animate in old IE
-      zoomType: 'x',
-      events: {
-        load: function () {
-          var series = this.series;
-          setInterval(function () {
-              var x = polledData.time,
-                  y = polledData.in,
-                  z = polledData.out;
-              updateSeries(series, x, y, z);
-          }, refreshTime);
-        }
-      }
-    },
+    chart: initChart('in', 'out'),
     title: {
       text: 'Network Traffic'
-    },
-    xAxis: {
-      type: 'datetime',
-      tickPixelInterval: 150
     },
     yAxis: [{ // Primary yAxis
       labels: {
