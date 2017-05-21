@@ -1,6 +1,7 @@
 <?php
 namespace WebStatus;
 
+use Exception;
 use Rain\Tpl;
 
 class App
