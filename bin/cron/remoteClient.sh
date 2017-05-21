@@ -32,16 +32,15 @@ then
   exit
 fi
 
-# Archive exists
-if [ ! -f "$WC_STATUSNAME" ]; then
-  echo "$WC_STATUSNAME does not exists"
-  exit
-fi
-
 # Archive data
 echo "Archiving $WSI_DATADIR"
 cd "$WSI_DATADIR"
-rm "$WC_ZIPNAME"
+
+# An Archive exists
+if [ -f "$WC_ZIPNAME" ]; then
+  echo "$WC_ZIPNAME does not exists"
+  rm "$WC_ZIPNAME"
+fi
 tar -zcf "$WC_ZIPNAME" .
 chmod 777 "$WC_ZIPNAME" 
 cd "$WS_PWD"
