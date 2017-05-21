@@ -8,6 +8,7 @@ set -o nounset
   exit 1
 }
 
+#*** MAIN                                                           ***#
 PROCESSES_CFG=$(awk -F "=" '/^processes.pattern/ {
     gsub(/"/, "", $2);
     print $2
@@ -21,5 +22,4 @@ fi
 
 WS_PROCESSES=$(ps -A f -o pid,time,pcpu,pmem,command)
 echo "$WS_PROCESSES"                                                   \
-  | grep -E "$PROCESSES_PATTERN"                                       \
-  > "$WSI_DATADIR/processes.log"
+  | grep -E "$PROCESSES_PATTERN"

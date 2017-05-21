@@ -43,7 +43,7 @@ export WS_REMOTE_SERVER_URL
 REMOTESRV_CFG=$(awk -F "=" '/^remote.server/ {
     gsub(/"/, "", $2);
     print $2
-  }'                                                                 \
+  }'                                                                   \
   <<< "$WS_GLOBAL_CONFIG" | head -1) 
 if [ ! -z "$REMOTESRV_CFG" ]; then
   # shellcheck source=bin/cron/remoteServer.sh disable=1091
@@ -57,73 +57,14 @@ fi
   chmod +rx "$WSI_DATADIR/history.json"
 }
 
-# temperature
-[ -f "/sys/class/thermal/thermal_zone0/temp" ]                         \
-  && CPU_TEMPERATURE=$(printf "%s°C"                                   \
-    $(($(cat /sys/class/thermal/thermal_zone0/temp)/1000)))            \
-  || CPU_TEMPERATURE="-"
-[ -f "/opt/vc/bin/vcgencmd" ]                                          \
-  && GPU=$(/opt/vc/bin/vcgencmd measure_temp)                          \
-  || GPU="-"
-
-# date & hostname
-echo "$(date) @ $(hostname)" > "$WSI_DATADIR/status.log"
-
-# OS Description
-lsb_release -d                                                         \
-  | awk '{ gsub("Description:\t", "", $0); print }'                    \
-  > "$WSI_DATADIR/os.log"
-uname -r >> "$WSI_DATADIR/os.log"
-echo "$CPU_TEMPERATURE" >> "$WSI_DATADIR/os.log"
-
-# uptime
-echo "$(echo "Started at"; uptime -s; uptime -p)" | xargs              \
-  > "$WSI_DATADIR/uptime.log"
-
-# processes
-# shellcheck source=bin/command/processes.sh disable=1091
-source "bin/command/processes.sh"
-
-# top 15 processes ordered by CPU usage
-top -b -n 1 -o +%CPU                                                   \
-  | sed -n '7,40p'                                                     \
-  | body sort -k9rn -k10rn                                             \
-  | awk '{printf "%6s %-7s %-4s %-4s %-s\n",$1,$2,$9,$10,$NF}'         \
-  > "$WSI_DATADIR/top.log"
-
-# Temperature
-printf "CPU => %s\nGPU => %s" "$CPU_TEMPERATURE" "$GPU"                \
-  > "$WSI_DATADIR/temperature.log"
-
-# servers
-netstat -lntp                                                          \
- | sed -n '2,40p'                                                      \
- | sort -k 4 -r                                                        \
- > "$WSI_DATADIR/servers.log"
-
-# memory
-free -mh > "$WSI_DATADIR/memory.log"
-
-# disk
-df -h > "$WSI_DATADIR/hdd.log"
-
-# mpstats
-mpstat -P ALL > "$WSI_DATADIR/mpstat.log"
-
-# users
-who -sH > "$WSI_DATADIR/users.log"
-
-# Interfaces
-/sbin/ifconfig -a > "$WSI_DATADIR/interfaces.log"
-
-# Network
-ss -t > "$WSI_DATADIR/tcp-sockets.log"
-
-# Firewall
-/sbin/iptables -L > "$WSI_DATADIR/iptables.log"
-
-# In / Out
-ifstat -a -T 2 1 > "$WSI_DATADIR/ifstat.log"
+# Make all metrics
+for metric in status processes uptime top temperature os servers memory\
+              hdd mpstat users interfaces tcp-sockets iptables ifstat
+do
+  echo "Mesuring $metric"
+  # shellcheck source=bin/command/$metric.sh disable=1091
+  source "bin/command/$metric.sh" > "$WSI_DATADIR/$metric.log"
+done
 
 # Dump some logs
 awk -F "=" '/^logs.pattern.*/ {
