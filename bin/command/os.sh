@@ -11,5 +11,5 @@ set -o nounset
 #*** MAIN                                                           ***#
 lsb_release -d                                                         \
   | awk '{ gsub("Description:\t", "", $0); print }';
-uname -r >> "$WSI_DATADIR/os.log";
+uname -r;
 echo "$CPU_TEMPERATURE";
