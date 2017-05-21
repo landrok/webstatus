@@ -58,8 +58,7 @@ trait FrameworkTrait
    */
   public function getBaseUrl()
   {
-    $baseUrl = isset($_SERVER['SCRIPT_NAME']) 
-           ? dirname($_SERVER['SCRIPT_NAME']) : '';
+    $baseUrl = dirname(APP_SCRIPTNAME);
 
     if (substr($baseUrl, strlen($baseUrl) - 1) != '/') {
       $baseUrl .= '/';
