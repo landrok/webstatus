@@ -120,8 +120,8 @@ trait StatTrait
 
     $total  = 0;
     $used   = 0;
-    if (isset($this->logs['memory'][3])) {
-      $swap = preg_split('/\s+/', $this->logs['memory'][3]);
+    if (isset($this->logs['memory'][$line])) {
+      $temp = preg_split('/\s+/', $this->logs['memory'][$line]);
       $total= isset($temp[1]) ? $this->transformValue($temp[1]) : 0;
       $used = isset($temp[2]) ? $this->transformValue($temp[2]) : 0;
     }
