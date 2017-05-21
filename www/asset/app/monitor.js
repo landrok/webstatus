@@ -10,7 +10,8 @@ var polledData = {
 
 var refreshTime = 10000;
 
-function pollData() {
+function pollData()
+{
   $.get( "monitor.php?data", function( data ) {
     polledData = $.parseJSON(data);
   })
@@ -24,6 +25,31 @@ function pollData() {
   });
 }
 pollData();
+
+function initDataSeries(name)
+{
+  // generate an array of random data
+  var data = [],
+      time = (new Date()).getTime(),
+      i,
+      hist_count = appHistory['time'].length;
+
+  for (i = -200; i < 0; i += 1) {
+    if (hist_count + i < 0) {
+      data.push({
+        x: time + i * refreshTime,
+        y: 0
+      });
+    } else {
+      data.push({
+        x: appHistory['time'][hist_count + i],
+        y: appHistory[name][hist_count + i]
+      });
+    }
+  }
+  
+  return data;
+}
 
 $(document).ready(function () {
   refreshTime = $('select[name=refreshTime]').val() * 1000;
@@ -109,26 +135,7 @@ $(document).ready(function () {
         type: 'spline',
         color: Highcharts.getOptions().colors[0],
         data: (function () {
-          // generate an array of random data
-          var data = [],
-            time = (new Date()).getTime(),
-            i,
-            hist_count = appHistory['time'].length;
-
-          for (i = -200; i < 0; i += 1) {
-            if (hist_count + i < 0) {
-              data.push({
-                x: time + i * refreshTime,
-                y: 0
-              });
-            } else {
-              data.push({
-                x: appHistory['time'][hist_count + i],
-                y: appHistory.cpu[hist_count + i]
-              });
-            }
-          }
-          return data;
+          return initDataSeries('cpu');
         }())
       },
       {
@@ -137,26 +144,7 @@ $(document).ready(function () {
         color: Highcharts.getOptions().colors[2],
         yAxis: 1,
         data: (function () {
-          // generate an array of random data
-          var data = [],
-            time = (new Date()).getTime(),
-            i,
-            hist_count = appHistory['time'].length;
-
-          for (i = -200; i < 0; i += 1) {
-            if (hist_count + i < 0) {
-              data.push({
-                x: time + i * refreshTime,
-                y: 0
-              });
-            } else {
-              data.push({
-                x: appHistory['time'][hist_count + i],
-                y: appHistory['mem'][hist_count + i]
-              });
-            }
-          }
-          return data;
+          return initDataSeries('mem');
       }())
     }]
   });
@@ -222,26 +210,7 @@ $(document).ready(function () {
         type: 'spline',
         color: Highcharts.getOptions().colors[0],
         data: (function () {
-          // generate an array of random data
-          var data = [],
-            time = (new Date()).getTime(),
-            i,
-            hist_count = appHistory['time'].length;
-
-          for (i = -200; i < 0; i += 1) {
-            if (hist_count + i < 0) {
-              data.push({
-                x: time + i * refreshTime,
-                y: 0
-              });
-            } else {
-              data.push({
-                x: appHistory['time'][hist_count + i],
-                y: appHistory['in'][hist_count + i]
-              });
-            }
-          }
-          return data;
+          return initDataSeries('in');
         }())
       },
       {
@@ -250,26 +219,7 @@ $(document).ready(function () {
         color: Highcharts.getOptions().colors[2],
         yAxis: 1,
         data: (function () {
-          // generate an array of random data
-          var data = [],
-            time = (new Date()).getTime(),
-            i,
-            hist_count = appHistory['time'].length;
-
-          for (i = -200; i < 0; i += 1) {
-            if (hist_count + i < 0) {
-              data.push({
-                x: time + i * refreshTime,
-                y: 0
-              });
-            } else {
-              data.push({
-                x: appHistory['time'][hist_count + i],
-                y: appHistory.out[hist_count + i]
-              });
-            }
-          }
-          return data;
+          return initDataSeries('out');
       }())
     }]
   });
