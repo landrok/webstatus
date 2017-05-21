@@ -93,17 +93,7 @@ trait StatTrait
    */
   public function getMemUsage()
   {
-    $this->readSplit('memory');
-
-    $totalMem   = 0;
-    $usedMem    = 0;
-    if (isset($this->logs['memory'][1])) {
-      $memTemp  = preg_split('/\s+/', $this->logs['memory'][1]);
-      $totalMem = isset($memTemp[1]) ? $this->transformValue($memTemp[1]) : 0;
-      $usedMem  = isset($memTemp[2]) ? $this->transformValue($memTemp[2]) : 0;
-    }
-    return $totalMem > 0
-         ? round(100 * $usedMem / $totalMem, 2) : 0;
+    return $this->getMemoryLine(1);
   }
 
   /**
@@ -115,17 +105,28 @@ trait StatTrait
    */
   public function getSwapUsage()
   {
+    return $this->getMemoryLine(3);
+  }
+
+  /**
+   * Get a memory usage ratio for a line of free command
+   * 
+   * @param int $line
+   * @return float
+   */
+  protected function getMemoryLine($line)
+  {
     $this->readSplit('memory');
 
-    $totalSwap   = 0;
-    $usedSwap    = 0;
+    $total  = 0;
+    $used   = 0;
     if (isset($this->logs['memory'][3])) {
-      $swapTemp  = preg_split('/\s+/', $this->logs['memory'][3]);
-      $totalSwap = isset($swapTemp[1]) ? $this->transformValue($swapTemp[1]) : 0;
-      $usedSwap  = isset($swapTemp[2]) ? $this->transformValue($swapTemp[2]) : 0;
+      $swap = preg_split('/\s+/', $this->logs['memory'][3]);
+      $total= isset($temp[1]) ? $this->transformValue($temp[1]) : 0;
+      $used = isset($temp[2]) ? $this->transformValue($temp[2]) : 0;
     }
-    return (float)($totalSwap > 0
-         ? round(100 * $usedSwap / $totalSwap, 2) : 0);
+
+    return (float)($total > 0 ? round(100 * $used / $total, 2) : 0);
   }
 
   /**
@@ -200,17 +201,9 @@ trait StatTrait
    */
   public function getIn()
   {
+    return $this->getIfstatValue(2);
+
     $this->readSplit('ifstat', '\s+');
-
-    while (isset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]) 
-      && $this->logs['ifstat'][count($this->logs['ifstat']) - 1] == ''
-    ) {
-      unset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]);
-    }
-
-    $count = count($this->logs['ifstat']);
-    return (float)(isset($this->logs['ifstat'][$count - 2]) 
-           ? 1 * $this->logs['ifstat'][$count - 2] : 0);
   }
 
   /**
@@ -222,6 +215,17 @@ trait StatTrait
    */
   public function getOut()
   {
+    return $this->getIfstatValue(1);
+  }
+
+  /**
+   * Get an ifstat value
+   * 
+   * @param int $index Starting from last value
+   * @return float
+   */
+  protected function getIfstatValue($index)
+  {
     $this->readSplit('ifstat', '\s+');
 
     while (isset($this->logs['ifstat'][count($this->logs['ifstat']) - 1]) 
@@ -231,8 +235,9 @@ trait StatTrait
     }
 
     $count = count($this->logs['ifstat']);
-    return (float)(isset($this->logs['ifstat'][$count - 1]) 
-           ? 1 * $this->logs['ifstat'][$count - 1] : 0);
+
+    return (float)(isset($this->logs['ifstat'][$count - $index]) 
+           ? 1 * $this->logs['ifstat'][$count - $index] : 0);
   }
 
   /**
