@@ -74,7 +74,7 @@ class AppTest extends TestCase
       ['assertInternalType', 'string', 'getStatusLabel', 70, 'cpu'],
       ['assertInternalType', 'string', 'getStatusLabel', 100, 'cpu'],
       ['assertInternalType', 'string', 'getNavbarMenus'       ],
-      ['assertEquals', 'Here is an IP: ww.xx.yy.zz.', 'ipToLocation', 'Here is an IP: 192.168.0.10.'],
+      ['assertEquals', 'Here is an IP: w.x.y.z.', 'ipToLocation', 'Here is an IP: 192.168.0.10.'],
       ['assertEquals', '42B', 'formatFilesize', 42                               ],
       ['assertEquals', '1MB', 'formatFilesize', 1024 * 1024                      ],
     ];

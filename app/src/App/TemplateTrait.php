@@ -223,7 +223,7 @@ trait TemplateTrait
       );
     }
 
-    return preg_replace($ipPattern, 'ww.xx.yy.zz', $content);
+    return preg_replace($ipPattern, 'w.x.y.z', $content);
   }
 
   /**
