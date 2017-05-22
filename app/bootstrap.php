@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', '1');
 
+use Rain\Tpl;
 use WebStatus\App;
 
 if (!is_readable(dirname(__DIR__) . "/vendor/autoload.php")) {
@@ -22,6 +23,11 @@ defined('APP_SCRIPTNAME') || define('APP_SCRIPTNAME', $context);
 defined('DATA_DIR')       || define('DATA_DIR', '/dev/shm/webstatus');
 defined('CFG_DIR')        || define('CFG_DIR', APP_DIR . '/config');
 defined('CACHE_DIR')      || define('CACHE_DIR', APP_DIR . '/cache');
+
+Tpl::configure([
+  "tpl_dir"   => APP_DIR   . "/templates/",
+  "cache_dir" => CACHE_DIR . "/templates/"
+]);
 
 $app = new App($context, $id);
 

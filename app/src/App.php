@@ -2,7 +2,6 @@
 namespace WebStatus;
 
 use Exception;
-use Rain\Tpl;
 
 class App
 {
@@ -22,11 +21,6 @@ class App
    */
   public function __construct($script, $request = null)
   {
-    Tpl::configure([
-      "tpl_dir"    => APP_DIR . "/templates/",
-      "cache_dir"  => CACHE_DIR . "/templates/"
-    ]);
-
     $this->loadConfig();
 
     $this->context = !preg_match(
