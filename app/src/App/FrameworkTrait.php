@@ -22,11 +22,7 @@ trait FrameworkTrait
    */
   public function getConfig($vector, array $data = null)
   {
-    if (is_array($vector) && !count($vector)) {
-      return $data;
-    }
-
-    if (is_array($vector)) {
+    if (is_array($vector) && count($vector)) {
       $key = array_shift($vector);
 
       if (null === $data) {
@@ -40,11 +36,9 @@ trait FrameworkTrait
           ? $this->getConfig($vector, $data[$key])
           : $data[$key];
       }
-
-      return;
     }
 
-    if (isset($this->config[$vector])) {
+    if (is_scalar($vector) && isset($this->config[$vector])) {
       return $this->config[$vector];
     }
   }

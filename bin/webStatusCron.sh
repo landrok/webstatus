@@ -1,7 +1,6 @@
 #!/bin/bash -e 
 
 set -o nounset
-
 export LANG=C.UTF-8
 
 # Checks that we are in root or exit
@@ -31,7 +30,7 @@ source "$WS_BINDIR/cron/loadConfig.sh"
 WS_REMOTE_SERVER_URL=$(awk -F "=" '/^remote.url/ {
     gsub(/"/, "", $2);
     print $2
-  }'                                                                 \
+  }'                                                                   \
   <<< "$WS_GLOBAL_CONFIG" | head -1) 
 export WS_REMOTE_SERVER_URL
 
@@ -98,7 +97,7 @@ php "$WS_PWD/app/controllers/history.php"
 REMOTECLI_CFG=$(awk -F "=" '/^remote.client/ {
     gsub(/"/, "", $2);
     print $2
-  }'                                                                 \
+  }'                                                                   \
   <<< "$WS_GLOBAL_CONFIG" | head -1) 
 if [ ! -z "$REMOTECLI_CFG" ]; then
   # shellcheck source=bin/cron/remoteClient.sh disable=1091
