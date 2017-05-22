@@ -105,6 +105,17 @@ class AppTest extends TestCase
       ['assertInternalType', 'string', 'getStatusLabel', 100, 'cpu'],
       ['assertInternalType', 'string', 'getNavbarMenus'       ],
       ['assertEquals', 'Here is an IP: w.x.y.z.', 'ipToLocation', 'Here is an IP: 192.168.0.10.'],
+      [
+        [['assertEquals', null, 'setConfig', ['global', 'webapp', 'ip-hide'], 0], #1 Set ip-hide=0
+         ['assertEquals', 
+          'Here is an IP: <a href="http://ipv4.landrok.com/address/192.168.0.10">192.168.0.10</a>.', 
+          'ipToLocation', 
+          'Here is an IP: 192.168.0.10.'
+          ]
+        ],
+         null,null
+      ],
+      
       ['assertEquals', '42B', 'formatFilesize', 42                               ],
       ['assertEquals', '1MB', 'formatFilesize', 1024 * 1024                      ],
     ];
