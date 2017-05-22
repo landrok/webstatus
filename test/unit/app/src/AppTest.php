@@ -56,6 +56,7 @@ class AppTest extends TestCase
       ['assertEquals', null, 'getComposer', 'not-existing-key'                   ],
       ['assertEquals', true, 'removeCache', 'config'                             ],
       ['assertEquals', null, 'removeCache', 'config-not-existing-cache-key'      ],
+      ['expectException', Exception::class, 'loadIniFile', 'not-existing.ini'    ],
 
       # WebStatus\App\StatTrait
       ['assertInternalType', 'string', 'getOs'                ],

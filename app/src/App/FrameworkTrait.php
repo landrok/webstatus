@@ -252,13 +252,12 @@ trait FrameworkTrait
   /**
    * Load an ini file and cache it
    * 
-   * @param string $filename
-   * 
-   * @return array
-   * 
-   * @throws \Exception
+   * @param   string $filename
+   * @return  array
+   * @throws  \Exception
+   * @api
    */
-  protected function loadIniFile($filename)
+  public function loadIniFile($filename)
   {
     if (!is_readable(CFG_DIR . "/$filename.ini.php")) {
       throw new Exception (
