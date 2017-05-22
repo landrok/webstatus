@@ -2,6 +2,7 @@
 
 namespace WebStatusTest;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use WebStatus\App as App;
 
@@ -25,6 +26,8 @@ class AppTest extends TestCase
       ['assertInstanceOf', '\WebStatus\Metric', 'getHistory', 'cpu'              ],
       ['assertInternalType', 'int', 'getFormattedMicrotime'                      ],
       ['assertEquals', 1000, 'getEstimatedFilesize', 10, 10, 1000                ],
+      ['expectException', Exception::class, 'read', 'not-existing-file.log'      ],
+
 
       # WebStatus\App\FrameworkTrait
       ['assertInternalType', 'array', 'getConfig', 'global'                      ],
@@ -90,8 +93,13 @@ class AppTest extends TestCase
   {
     $app = new App('/index.php');
 
-    $value = $app->$method($param1, $param2, $param3);
-
-    $this->$assert($expected, $value);
+    if ($assert == 'expectException') {
+      $this->$assert($expected);
+      $value = $app->$method($param1, $param2, $param3);
+      
+    } else {
+      $value = $app->$method($param1, $param2, $param3);
+      $this->$assert($expected, $value);
+    }
   }
 }

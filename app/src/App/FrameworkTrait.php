@@ -306,12 +306,13 @@ trait FrameworkTrait
    * Remove a cache entry
    * 
    * @param string $key
+   * @return bool
+   * @api
    */
   public function removeCache($key)
   {
     if (is_scalar($key) && is_writable(CACHE_DIR . "/$key.php")) {
       unlink(CACHE_DIR . "/$key.php");
-
       return true;
     }
   }
