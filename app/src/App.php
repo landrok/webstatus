@@ -128,16 +128,16 @@ class App
   {
     switch (substr($string, strlen($string) - 1)) {
       case 'K':
-        $value = 1024 * str_replace('K', '', $string);
+        $value = 1024 * floatval(str_replace('K', '', $string));
         break;
       case 'M':
-        $value = 1024 * 1024 * str_replace('M', '', $string);
+        $value = 1024 * 1024 * floatval(str_replace('M', '', $string));
         break;
       case 'G':
-        $value = 1024 * 1024 * 1024 * str_replace('G', '', $string);
+        $value = 1024 * 1024 * 1024 * floatval(str_replace('G', '', $string));
         break;
       default:
-        $value = 1 * $string;
+        $value = 1 * (int)$string;
         break;
     }
 
