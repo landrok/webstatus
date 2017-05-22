@@ -226,7 +226,7 @@ trait FrameworkTrait
    */
   public function validateState($value)
   {
-    return in_array($value, $this->okStates);
+    return in_array("$value", $this->okStates);
   }
 
   /**
