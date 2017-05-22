@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{if="null!==$app->getConfig(['global', 'webapp', 'title'])"}{$app->getConfig(['global', 'webapp', 'title'])} - {/if}{#APP_NAME#}</title>
+<title>{if="null!==$app->getConfig('global', 'webapp', 'title')"}{$app->getConfig('global', 'webapp', 'title')} - {/if}{#APP_NAME#}</title>
 {autoescape="off"}
 <link rel="stylesheet" href="{#BASEURL#}asset/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="{#BASEURL#}asset/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">

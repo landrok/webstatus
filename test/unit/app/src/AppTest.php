@@ -38,26 +38,26 @@ class AppTest extends TestCase
       ['assertInternalType', 'array', 'getConfig', 'global'                      ],
       ['assertInternalType', 'array', 'getConfig', 'routes'                      ],
       ['assertInternalType', 'array', 'getConfig', 'technologies'                ],
-      ['assertEquals', $defaultGlobalWebAppConfig, 'getConfig', ['global', 'webapp']],
+      ['assertEquals', $defaultGlobalWebAppConfig, 'getConfig', 'global', 'webapp'],
       [ 
         [ 
           ['assertEquals', null, 'setConfig', ['global', 'test', 'test'], 1], #1 Set a new option with a vector key
-          ['assertEquals', 1, 'getConfig', ['global', 'test', 'test']      ]  #2 Get value
+          ['assertEquals', 1, 'getConfig', 'global', 'test', 'test'        ]  #2 Get value
         ], null, null  
       ],
       [ 
         [ 
-          ['assertEquals', null, 'setConfig', 'test', 1], #1 Set a new option with a text key
+          ['assertEquals', null, 'setConfig', ['test'], 1], #1 Set a new option with a text key
           ['assertEquals', 1, 'getConfig', 'test'      ]  #2 Get value
         ], null, null  
       ],
       [ 
         [ 
           ['assertEquals', null, 'setConfig', ['global', 'webapp', 'title'], 'New title'], #1 Set a second level option
-          ['assertEquals', 'New title', 'getConfig', ['global', 'webapp', 'title']      ]  #2 Get value
+          ['assertEquals', 'New title', 'getConfig', 'global', 'webapp', 'title'        ]  #2 Get value
         ], null, null  
       ],
-      ['assertEquals', null, 'getConfig', ['global', 'webapp', 'not-defined-config-option']],
+      ['assertEquals', null, 'getConfig', 'global', 'webapp', 'not-defined-config-option'],
       ['assertRegExp', '/^[a-zA-Z0-9_\/\.]+$/', 'getBaseUrl'                     ],
       ['assertEquals', null, 'getRouteKey', 'index'                              ],
       ['assertEquals', 'temperature', 'getRouteKey', 'status'                    ],

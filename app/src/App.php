@@ -22,7 +22,7 @@ class App
   public function __construct($script, $request = null)
   {
     $this->loadConfig();
-
+//print_r($this->getConfig('global'));
     $this->context = !preg_match(
         '@.*/(.*)\.php@i',
         $script,

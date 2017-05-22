@@ -12,79 +12,89 @@ trait FrameworkTrait
   private $okStates = ['yes', 'ok', 'on', '1', 1, 'true'];
 
   /**
-   * Traverse a config file and return a subset
+   * Get a config value
    * 
-   * @param array|string $name
-   * @param array $data
+   * @param array $vector[]
    * @return array|string|int|float
    * @api
    */
-  public function getConfig($vector, array $data = null)
+  public function getConfig()
   {
-    if (is_array($vector) && count($vector)) {
-      $key = array_shift($vector);
-
-      if (null === $data && isset($this->config[$key])) {
-        return !count($vector)
-          ? $this->config[$key]
-          : $this->getConfig($vector, $this->config[$key]);
+    $vector = array_filter(
+      func_get_args(),
+      function ($value) {
+        return null !== $value; 
       }
+    );
 
-      if (isset($data[$key])) {
-        if (count($vector) && is_array($data[$key])) {
-          return $this->getConfig($vector, $data[$key]);
-        } elseif (!count($vector)) {
-          return $data[$key];
-        }
-      }
+    return $this->subget(
+      $vector, 
+      $this->config
+    );
+  }
+
+  /**
+   * Get a stack value
+   * 
+   * @param array $vector
+   * @param array $stack
+   * @return array|string|int|float
+   * @api
+   */
+  public function subget(array $vector, array & $stack)
+  {
+    if (!count($vector)) {
+      return $stack;
     }
 
-    if (is_scalar($vector) && isset($this->config[$vector])) {
-      return $this->config[$vector];
+    $key = array_shift($vector);
+
+    if (isset($stack[$key])) {
+      if(count($vector) && is_array($stack[$key])) {
+        return $this->subget($vector, $stack[$key]);
+      } elseif (!count($vector)) {
+        return $stack[$key];
+      }
     }
   }
 
   /**
    * Set a config value
    * 
-   * @param array|string $vector
+   * @param array $vector
    * @param array|string|int|float $value
-   * @return null|array
+   * @return null
    * @api
    */
-  public function setConfig($vector, $value, array $data = null)
+  public function setConfig(array $vector, $value)
   {
-    if (is_array($vector) && count($vector)) {
-      $key = array_shift($vector);
+    if (count($vector)) {
+      $this->config = $this->subset($vector, $value, $this->config);
+    }
+  }
 
-      if (null === $data && count($vector)) {
-        $this->config[$key] = $this->setConfig(
-          $vector,
-          $value,
-          $this->config[$key]
-        );
-      } elseif (count($vector) && isset($data[$key])) {
-        $data[$key] = $this->setConfig(
-          $vector,
-          $value,
-          $data[$key]
-        );
-      } elseif (count($vector) && !isset($data[$key])) {
-        $data[$key] = $this->setConfig(
-          $vector,
-          $value,
-          []
-        );
-      } elseif (!count($vector)) {
-        $data[$key] = $value;
-      }
+  /**
+   * Set a stack value
+   * 
+   * @param array $vector
+   * @param array|string|int|float $value
+   * @param array $stack
+   * @return array
+   * @api
+   */
+  public function subset($vector, $value, array $stack)
+  {
+    $key = array_shift($vector);
+
+    if (!count($vector)) {
+      $stack[$key] = $value;
+    } elseif (!isset($stack[$key])) {
+      $stack[$key] = $this->subset($vector, $value, []);
+    } elseif (isset($stack[$key])) {
+      $stack[$key] = $this->subset($vector, $value, $stack[$key]);
     }
 
-    if (is_scalar($vector)) {
-      $this->config[$vector] = $value;
-    }    
-
-    return $data;
+    return $stack;
   }
 
   /**
@@ -108,9 +118,7 @@ trait FrameworkTrait
    * Get first route key
    * 
    * @param string $name
-   * 
    * @return string
-   * 
    * @api
    */
   public function getRouteKey($name)
@@ -124,7 +132,6 @@ trait FrameworkTrait
    * Get request
    * 
    * @return string
-   * 
    * @api
    */
   public function getRequest()
@@ -136,9 +143,7 @@ trait FrameworkTrait
    * Get route label
    * 
    * @param string $name
-   * 
    * @return string
-   * 
    * @api
    */
   public function getRoute($name)
@@ -153,9 +158,7 @@ trait FrameworkTrait
    *
    * @param string $context
    * @param string $request
-   *
    * @return string
-   *
    * @api
    */
   public function getRouteUrl($context, $request = null)
@@ -180,7 +183,6 @@ trait FrameworkTrait
    * Get application version from a composer definition
    * 
    * @return string
-   * 
    * @api
    */
   public function getVersion()
@@ -196,9 +198,7 @@ trait FrameworkTrait
    * Get a composer key value
    * 
    * @param string $key
-   * 
    * @return mixed
-   * 
    * @api
    */
   public function getComposer($key)
@@ -219,9 +219,7 @@ trait FrameworkTrait
    * Validate an option value
    * 
    * @param string|int|float $value
-   * 
    * @return bool
-   * 
    * @api
    */
   public function validateState($value)
@@ -284,7 +282,6 @@ trait FrameworkTrait
    * Get last modified time
    * 
    * @param string $path
-   * 
    * @return int
    */
   public function getFilemtime($path)
@@ -329,7 +326,6 @@ trait FrameworkTrait
    * 
    * @param string $key
    * @param array  $data
-   * 
    * @return array $data
    */
   protected function writeCache($key, array $data)

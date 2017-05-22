@@ -24,7 +24,7 @@ $tpl->assign('cpuTrend', $app->getHistory('cpu')->getTrend(
 # Processes
 $patterns = explode(
   '|', 
-  $app->getConfig(['global', 'cron', 'processes.pattern'])
+  $app->getConfig('global', 'cron', 'processes.pattern')
 );
 
 $tpl->assign('patterns', $patterns);

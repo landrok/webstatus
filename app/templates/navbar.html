@@ -8,8 +8,8 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="{#BASEURL#}">
-        <b class="glyphicon glyphicon-{$app->getConfig(['global', 'webapp', 'icon-class'])}"></b>
-        {$app->getConfig(['global', 'webapp', 'label'])}
+        <b class="glyphicon glyphicon-{$app->getConfig('global', 'webapp', 'icon-class')}"></b>
+        {$app->getConfig('global', 'webapp', 'label')}
       </a>
     </div>
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
@@ -17,7 +17,7 @@
 {autoescape="off"}{$app->getNavbarMenus()}{/autoescape}
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {if="$app->getConfig(['global', 'remote', 'remote.server'])"}
+        {if="$app->getConfig('global', 'remote', 'remote.server')"}
         <li>
           <span class="navbar-brand">
             <span class="label label-info">
@@ -26,7 +26,7 @@
           </span>
         </li>
         {/if}
-        {if="$app->getConfig(['global', 'remote', 'remote.client'])"}
+        {if="$app->getConfig('global', 'remote', 'remote.client')"}
         <li>
           <span class="navbar-brand">
             <span class="label label-info">

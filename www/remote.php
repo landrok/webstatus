@@ -2,7 +2,7 @@
 
 include dirname(__DIR__) . '/app/bootstrap.php';
 
-if ($app->getConfig(['global', 'remote', 'remote.server']) != 1) {
+if ($app->getConfig('global', 'remote', 'remote.server') != 1) {
   exit;
 }
 

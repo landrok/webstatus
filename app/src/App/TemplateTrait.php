@@ -71,9 +71,9 @@ trait TemplateTrait
    */
   public function getStatusLabel($value, $def)
   {
-    if ($value < $this->getConfig(['global', 'thresholds', "$def.mid"])) {
+    if ($value < $this->getConfig('global', 'thresholds', "$def.mid")) {
       return $this->bsLabel('success pull-right', 'OK');
-    } elseif ($value < $this->getConfig(['global', 'thresholds', "$def.high"])) {
+    } elseif ($value < $this->getConfig('global', 'thresholds', "$def.high")) {
       return $this->bsLabel('warning pull-right', 'MID');
     }
 
@@ -215,7 +215,7 @@ trait TemplateTrait
   {
     $ipPattern = '/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/';
 
-    if (!$this->validateState($this->getConfig(['global', 'webapp', 'ip-hide']))) {
+    if (!$this->validateState($this->getConfig('global', 'webapp', 'ip-hide'))) {
       return preg_replace(
         $ipPattern,
         '<a href="http://ipv4.landrok.com/address/\1">\1</a>',
