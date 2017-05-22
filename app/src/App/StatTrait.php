@@ -152,13 +152,10 @@ trait StatTrait
   {
     $this->readSplit('hdd');
 
-    if (!isset($this->logs['hdd'][1])) {
-      return 0;
-    }
+    $diskStat = !isset($this->logs['hdd'][1])
+      ? [] : preg_split('/\s+/', $this->logs['hdd'][1]);
 
-    $diskStat = preg_split('/\s+/', $this->logs['hdd'][1]);
-
-    return isset($diskStat[4]) ? (float)$diskStat[4] : 0;
+    return (float)(isset($diskStat[4]) ? $diskStat[4] : 0);
   }
 
   /**
@@ -309,11 +306,9 @@ trait StatTrait
    */
   public function getStatusDate()
   {
-    if (!is_readable(DATA_DIR . '/status.log')) {
-      return date("D M d H:i:s T Y", time());
-    }
-
-    return date("D M d H:i:s T Y", filemtime(DATA_DIR . '/status.log'));
+    return !is_readable(DATA_DIR . '/status.log')
+      ? date("D M d H:i:s T Y", time())
+      : date("D M d H:i:s T Y", filemtime(DATA_DIR . '/status.log'));
   }
 
   /**
