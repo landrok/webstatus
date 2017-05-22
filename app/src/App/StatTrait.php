@@ -148,7 +148,7 @@ trait StatTrait
    * 
    * @api
    */
-  public function getDiskUsage() 
+  public function getDiskUsage()
   {
     $this->readSplit('hdd');
 
@@ -165,7 +165,7 @@ trait StatTrait
    * 
    * @api
    */
-  public function getSocketNum() 
+  public function getSocketNum()
   {
     $this->readSplit('tcp-sockets');
 
@@ -306,9 +306,10 @@ trait StatTrait
    */
   public function getStatusDate()
   {
-    return !is_readable(DATA_DIR . '/status.log')
-      ? date("D M d H:i:s T Y", time())
-      : date("D M d H:i:s T Y", filemtime(DATA_DIR . '/status.log'));
+    return date(
+      "D M d H:i:s T Y",
+      $this->getFilemtime(DATA_DIR . '/status.log')
+    );
   }
 
   /**
