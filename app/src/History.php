@@ -31,7 +31,6 @@ class History
    * Get one metric
    * 
    * @param string $name
-   * 
    * @return \WebStatus\Metric
    */
   public function get($name)
@@ -65,7 +64,7 @@ class History
     }
 
     /**
-     * Write into the data dir JSON
+     * Write into the data dir
      */
     if (is_writable(DATA_DIR)) {
       file_put_contents(
@@ -80,7 +79,6 @@ class History
    * 
    * @param array $values
    * @param string $name
-   * 
    * @api
    */
   public function add(array $values, $name)
@@ -99,7 +97,6 @@ class History
    * [name][index], lightest mode
    * 
    * @return array
-   * 
    * @api
    */
   public function getData()
@@ -123,7 +120,6 @@ class History
    * Get history status
    * 
    * @return array
-   * 
    * @api
    */
   public function getStatus()

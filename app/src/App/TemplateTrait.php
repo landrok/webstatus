@@ -9,8 +9,7 @@ trait TemplateTrait
   /**
    * Render global template
    * 
-   * @param string $name
-   * 
+   * @param  string $name
    * @return string
    */
   public function render($name)
@@ -28,7 +27,6 @@ trait TemplateTrait
    * Get main template instance
    * 
    * @return \Rain\Tpl
-   * 
    * @api
    */
   public function getTemplate()
@@ -43,11 +41,9 @@ trait TemplateTrait
   /**
    * Build a bootstrap label
    * 
-   * @param string $class
-   * @param string $content
-   * 
+   * @param  string $class
+   * @param  string $content
    * @return string
-   * 
    * @api
    */
   public function bsLabel($class, $content)
@@ -62,11 +58,9 @@ trait TemplateTrait
   /**
    * Get a status label
    * 
-   * @param float|int $value
-   * @param string $def
-   * 
+   * @param  float|int $value
+   * @param  string    $def
    * @return string
-   * 
    * @api
    */
   public function getStatusLabel($value, $def)
@@ -84,7 +78,6 @@ trait TemplateTrait
    * Get navbar menus
    * 
    * @return string
-   * 
    * @api
    */
   public function getNavbarMenus()
@@ -104,11 +97,9 @@ trait TemplateTrait
    * Global dropdown menu drawer
    * Used before rendering the layout
    * 
-   * @param array $def
-   * @param string $route
-   * 
+   * @param  array  $def
+   * @param  string $route
    * @return string
-   * 
    * @api
    */ 
   public function menuTemplater($def, $route)
@@ -176,11 +167,10 @@ trait TemplateTrait
   /**
    * Submenu drowpdown drawer
    * 
-   * @param array $def
-   * @param string $route
-   * @param string $subRoute
-   * @param string $subLabel
-   * 
+   * @param  array  $def
+   * @param  string $route
+   * @param  string $subRoute
+   * @param  string $subLabel
    * @return string
    */ 
   protected function subMenuTemplater($def, $route, $subRoute, $subLabel)
@@ -205,10 +195,8 @@ trait TemplateTrait
   /**
    * Replace all IP with a link IP to location
    * 
-   * @param string $content
-   * 
+   * @param  string $content
    * @return string
-   * 
    * @api
    */
   public function ipToLocation($content)
@@ -229,10 +217,8 @@ trait TemplateTrait
   /**
    * Format a filesize
    * 
-   * @param int $size
-   * 
+   * @param  int $size
    * @return string
-   * 
    * @api
    */
   public function formatFilesize($size)

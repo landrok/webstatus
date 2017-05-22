@@ -58,11 +58,10 @@ class Metric
    */
   public function getAvg()
   {
-    if (!$this->getCount()) {
-      return (float)0;
-    }
-
-    return (float)array_sum($this->data) / $this->getCount();
+    return (float)($this->getCount() 
+      ? array_sum($this->data) / $this->getCount()
+      : 0
+    );
   }
 
   /**
@@ -73,11 +72,9 @@ class Metric
    */
   public function getLast()
   {
-    if (!$this->getCount()) {
-      return 0;
-    }
-
-    return $this->data[$this->getCount() - 1];
+    return $this->getCount() 
+      ? $this->data[$this->getCount() - 1]
+      : 0;
   }
 
   /**
@@ -88,17 +85,15 @@ class Metric
    */
   public function getMax()
   {
-    if (!$this->getCount()) {
-      return 0;
-    }
-
-    return array_reduce(
-      $this->data,
-      function ($carry, $item) {
-        return max($carry, $item);
-      }, 
-      0
-    );
+    return $this->getCount()
+      ? array_reduce(
+          $this->data,
+          function ($carry, $item) {
+            return max($carry, $item);
+          }, 
+          0
+        )
+      : 0;
   }
 
   /**
@@ -109,17 +104,15 @@ class Metric
    */
   public function getMin()
   {
-    if (!$this->getCount()) {
-      return 0;
-    }
-
-    return array_reduce(
-      $this->data,
-      function ($carry, $item) {
-        return min($carry, $item);
-      },
-      0
-    );
+    return $this->getCount()
+      ? array_reduce(
+          $this->data,
+          function ($carry, $item) {
+            return min($carry, $item);
+          },
+          0
+        )
+      : 0;
   }
 
   /**
