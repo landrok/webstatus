@@ -116,25 +116,31 @@ class App
   }
 
   /**
-   * Transform a value suffixed by K, M, G
-   * eg. 9K => 9000
-   *   2.2M => 2200000
+   * Transform a value suffixed by K, M, G in its bytes value
+   * eg. 9K => 9216
+   *   2.2M => 2306867
    * 
    * @param string $string
-   * 
-   * @return int|float
+   * @return int
+   * @api
    */
-  protected function transformValue($string)
+  public function transformValue($string)
   {
     switch (substr($string, strlen($string) - 1)) {
       case 'K':
-        return 1024 * str_replace('K', '', $string);
+        $value = 1024 * str_replace('K', '', $string);
+        break;
       case 'M':
-        return 1024 * 1024 * str_replace('M', '', $string);
+        $value = 1024 * 1024 * str_replace('M', '', $string);
+        break;
       case 'G':
-        return 1024 * 1024 * 1024 * str_replace('G', '', $string);
+        $value = 1024 * 1024 * 1024 * str_replace('G', '', $string);
+        break;
       default:
-        return 1 * (float)$string;
+        $value = 1 * $string;
+        break;
     }
+
+    return (int)$value;
   }
 }

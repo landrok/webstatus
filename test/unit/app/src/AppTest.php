@@ -22,11 +22,16 @@ class AppTest extends TestCase
 
     // scenario / expected / method / param1 / param2 / param3
     return [
+      # WebStatus\App
       ['assertInstanceOf', '\WebStatus\History', 'getHistory'                    ],
       ['assertInstanceOf', '\WebStatus\Metric', 'getHistory', 'cpu'              ],
       ['assertInternalType', 'int', 'getFormattedMicrotime'                      ],
       ['assertEquals', 1000, 'getEstimatedFilesize', 10, 10, 1000                ],
       ['expectException', Exception::class, 'read', 'not-existing-file.log'      ],
+      ['assertEquals', 1000, 'transformValue', '1000'                            ],
+      ['assertEquals', 1024, 'transformValue', '1K'                              ],
+      ['assertEquals', 2306867, 'transformValue', '2.2M'                         ],
+      ['assertEquals', 1181116006, 'transformValue', '1.1G'                      ],
 
 
       # WebStatus\App\FrameworkTrait
