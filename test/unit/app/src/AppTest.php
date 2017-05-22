@@ -46,6 +46,8 @@ class AppTest extends TestCase
       ['assertEquals', 0, 'getFilemtime', '/no-file-here'                        ],
       ['assertInternalType', 'int', 'getFilemtime', __FILE__                     ],
       ['assertEquals', null, 'getComposer', 'not-existing-key'                   ],
+      ['assertEquals', true, 'removeCache', 'config'                             ],
+      ['assertEquals', null, 'removeCache', 'config-not-existing-cache-key'      ],
 
       # WebStatus\App\StatTrait
       ['assertInternalType', 'string', 'getOs'                ],

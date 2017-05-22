@@ -301,4 +301,18 @@ trait FrameworkTrait
 
     return $data;
   }
+
+  /**
+   * Remove a cache entry
+   * 
+   * @param string $key
+   */
+  public function removeCache($key)
+  {
+    if (is_scalar($key) && is_writable(CACHE_DIR . "/$key.php")) {
+      unlink(CACHE_DIR . "/$key.php");
+
+      return true;
+    }
+  }
 }
