@@ -1,4 +1,5 @@
 <?php
+
 namespace WebStatus\App;
 
 use Rain\Tpl;

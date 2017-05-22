@@ -1,4 +1,5 @@
 <?php
+
 namespace WebStatus;
 
 use Exception;
@@ -22,7 +23,7 @@ class App
   public function __construct($script, $request = null)
   {
     $this->loadConfig();
-//print_r($this->getConfig('global'));
+
     $this->context = !preg_match(
         '@.*/(.*)\.php@i',
         $script,
@@ -41,8 +42,7 @@ class App
   /**
    * Get history instance
    * 
-   * @param string $name
-   * 
+   * @param  string $name
    * @return \WebStatus\History|\WebStatus\Metric
    */
   public function getHistory($name = null)
@@ -58,7 +58,6 @@ class App
    * Get JS-formatted microtime
    *
    * @return int
-   * 
    * @api
    */
   public function getFormattedMicrotime()
@@ -70,12 +69,10 @@ class App
   /**
    * Get estimated filesize
    *
-   * @param int $size Current filesize
-   * @param int $num Current number of elements
-   * @param int $max Maximum number of elements
-   * 
+   * @param  int $size Current filesize
+   * @param  int $num  Current number of elements
+   * @param  int $max  Maximum number of elements
    * @return int
-   * 
    * @api
    */
   public function getEstimatedFilesize($size, $num, $max)
@@ -90,12 +87,9 @@ class App
   /**
    * Read a data file
    * 
-   * @param string $path
-   * 
+   * @param  string $path
    * @return string
-   * 
    * @throws \Exception
-   *
    * @api
    */
   public function read($path)
@@ -114,7 +108,7 @@ class App
    * eg. 9K => 9216
    *   2.2M => 2306867
    * 
-   * @param string $string
+   * @param  string $string
    * @return int
    * @api
    */

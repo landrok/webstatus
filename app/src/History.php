@@ -30,7 +30,7 @@ class History
   /**
    * Get one metric
    * 
-   * @param string $name
+   * @param  string $name
    * @return \WebStatus\Metric
    */
   public function get($name)

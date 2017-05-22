@@ -48,7 +48,7 @@ class AppTest extends TestCase
       [ 
         [ 
           ['assertEquals', null, 'setConfig', ['test'], 1], #1 Set a new option with a text key
-          ['assertEquals', 1, 'getConfig', 'test'      ]  #2 Get value
+          ['assertEquals', 1, 'getConfig', 'test'        ]  #2 Get value
         ], null, null  
       ],
       [ 
