@@ -15,9 +15,8 @@ trait FrameworkTrait
    * Traverse a config file and return a subset
    * 
    * @param array|string $name
-   * 
+   * @param array $data
    * @return array|string|int|float
-   * 
    * @api
    */
   public function getConfig($vector, array $data = null)
@@ -25,16 +24,18 @@ trait FrameworkTrait
     if (is_array($vector) && count($vector)) {
       $key = array_shift($vector);
 
-      if (null === $data) {
-        return isset($this->config[$key])
-          ? $this->getConfig($vector, $this->config[$key])
-          : null;
+      if (null === $data && isset($this->config[$key])) {
+        return !count($vector)
+          ? $this->config[$key]
+          : $this->getConfig($vector, $this->config[$key]);
       }
 
       if (isset($data[$key])) {
-        return count($vector)
-          ? $this->getConfig($vector, $data[$key])
-          : $data[$key];
+        if (count($vector) && is_array($data[$key])) {
+          return $this->getConfig($vector, $data[$key]);
+        } elseif (!count($vector)) {
+          return $data[$key];
+        }
       }
     }
 
@@ -44,10 +45,52 @@ trait FrameworkTrait
   }
 
   /**
+   * Set a config value
+   * 
+   * @param array|string $vector
+   * @param array|string|int|float $value
+   * @return null|array
+   * @api
+   */
+  public function setConfig($vector, $value, array $data = null)
+  {
+    if (is_array($vector) && count($vector)) {
+      $key = array_shift($vector);
+
+      if (null === $data && count($vector)) {
+        $this->config[$key] = $this->setConfig(
+          $vector,
+          $value,
+          $this->config[$key]
+        );
+      } elseif (count($vector) && isset($data[$key])) {
+        $data[$key] = $this->setConfig(
+          $vector,
+          $value,
+          $data[$key]
+        );
+      } elseif (count($vector) && !isset($data[$key])) {
+        $data[$key] = $this->setConfig(
+          $vector,
+          $value,
+          []
+        );
+      } elseif (!count($vector)) {
+        $data[$key] = $value;
+      }
+    }
+
+    if (is_scalar($vector)) {
+      $this->config[$vector] = $value;
+    }    
+
+    return $data;
+  }
+
+  /**
    * Get base URL
    * 
    * @return string
-   * 
    * @api
    */
   public function getBaseUrl()
