@@ -19,8 +19,8 @@ $template->assign('html', $tpl->draw('monitor.charts', true));
 $template->assign('norefresh', true);
 $template->assign('footerLibraries', sprintf(
   '<script>var appHistory = %s;</script>
-<script src="%s/asset/highcharts/highcharts.js"></script>
-<script src="%s/asset/app/monitor.js"></script>',
+<script src="%sasset/highcharts/highcharts.js"></script>
+<script src="%sasset/app/monitor.js"></script>',
   json_encode($app->getHistory()->getData()),
   BASEURL,
   BASEURL
