@@ -60,7 +60,6 @@ fi
 for metric in status processes uptime top temperature os servers memory\
               hdd mpstat users interfaces tcp-sockets iptables ifstat
 do
-  echo "Mesuring $metric"
   # shellcheck source=bin/command/$metric.sh disable=1091
   source "bin/command/$metric.sh" > "$WSI_DATADIR/$metric.log"
 done
