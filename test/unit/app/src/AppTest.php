@@ -117,7 +117,9 @@ class AppTest extends TestCase
       ],
       
       ['assertEquals', '42B', 'formatFilesize', 42                               ],
+      ['assertEquals', '1KB', 'formatFilesize', 1024                             ],
       ['assertEquals', '1MB', 'formatFilesize', 1024 * 1024                      ],
+      ['assertEquals', '1GB', 'formatFilesize', 1024 * 1024 * 1024               ],
     ];
   }
 
