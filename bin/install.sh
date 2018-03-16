@@ -102,7 +102,7 @@ echo "* Libraries"
 
 if [[ -z "${TRAVIS_PHP_VERSION+x}" && "$(dpkg -l | grep php)" = "" ]]; then
   echo "[INFO] Installing php"
-  apt-get install php5 php5-curl -qq || {
+  apt-get install php7.0 php7.0-curl -qq || {
     echo "[ERROR] Installation failed, exiting.";
     exit 1;
   }
